@@ -1,8 +1,8 @@
 package gp.training.kim.bar.service;
 
-import gp.training.kim.bar.dto.BookDTO;
 import gp.training.kim.bar.dto.BookingDTO;
+import gp.training.kim.bar.dto.TableDTO;
 
 public interface VisitorService {
-    BookDTO book(BookingDTO input);
+    TableDTO book(BookingDTO input);
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class BookDTO {
+public class TableDTO {
     final String table;
 
     final List<Integer> visitors;

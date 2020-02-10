@@ -4,13 +4,13 @@ import lombok.Data;
 
 @Data
 public class BookingDTO {
-    final Integer count;
+    final private Integer count;
 
-    final String date;
+    final private String date;
 
-    final String from;
+    final private String from;
 
-    final String to;
+    final private String to;
 
-    final Boolean barRack;
+    final private Boolean barRack;
 }

@@ -110,7 +110,7 @@ Project emulating the work of a bar.
 
 Request:
 
-`POST /bar/book`
+`POST /bar/visitor/book`
 
 ```json
 {
@@ -135,7 +135,7 @@ Response:
 Анонимно запрашивается меню. Выводится то, рецепты чего доступны и на что хватает ингредиентов
 
 Request:
-`GET /bar/menu
+`GET /bar/visitor/menu
 
 Response:
 `200 OK`
@@ -146,15 +146,18 @@ Response:
       "id": 1,
       "name": "Жигули",
       "description": "Четкое пиво",
-      "param1": "1",
-      "param2": "2",
+      "params": {
+        "param1": "1",
+        "param2": "2"},
       "price": 20
     },
     {
       "id": 2,
       "name": "Old bobby",
       "description": "не такое четкое пиво",
-      "param1": "3",
+      "params": {
+        "param1": "3"
+      },
       "price": 12
     }
   ],
@@ -163,14 +166,18 @@ Response:
       "id": 3,
       "name": "Ноги Буша",
       "description": "Так себе закусь",
-      "calories": "много",
+      "params": {
+        "calories": "много"
+      },
       "price": 2
     },
     {
       "id": 4,
       "name": "Сырная нарезка",
       "description": "Хороша",
-      "calories": "очень много",
+      "params": {
+        "calories": "очень много"
+      },
       "price": 10
     }
   ]
@@ -182,7 +189,7 @@ Response:
 Если что-либо из запрошенного недоступно - возвращается ошибка, а недоступное сохраняется для формирования заказов поставщикам.
 
 Request:
-`POST /bar/visitor/offers`
+`POST /bar/visitor/order`
 
 `Headers: visitor=3` 
 ```json
@@ -205,18 +212,18 @@ Response:
 
 ```json
 {
-  "details": [
-    {
-      "name": "Жигули",
+  "details": {
+    "Жигули": {
+      "price": 20,
       "count": 14,
-      "price": 280
+      "sum": 280
     },
-    {
-      "name": "Ноги Буша",
+    "Ноги Буша": {
+      "price": 10,
       "count": 1,
-      "price": 10
+      "sum": 10
     }
-  ],
+  },
   "price": 290
 }
 ```
@@ -228,59 +235,59 @@ Response:
 Request:
 `GET /bar/visitor/tableCheck?visitors=3`
 
-`Headers: visitor=2`
+`Headers: visitor=3`
 
 Response:
 `200 OK`
 
 ```json
 {
-  "table":
-    {
-      "details": [
-        {
-          "name": "Жигули",
-          "count": 20,
-          "price": 400
-        },
-        {
-          "name": "Old Bobby",
-          "count": 30,
-          "price": 360
-        },
-        {
-          "name": "Ноги Буша",
-          "count": 3,
-          "price": 30
-        }
-      ],
-      "price": 790
+  "table": {
+    "details": {
+      "Old bobby": {
+        "price": 12,
+        "count": 30,
+        "sum": 360
       },
-  "3":
-    {
-       "details": [
-         {
-           "name": "Жигули",
-           "count": 14,
-           "price": 280
-         },
-         {
-           "name": "Ноги Буша",
-           "count": 1,
-           "price": 10
-         }
-       ],
-       "price": 290
-       }
+      "Жигули": {
+        "price": 20,
+        "count": 20,
+        "sum": 400
+      },
+      "Ноги Буша": {
+        "price": 10,
+        "count": 3,
+        "sum": 30
+      }
+    },
+    "price": 790
+  },
+  "visitors": {
+    "3": {
+      "details": {
+        "Жигули": {
+          "price": 20,
+          "count": 14,
+          "sum": 280
+        },
+        "Ноги Буша": {
+          "price": 10,
+          "count": 1,
+          "sum": 10
+        }
+      },
+      "price": 290
+    }
+  }
 }
 ```
 
-### Bar-6 Как администратор запрашиваю отчет на дату
+### Bar-6 Как администратор запрашиваю отчет за день
 В хидере передается ID администратора. В отчете возвращается остаток ингредиентов на складе,
-себестоимость потраченных и выручка.
+себестоимость потраченных и выручка за текущий день.
 
 Request:
-`GET /bar/admin/report?date=20-02-2020`
+`GET /bar/admin/report
 
 `Headers: admin=1`
 
@@ -292,27 +299,32 @@ Response:
   "storeHouse": [
     {
       "name": "Жигули",
-      "count": 560
+      "balance": 560,
+      "costPrice": 5.6
     },
     {
       "name": "Ноги",
-      "count": 26
+      "balance": 26,
+      "costPrice": 1
     },
     {
       "name": "Панировка для ног",
-      "count": 1000
+      "balance": 1000,
+      "costPrice": 0.5
     },
     {
       "name": "Сыр Чеддер",
-      "count": 1
-    },    
+      "balance": 1,
+      "costPrice": 20
+    },
     {
       "name": "Old Bobby",
-      "count": 200
+      "balance": 1,
+      "costPrice": 4
     }
   ],
-  "costPrice": 140,
-  "profit": 2000
+  "costPrice": 316.4,
+  "profit": 763.6
 }
 ```
 
@@ -381,7 +393,7 @@ Response:
 если передается измененным - меняется.
 
 Request:
-`POST /bar/order`
+`PUT /bar/admin/order`
 
 `Headers: admin=1`
 
@@ -394,3 +406,14 @@ Response:
 }
 ```
 
+### Bar-9 Как администратор закрываю счет
+В хидере передается ID администратора. Выполняется после получения оплаты. Передается id посетителя
+
+Request:
+`DELETE /bar/admin/tableCheck/3`
+`DELETE /bar/admin/visitorCheck/2`
+
+`Headers: admin=1`
+
+Response:
+`200 OK`
