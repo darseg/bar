@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/admins")
 public class AdminController {
 
     private final AdminServise adminServise;

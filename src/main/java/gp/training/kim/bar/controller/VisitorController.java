@@ -23,7 +23,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/visitor")
+@RequestMapping("/visitors")
 public class VisitorController {
 
     private final VisitorService visitorService;

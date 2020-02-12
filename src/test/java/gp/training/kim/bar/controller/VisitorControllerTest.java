@@ -23,7 +23,7 @@ public class VisitorControllerTest {
     public void testTableWasBooked() throws Exception {
         // given
         // when
-        mockMvc.perform(post("/visitor/book").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        mockMvc.perform(post("/visitors/book").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
                 .content("{\n" +
                         "  \"count\": 4,\n" +
                         "  \"date\": \"20-02-2020\",\n" +
@@ -40,7 +40,7 @@ public class VisitorControllerTest {
     public void testGetMenu() throws Exception {
         //given
         //when
-        mockMvc.perform(get("/visitor/menu").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
+        mockMvc.perform(get("/visitors/menu").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
                 // then
             .andExpect(status().isOk())
             .andExpect(content().json("{\n" +
@@ -92,7 +92,7 @@ public class VisitorControllerTest {
     public void testMakeOrder() throws Exception {
         // given
         // when
-        mockMvc.perform(post("/visitor/order").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        mockMvc.perform(post("/visitors/order").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
                 .header("visitorId", 3)
                 .content("[1, 3]"))
                 // then
@@ -101,7 +101,7 @@ public class VisitorControllerTest {
 
     @Test
     public void testGetVisitorCheck() throws Exception {
-        mockMvc.perform(get("/visitor/check").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        mockMvc.perform(get("/visitors/check").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
                 .header("visitorId", 3))
                 // then
                 .andExpect(status().isOk())
@@ -124,7 +124,7 @@ public class VisitorControllerTest {
 
     @Test
     public void testGetTableCheck() throws Exception {
-        mockMvc.perform(get("/visitor/tableCheck").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        mockMvc.perform(get("/visitors/tableCheck").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
                 .header("visitorId", 3))
                 // then
                 .andExpect(status().isOk())
@@ -154,7 +154,7 @@ public class VisitorControllerTest {
 
     @Test
     public void testGetTableCheckAndVisitorsSeparately() throws Exception {
-        mockMvc.perform(get("/visitor/tableCheck?visitors=3,4").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        mockMvc.perform(get("/visitors/tableCheck?visitors=3,4").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
                 .header("visitorId", 3))
                 // then
                 .andExpect(status().isOk())

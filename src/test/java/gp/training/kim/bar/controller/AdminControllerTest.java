@@ -20,7 +20,7 @@ public class AdminControllerTest {
 
     @Test
     public void testGetDayReport() throws Exception {
-        mockMvc.perform(get("/admin/report").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+        mockMvc.perform(get("/admins/report").contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
                 .header("admin", 1))
                 // then
                 .andExpect(status().isOk())
