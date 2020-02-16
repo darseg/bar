@@ -12,5 +12,5 @@ public class TableCheck {
     final private Check table;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    final private Map<Integer, Check> visitors;
+    final private Map<Long, Check> visitors;
 }

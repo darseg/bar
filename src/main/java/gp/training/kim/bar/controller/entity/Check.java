@@ -21,7 +21,7 @@ public class Check {
 
         details = new HashMap<>();
 
-        final Map<Integer, List<OfferDTO>> groups = offerDTOS.stream().collect(Collectors.groupingBy(OfferDTO::getId));
+        final Map<Long, List<OfferDTO>> groups = offerDTOS.stream().collect(Collectors.groupingBy(OfferDTO::getId));
 
         groups.values().forEach(offers -> {
             final OfferDTO first = offers.get(0);

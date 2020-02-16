@@ -26,8 +26,8 @@ public class AdminServiceImpl implements AdminService {
                 .map(ingredientConverter::convertToDto).collect(Collectors.toList());
 
         final List<OfferDBO> allOffers = TempData.getTables().values().stream()
-                .flatMap(tableDBO -> tableDBO.getVisitors().stream())
-                .flatMap(visitorDBO -> visitorDBO.getOrder().stream()).collect(Collectors.toList());
+                .flatMap(tableDBO -> tableDBO.getGuests().stream())
+                .flatMap(guestDBO -> guestDBO.getOrder().stream()).collect(Collectors.toList());
 
         final BigDecimal costPrice = allOffers.stream().flatMap(offerDBO -> offerDBO.getIngredients().stream())
                 .map(IngredientDBO::getCostPrice).reduce(BigDecimal.ZERO, BigDecimal::add);

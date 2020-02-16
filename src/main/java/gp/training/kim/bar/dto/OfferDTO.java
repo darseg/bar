@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Data
 public class OfferDTO {
-    final private Integer id;
+    final private Long id;
 
     final private String name;
 

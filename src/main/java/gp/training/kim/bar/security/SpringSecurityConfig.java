@@ -1,6 +1,7 @@
 package gp.training.kim.bar.security;
 
 
+import gp.training.kim.bar.enums.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -25,6 +26,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.httpBasic()
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/student/register/course/*").hasRole(UserRole.ADMIN.name())
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

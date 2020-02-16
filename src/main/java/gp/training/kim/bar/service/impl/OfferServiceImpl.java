@@ -40,16 +40,16 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public TableCheck getTableCheck(final Integer visitorId, final String visitors) {
-        final List<Integer> visitorsList = new ArrayList<>();
+        final List<Long> visitorsList = new ArrayList<>();
         if (visitors != null)
-            visitorsList.addAll(Arrays.stream(visitors.split(",")).map(Integer::parseInt).collect(Collectors.toList()));
+            visitorsList.addAll(Arrays.stream(visitors.split(",")).map(Long::parseLong).collect(Collectors.toList()));
 
         final List<OfferDTO> tableOffers = new ArrayList<>();
-        final Map<Integer, Check> visitorsChecks = new HashMap<>();
+        final Map<Long, Check> visitorsChecks = new HashMap<>();
 
-        TempData.getVisitorToTableMap().get(visitorId).getVisitors().forEach(visitorDBO -> {
-            final Integer id = visitorDBO.getId();
-            final List<OfferDTO> offers = visitorDBO.getOrder().stream().map(offerConverter::convertToDto).collect(Collectors.toList());
+        TempData.getVisitorToTableMap().get(visitorId).getGuests().forEach(guestDBO -> {
+            final Long id = guestDBO.getId();
+            final List<OfferDTO> offers = guestDBO.getOrder().stream().map(offerConverter::convertToDto).collect(Collectors.toList());
 
             if (visitorsList.contains(id)) {
                 visitorsChecks.put(id, new Check(offers));

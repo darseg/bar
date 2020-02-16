@@ -1,14 +1,15 @@
 package gp.training.kim.bar.dbo;
 
 import gp.training.kim.bar.enums.OfferType;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "offer")
 public class OfferDBO extends AbstractBarEntity {
