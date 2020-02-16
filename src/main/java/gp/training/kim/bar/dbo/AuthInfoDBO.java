@@ -1,11 +1,13 @@
 package gp.training.kim.bar.dbo;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
-import lombok.Data;
-
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "auth_info")
 public class AuthInfoDBO extends AbstractBarEntity {
@@ -14,5 +16,4 @@ public class AuthInfoDBO extends AbstractBarEntity {
     @OneToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private UserDBO user;
-
 }
