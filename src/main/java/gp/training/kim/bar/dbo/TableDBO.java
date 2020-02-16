@@ -3,14 +3,13 @@ package gp.training.kim.bar.dbo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.persistence.Entity;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
-public class TableDBO {
-    final Integer id;
+@Entity(name = "table")
+public class TableDBO extends AbstractBarEntity {
+    private String table;
 
-    final String table;
-
-    final List<VisitorDBO> visitors;
+    private List<GuestDBO> guests;
 }

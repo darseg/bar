@@ -1,9 +1,9 @@
 package gp.training.kim.bar.service.impl;
 
+import gp.training.kim.bar.dbo.GuestDBO;
 import gp.training.kim.bar.dbo.IngredientDBO;
 import gp.training.kim.bar.dbo.OfferDBO;
 import gp.training.kim.bar.dbo.TableDBO;
-import gp.training.kim.bar.dbo.VisitorDBO;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,26 +15,26 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 class TempData {
-    final private static Map<Integer, IngredientDBO> ingredients = new HashMap<>();
+    final private static Map<Long, IngredientDBO> ingredients = new HashMap<>();
 
-    final private static Map<Integer, OfferDBO> beer = new HashMap<>();
+    final private static Map<Long, OfferDBO> beer = new HashMap<>();
 
-    final private static Map<Integer, OfferDBO> food = new HashMap<>();
+    final private static Map<Long, OfferDBO> food = new HashMap<>();
 
-    final private static Map<Integer, TableDBO> tables = new HashMap<>();
+    final private static Map<Long, TableDBO> tables = new HashMap<>();
 
-    final private static Map<Integer, VisitorDBO> visitors = new HashMap<>();
+    final private static Map<Long, GuestDBO> visitors = new HashMap<>();
 
-    final private static Map<Integer, TableDBO> visitorToTableMap = new HashMap<>();
+    final private static Map<Long, TableDBO> visitorToTableMap = new HashMap<>();
 
-    static Map<Integer, IngredientDBO> getIngredients() {
+    static Map<Long, IngredientDBO> getIngredients() {
         if(ingredients.isEmpty()) {
             final List<IngredientDBO> ingredientsList = new ArrayList<>();
-            ingredientsList.add(IngredientDBO.builder().id(1).costPrice(new BigDecimal("5.6")).balance(560).name("Жигули").startBalance(600).build());
-            ingredientsList.add(IngredientDBO.builder().id(2).costPrice(new BigDecimal("1")).balance(26).name("Ноги").build());
-            ingredientsList.add(IngredientDBO.builder().id(3).costPrice(new BigDecimal("0.5")).balance(1000).name("Панировка для ног").build());
-            ingredientsList.add(IngredientDBO.builder().id(4).costPrice(new BigDecimal("20")).balance(1).name("Сыр Чеддер").build());
-            ingredientsList.add(IngredientDBO.builder().id(5).costPrice(new BigDecimal("4")).balance(1).name("Old Bobby").build());
+            ingredientsList.add(IngredientDBO.builder().id(1L).costPrice(new BigDecimal("5.6")).balance(560).name("Жигули").startBalance(600).build());
+            ingredientsList.add(IngredientDBO.builder().id(2L).costPrice(new BigDecimal("1")).balance(26).name("Ноги").build());
+            ingredientsList.add(IngredientDBO.builder().id(3L).costPrice(new BigDecimal("0.5")).balance(1000).name("Панировка для ног").build());
+            ingredientsList.add(IngredientDBO.builder().id(4L).costPrice(new BigDecimal("20")).balance(1).name("Сыр Чеддер").build());
+            ingredientsList.add(IngredientDBO.builder().id(5L).costPrice(new BigDecimal("4")).balance(1).name("Old Bobby").build());
 
             ingredients.putAll(ingredientsList.stream().collect(Collectors.toMap(IngredientDBO::getId, o -> o)));
         }
@@ -42,23 +42,23 @@ class TempData {
         return ingredients;
     }
 
-    static Map<Integer, OfferDBO> getBeer() {
+    static Map<Long, OfferDBO> getBeer() {
         if (beer.isEmpty()) {
             final List<OfferDBO> beerList = new ArrayList<>();
 
-            beerList.add(new OfferDBO(1,
+            beerList.add(new OfferDBO(1L,
                     "Жигули",
                     "Четкое пиво",
                     Map.of("param1", "1", "param2", "2"),
                     new BigDecimal("20"),
-                    Collections.singletonList(getIngredients().get(1))));
+                    Collections.singletonList(getIngredients().get(1L))));
 
-            beerList.add(new OfferDBO(2,
+            beerList.add(new OfferDBO(2L,
                     "Old bobby",
                     "не такое четкое пиво",
                     Map.of("param1", "3"),
                     new BigDecimal("12"),
-                    Collections.singletonList(getIngredients().get(5))));
+                    Collections.singletonList(getIngredients().get(5L))));
 
             beer.putAll(beerList.stream().collect(Collectors.toMap(OfferDBO::getId, o -> o)));
         }
@@ -66,23 +66,23 @@ class TempData {
         return beer;
     }
 
-    static Map<Integer, OfferDBO> getFood() {
+    static Map<Long, OfferDBO> getFood() {
         if (food.isEmpty()) {
             final List<OfferDBO> foodList = new ArrayList<>();
 
-            foodList.add(new OfferDBO(3,
+            foodList.add(new OfferDBO(3L,
                     "Ноги Буша",
                     "Так себе закусь",
                     Map.of("calories", "много"),
                     new BigDecimal("10"),
-                    Arrays.asList(getIngredients().get(2), getIngredients().get(3))));
+                    Arrays.asList(getIngredients().get(2L), getIngredients().get(3L))));
 
-            foodList.add(new OfferDBO(4,
+            foodList.add(new OfferDBO(4L,
                     "Сырная нарезка",
                     "Хороша",
                     Map.of("calories", "очень много"),
                     new BigDecimal("12"),
-                    Collections.singletonList(getIngredients().get(4))));
+                    Collections.singletonList(getIngredients().get(4L))));
 
             food.putAll(foodList.stream().collect(Collectors.toMap(OfferDBO::getId, o -> o)));
         }
@@ -90,61 +90,61 @@ class TempData {
         return food;
     }
 
-    static Map<Integer, VisitorDBO> getVisitors() {
+    static Map<Long, GuestDBO> getVisitors() {
         if (visitors.isEmpty()) {
-            final List<VisitorDBO> visitorsList = new ArrayList<>();
+            final List<GuestDBO> visitorsList = new ArrayList<>();
 
             final List<OfferDBO> list1 = new ArrayList<>();
             for (int i = 0; i < 14; i++) {
-                list1.add(getBeer().get(1));
+                list1.add(getBeer().get(1L));
             }
-            list1.add(getFood().get(3));
-            visitorsList.add(new VisitorDBO(3, list1));
+            list1.add(getFood().get(3L));
+            visitorsList.add(new GuestDBO(3L, list1));
 
             final List<OfferDBO> list2 = new ArrayList<>();
             for (int i = 0; i < 15; i++) {
-                list2.add(getBeer().get(1));
+                list2.add(getBeer().get(1L));
             }
-            list2.add(getFood().get(3));
-            visitorsList.add(new VisitorDBO(4, list2));
+            list2.add(getFood().get(3L));
+            visitorsList.add(new GuestDBO(4L, list2));
 
             final List<OfferDBO> list3 = new ArrayList<>();
             for (int i = 0; i < 5; i++) {
-                list3.add(getBeer().get(1));
-                list3.add(getBeer().get(2));
+                list3.add(getBeer().get(1L));
+                list3.add(getBeer().get(2L));
             }
-            list3.add(getFood().get(3));
-            visitorsList.add(new VisitorDBO(5, list3));
+            list3.add(getFood().get(3L));
+            visitorsList.add(new GuestDBO(5L, list3));
 
             final List<OfferDBO> list4 = new ArrayList<>();
             for (int i = 0; i < 25; i++) {
-                list4.add(getBeer().get(2));
+                list4.add(getBeer().get(2L));
             }
-            list4.add(getFood().get(3));
-            visitorsList.add(new VisitorDBO(6, list4));
+            list4.add(getFood().get(3L));
+            visitorsList.add(new GuestDBO(6L, list4));
 
-            visitors.putAll(visitorsList.stream().collect(Collectors.toMap(VisitorDBO::getId, o -> o)));
+            visitors.putAll(visitorsList.stream().collect(Collectors.toMap(GuestDBO::getId, o -> o)));
         }
 
         return visitors;
     }
 
-    static Map<Integer, TableDBO> getTables() {
+    static Map<Long, TableDBO> getTables() {
         if (tables.isEmpty()) {
-            final List<VisitorDBO> visitorsList = new ArrayList<>();
-            visitorsList.add(getVisitors().get(3));
-            visitorsList.add(getVisitors().get(4));
-            visitorsList.add(getVisitors().get(5));
-            visitorsList.add(getVisitors().get(6));
-            tables.put(2, new TableDBO(2, "", visitorsList));
+            final List<GuestDBO> visitorsList = new ArrayList<>();
+            visitorsList.add(getVisitors().get(3L));
+            visitorsList.add(getVisitors().get(4L));
+            visitorsList.add(getVisitors().get(5L));
+            visitorsList.add(getVisitors().get(6L));
+            tables.put(2L, new TableDBO(2L, "", visitorsList));
         }
         return tables;
     }
 
-    static Map<Integer, TableDBO> getVisitorToTableMap() {
+    static Map<Long, TableDBO> getVisitorToTableMap() {
         getTables();
         if (visitorToTableMap.isEmpty()) {
-            getTables().values().forEach(tableDBO -> tableDBO.getVisitors().forEach(visitorDBO -> visitorToTableMap.put(visitorDBO.getId(), tableDBO)));
+            getTables().values().forEach(tableDBO -> tableDBO.getGuests().forEach(visitorDBO -> visitorToTableMap.put(visitorDBO.getGid(), tableDBO)));
         }
         return visitorToTableMap;
     }

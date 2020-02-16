@@ -5,7 +5,7 @@ import gp.training.kim.bar.controller.entity.Menu;
 import gp.training.kim.bar.controller.entity.TableCheck;
 import gp.training.kim.bar.dto.BookingDTO;
 import gp.training.kim.bar.dto.TableDTO;
-import gp.training.kim.bar.service.OfferServise;
+import gp.training.kim.bar.service.OfferService;
 import gp.training.kim.bar.service.VisitorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class VisitorController {
 
     private final VisitorService visitorService;
 
-    private final OfferServise offerServise;
+    private final OfferService offerService;
 
 
     @PostMapping(value = "/book", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
@@ -40,24 +40,24 @@ public class VisitorController {
     @GetMapping(value = "/menu", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @ResponseStatus(HttpStatus.OK)
     public Menu menu() {
-        return offerServise.getMenu();
+        return offerService.getMenu();
     }
 
     @PostMapping(value = "/order", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void makeOrder(@RequestBody final List<Integer> offerIds, @RequestHeader final Integer visitorId) {
-        offerServise.makeOrder(visitorId, offerIds);
+        offerService.makeOrder(visitorId, offerIds);
     }
 
     @GetMapping(value = "/check", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @ResponseStatus(HttpStatus.OK)
     public Check getVisitorCheck(@RequestHeader final Integer visitorId) {
-        return offerServise.getCheck(visitorId);
+        return offerService.getCheck(visitorId);
     }
 
     @GetMapping(value = "/tableCheck", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @ResponseStatus(HttpStatus.OK)
     public TableCheck getTableCheck(@RequestHeader final Integer visitorId, @RequestParam(required = false) String visitors) {
-        return offerServise.getTableCheck(visitorId, visitors);
+        return offerService.getTableCheck(visitorId, visitors);
     }
 }

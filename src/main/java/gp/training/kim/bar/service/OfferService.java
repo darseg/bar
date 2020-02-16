@@ -6,7 +6,7 @@ import gp.training.kim.bar.controller.entity.TableCheck;
 
 import java.util.List;
 
-public interface OfferServise {
+public interface OfferService {
     Menu getMenu();
 
     void makeOrder(Integer visitorId, List<Integer> offerIds);

@@ -3,18 +3,18 @@ package gp.training.kim.bar.dbo;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.Entity;
 import java.math.BigDecimal;
 
 @Data
+@Entity(name = "ingredient")
 @Builder
-public class IngredientDBO {
-    private final Integer id;
+public class IngredientDBO extends AbstractBarEntity {
+    private String name;
 
-    private final String name;
+    private BigDecimal costPrice;
 
-    private final BigDecimal costPrice;
+    private Integer balance;
 
-    private final Integer balance;
-
-    private final Integer startBalance;
+    private Integer startBalance;
 }

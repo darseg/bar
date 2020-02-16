@@ -5,7 +5,7 @@ import gp.training.kim.bar.controller.entity.Menu;
 import gp.training.kim.bar.controller.entity.TableCheck;
 import gp.training.kim.bar.converter.OfferConverter;
 import gp.training.kim.bar.dto.OfferDTO;
-import gp.training.kim.bar.service.OfferServise;
+import gp.training.kim.bar.service.OfferService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class OfferServiseImpl implements OfferServise {
+public class OfferServiceImpl implements OfferService {
 
     final private OfferConverter offerConverter;
 

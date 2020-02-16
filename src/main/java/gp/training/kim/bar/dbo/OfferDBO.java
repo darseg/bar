@@ -1,24 +1,27 @@
 package gp.training.kim.bar.dbo;
 
+import gp.training.kim.bar.enums.OfferType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import javax.persistence.Entity;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 @Data
-@AllArgsConstructor
-public class OfferDBO {
-    private final Integer id;
+@Entity(name = "offer")
+public class OfferDBO extends AbstractBarEntity {
 
-    private final String name;
+    private OfferType type;
 
-    private final String description;
+    private String name;
 
-    private final Map<String, String> params;
+    private String description;
 
-    private final BigDecimal price;
+    private Map<String, String> params;
 
-    private final List<IngredientDBO> ingredients;
+    private BigDecimal price;
+
+    private List<IngredientDBO> ingredients;
 }

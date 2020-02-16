@@ -5,7 +5,7 @@ import gp.training.kim.bar.converter.IngredientConverter;
 import gp.training.kim.bar.dbo.IngredientDBO;
 import gp.training.kim.bar.dbo.OfferDBO;
 import gp.training.kim.bar.dto.IngredientDTO;
-import gp.training.kim.bar.service.AdminServise;
+import gp.training.kim.bar.service.AdminService;
 import gp.training.kim.bar.utils.BarUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class AdminServiseImpl implements AdminServise {
+public class AdminServiceImpl implements AdminService {
 
     private final IngredientConverter ingredientConverter;
 
