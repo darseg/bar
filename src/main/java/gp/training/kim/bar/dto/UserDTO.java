@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import lombok.Data;
 
 @Data
-public class UserSignUpRequest {
+public class UserDTO {
 
     private String login;
     private String password;

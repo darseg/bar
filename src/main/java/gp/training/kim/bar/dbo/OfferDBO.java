@@ -2,14 +2,15 @@ package gp.training.kim.bar.dbo;
 
 import gp.training.kim.bar.enums.OfferType;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "offer")
 public class OfferDBO extends AbstractBarEntity {
@@ -24,5 +25,9 @@ public class OfferDBO extends AbstractBarEntity {
 
     private BigDecimal price;
 
-    private List<IngredientDBO> ingredients;
+    @OneToMany(mappedBy = "offer")
+    private List<RecipeRowDBO> recipeRows = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "offers")
+    List<OrderDBO> orders;
 }

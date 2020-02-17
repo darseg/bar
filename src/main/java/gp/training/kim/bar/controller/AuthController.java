@@ -1,10 +1,10 @@
-package com.gpsolutions.edu.java.training.example.controller;
+package gp.training.kim.bar.controller;
 
 import java.util.List;
 
-import gp.training.kim.bar.dto.UserSignInRequest;
-import gp.training.kim.bar.dto.UserSignInResponse;
-import gp.training.kim.bar.dto.UserSignUpRequest;
+import gp.training.kim.bar.dto.entity.UserSignInRequest;
+import gp.training.kim.bar.dto.entity.UserSignInResponse;
+import gp.training.kim.bar.dto.UserDTO;
 import gp.training.kim.bar.exception.SuchUserAlreadyExistException;
 import gp.training.kim.bar.security.JwtUtil;
 import gp.training.kim.bar.service.AuthService;
@@ -33,9 +33,9 @@ public class AuthController {
 
     @PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSignInResponse singUp(@RequestBody final UserSignUpRequest userSignUpRequest) throws SuchUserAlreadyExistException {
-        authService.signUp(userSignUpRequest);
-        return singIn(new UserSignInRequest(userSignUpRequest.getLogin(), userSignUpRequest.getPassword()));
+    public UserSignInResponse singUp(@RequestBody final UserDTO userDTO) throws SuchUserAlreadyExistException {
+        authService.signUp(userDTO);
+        return singIn(new UserSignInRequest(userDTO.getLogin(), userDTO.getPassword()));
     }
 
     @PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_JSON_VALUE)

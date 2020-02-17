@@ -33,7 +33,131 @@
                 <constraints nullable="false"/>
             </column>
             <column name="user_id" type="bigint">
-                <constraints foreignKeyName="fk_auth_info_user" referencedTableName="user" referencedColumnNames="id" />
+                <constraints foreignKeyName="fk_auth_info_user" referencedTableName="user"
+                             referencedColumnNames="id" nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_ingredient_table" author="kim">
+        <createTable tableName="ingredient">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="ingredient_id"/>
+            </column>
+            <column name="name" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="costPrice" type="decimal(6, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="balance" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startBalance" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_offer_table" author="kim">
+        <createTable tableName="offer">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="offer_id"/>
+            </column>
+            <column name="type" type="smallint(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="varchar(64)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="blob">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="decimal(6, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_offer_param_table" author="kim">
+        <createTable tableName="offer_param">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="offer_param_id"/>
+            </column>
+            <column name="offer_id" type="bigint">
+                <constraints foreignKeyName="fk_offer_param_offer" referencedTableName="offer"
+                             referencedColumnNames="id" nullable="false" />
+            </column>
+            <column name="param" type="blob">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_recipe_row_table" author="kim">
+        <createTable tableName="recipe_row">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="recipe_row_id"/>
+            </column>
+            <column name="offer_id" type="bigint">
+                <constraints foreignKeyName="fk_recipe_row_offer" referencedTableName="offer"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="ingredient_id" type="bigint">
+                <constraints foreignKeyName="fk_recipe_row_ingredient" referencedTableName="ingredient"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="count" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_table_table" author="kim">
+        <createTable tableName="table">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="table_id"/>
+            </column>
+            <column name="name" type="varchar(64">
+                <constraints nullable="false"/>
+            </column>
+            <column name="capacity" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_order_table" author="kim">
+        <createTable tableName="order">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="order_id"/>
+            </column>
+            <column name="table_id" type="bigint">
+                <constraints foreignKeyName="fk_order_table" referencedTableName="table"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="fk_order_user" referencedTableName="user"
+                             referencedColumnNames="id" nullable="true"/>
+            </column>
+            <column name="paid" type="boolean">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_order_offer_table" author="kim">
+        <createTable tableName="order_offer">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="order_offer_id"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints foreignKeyName="fk_order_offer_order" referencedTableName="order"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints foreignKeyName="fk_order_offer_offer" referencedTableName="offer"
+                             referencedColumnNames="id" nullable="true"/>
             </column>
         </createTable>
     </changeSet>

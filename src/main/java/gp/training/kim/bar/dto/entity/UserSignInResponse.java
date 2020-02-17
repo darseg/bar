@@ -1,4 +1,4 @@
-package gp.training.kim.bar.dto;
+package gp.training.kim.bar.dto.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
