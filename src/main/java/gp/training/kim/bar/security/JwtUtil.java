@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-/**
- * @author Wladimir Litvinov
- */
 @Service
 public class JwtUtil {
 
