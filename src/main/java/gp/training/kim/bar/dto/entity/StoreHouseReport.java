@@ -1,4 +1,4 @@
-package gp.training.kim.bar.controller.entity;
+package gp.training.kim.bar.dto.entity;
 
 import gp.training.kim.bar.dto.IngredientDTO;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package gp.training.kim.bar.controller.entity;
+package gp.training.kim.bar.dto.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

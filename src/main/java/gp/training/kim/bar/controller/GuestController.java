@@ -1,11 +1,12 @@
 package gp.training.kim.bar.controller;
 
-import gp.training.kim.bar.controller.entity.Check;
-import gp.training.kim.bar.controller.entity.Menu;
-import gp.training.kim.bar.controller.entity.TableCheck;
+import gp.training.kim.bar.dto.entity.Check;
+import gp.training.kim.bar.dto.entity.Menu;
+import gp.training.kim.bar.dto.entity.TableCheck;
 import gp.training.kim.bar.dto.BookingDTO;
 import gp.training.kim.bar.dto.TableDTO;
 import gp.training.kim.bar.service.OfferService;
+import gp.training.kim.bar.service.OrderService;
 import gp.training.kim.bar.service.VisitorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,12 +24,14 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/visitors")
-public class VisitorController {
+@RequestMapping("/guest")
+public class GuestController {
 
     private final VisitorService visitorService;
 
     private final OfferService offerService;
+
+    private final OrderService orderService;
 
 
     @PostMapping(value = "/book", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
@@ -37,11 +40,6 @@ public class VisitorController {
         return visitorService.book(bookingDTO);
     }
 
-    @GetMapping(value = "/menu", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @ResponseStatus(HttpStatus.OK)
-    public Menu menu() {
-        return offerService.getMenu();
-    }
 
     @PostMapping(value = "/order", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -51,13 +49,13 @@ public class VisitorController {
 
     @GetMapping(value = "/check", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @ResponseStatus(HttpStatus.OK)
-    public Check getVisitorCheck(@RequestHeader final Integer visitorId) {
-        return offerService.getCheck(visitorId);
+    public Check getVisitorCheck(@RequestHeader final Long visitorId) {
+        return orderService.getCheck(visitorId);
     }
 
-    @GetMapping(value = "/tableCheck", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+    @GetMapping(value = "/table-check", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
     @ResponseStatus(HttpStatus.OK)
-    public TableCheck getTableCheck(@RequestHeader final Integer visitorId, @RequestParam(required = false) String visitors) {
-        return offerService.getTableCheck(visitorId, visitors);
+    public TableCheck getTableCheck(@RequestHeader final Long visitorId, @RequestParam(required = false) String visitors) {
+        return orderService.getTableCheck(visitorId, visitors);
     }
 }

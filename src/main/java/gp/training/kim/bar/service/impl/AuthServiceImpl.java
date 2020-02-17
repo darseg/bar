@@ -3,7 +3,7 @@ package gp.training.kim.bar.service.impl;
 import gp.training.kim.bar.converter.UserConverter;
 import gp.training.kim.bar.dbo.AuthInfoDBO;
 import gp.training.kim.bar.dbo.UserDBO;
-import gp.training.kim.bar.dto.UserSignUpRequest;
+import gp.training.kim.bar.dto.UserDTO;
 import gp.training.kim.bar.exception.SuchUserAlreadyExistException;
 import gp.training.kim.bar.repository.AuthInfoRepository;
 import gp.training.kim.bar.repository.UserRepository;
@@ -27,23 +27,23 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void signUp(final UserSignUpRequest userSignUpRequest) throws SuchUserAlreadyExistException {
-        if (authInfoRepository.findByLogin(userSignUpRequest.getLogin()).isPresent()) {
-            throw new SuchUserAlreadyExistException("User with login=" + userSignUpRequest.getLogin() + " already exists");
+    public void signUp(final UserDTO userDTO) throws SuchUserAlreadyExistException {
+        if (authInfoRepository.findByLogin(userDTO.getLogin()).isPresent()) {
+            throw new SuchUserAlreadyExistException("User with login=" + userDTO.getLogin() + " already exists");
         }
-        saveUser(userSignUpRequest);
+        saveUser(userDTO);
     }
 
-    private void saveUser(final UserSignUpRequest userSignUpRequest) {
-        final UserDBO userEntity = userConverter.convertToDbo(userSignUpRequest);
-        final UserDBO savedUser = userRepository.save(userEntity);
-        saveAuthInfo(userSignUpRequest, savedUser);
+    private void saveUser(final UserDTO userDTO) {
+        final UserDBO userDBO = userConverter.convertToDbo(userDTO);
+        final UserDBO savedUser = userRepository.save(userDBO);
+        saveAuthInfo(userDTO, savedUser);
     }
 
-    private void saveAuthInfo(final UserSignUpRequest request, final UserDBO savedUser) {
+    private void saveAuthInfo(final UserDTO userDTO, final UserDBO savedUser) {
         final AuthInfoDBO authInfoEntity = new AuthInfoDBO();
-        authInfoEntity.setLogin(request.getLogin());
-        authInfoEntity.setPassword(passwordEncoder.encode(request.getPassword()));
+        authInfoEntity.setLogin(userDTO.getLogin());
+        authInfoEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         authInfoEntity.setUser(savedUser);
         authInfoRepository.save(authInfoEntity);
     }

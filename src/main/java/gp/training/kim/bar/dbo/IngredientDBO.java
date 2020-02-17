@@ -1,16 +1,15 @@
 package gp.training.kim.bar.dbo;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "ingredient")
-@Builder
 public class IngredientDBO extends AbstractBarEntity {
     private String name;
 
@@ -19,4 +18,7 @@ public class IngredientDBO extends AbstractBarEntity {
     private Integer balance;
 
     private Integer startBalance;
+
+    @OneToMany(mappedBy = "ingredient")
+    private List<RecipeRowDBO> recipeRowDBOS = new ArrayList<>();
 }

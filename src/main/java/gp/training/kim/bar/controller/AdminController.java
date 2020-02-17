@@ -1,6 +1,6 @@
 package gp.training.kim.bar.controller;
 
-import gp.training.kim.bar.controller.entity.StoreHouseReport;
+import gp.training.kim.bar.dto.entity.StoreHouseReport;
 import gp.training.kim.bar.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
