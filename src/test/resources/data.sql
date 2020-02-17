@@ -1,0 +1,11 @@
+insert into offer(type, name, description, price) values (0, 'Жигули', 'Четкое пиво', 20);
+insert into offer_param(offer_id, name, value) values(1, 'param1', '1'), (1, 'param2', 2);
+insert into offer(type, name, description, price) values (0, 'Old bobby', 'не такое четкое пиво', 12);
+insert into offer_param(offer_id, name, value) values(2, 'param1', '3');
+insert into offer(type, name, description, price) values (1, 'Ноги Буша', 'Так себе закусь', 10);
+insert into offer_param(offer_id, name, value) values(3, 'calories', 'много');
+insert into offer(type, name, description, price) values (1, 'Сырная нарезка', 'Хороша', 12);
+insert into offer_param(offer_id, name, value) values(4, 'calories', 'очень много');
+insert into ingredient(name, cost_price, balance, start_balance) values ('Жигули', '5.6', '560', '600'), ('Ноги', '1', '26', '500'), ('Панировка для ног', '0.5', '1000', '1030'), ('Old Bobby', '4', '2', '40');
+insert into ingredient(name, cost_price, balance, start_balance) values ('Сыр Чеддер', '20', '3', '500');
+insert into recipe_row(offer_id, ingredient_id, count) values (1, 1, 1), (2, 4, 1), (3, 2, 4), (3, 3, 1), (4, 5, 1);

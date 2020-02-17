@@ -2,6 +2,7 @@ package gp.training.kim.bar.dbo;
 
 import gp.training.kim.bar.dbo.embeddable.RecipeRowId;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -12,6 +13,7 @@ import javax.persistence.MapsId;
 
 @Data
 @Entity(name = "recipe_row")
+@NoArgsConstructor
 public class RecipeRowDBO {
 
     @EmbeddedId

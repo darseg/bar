@@ -21,7 +21,8 @@ public class OfferDBO extends AbstractBarEntity {
 
     private String description;
 
-    private Map<String, String> params;
+    @OneToMany(mappedBy = "offer")
+    private List<OfferParamDBO> params;
 
     private BigDecimal price;
 

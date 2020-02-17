@@ -47,13 +47,13 @@
             <column name="name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="costPrice" type="decimal(6, 2)">
+            <column name="cost_price" type="decimal(6, 2)">
                 <constraints nullable="false"/>
             </column>
             <column name="balance" type="int">
                 <constraints nullable="false"/>
             </column>
-            <column name="startBalance" type="int">
+            <column name="start_balance" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -88,8 +88,11 @@
                 <constraints foreignKeyName="fk_offer_param_offer" referencedTableName="offer"
                              referencedColumnNames="id" nullable="false" />
             </column>
-            <column name="param" type="blob">
+            <column name="name" type="varchar(64)">
                 <constraints nullable="false"/>
+            </column>
+            <column name="value" type="varchar(255)">
+                <constraints nullable="false" />
             </column>
         </createTable>
     </changeSet>
@@ -118,7 +121,7 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="table_id"/>
             </column>
-            <column name="name" type="varchar(64">
+            <column name="name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="capacity" type="int">

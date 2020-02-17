@@ -4,12 +4,18 @@ import gp.training.kim.bar.dbo.OfferDBO;
 import gp.training.kim.bar.dto.OfferDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class OfferConverter extends AbstractConverter<OfferDBO, OfferDTO> {
 
     @Override
     public OfferDTO convertToDto(final OfferDBO offerDBO) {
-        return new OfferDTO(offerDBO.getId(), offerDBO.getName(), offerDBO.getDescription(), offerDBO.getParams(), offerDBO.getPrice());
+        final Map<String, String> params = new HashMap<>();
+        offerDBO.getParams().forEach(offerParam ->  params.put(offerParam.getName(), offerParam.getValue()));
+
+        return new OfferDTO(offerDBO.getId(), offerDBO.getName(), offerDBO.getDescription(), params, offerDBO.getPrice());
     }
 
     @Override

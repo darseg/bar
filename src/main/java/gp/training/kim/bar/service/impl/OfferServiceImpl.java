@@ -34,11 +34,6 @@ public class OfferServiceImpl implements OfferService {
         return new Menu(getOffersWithSingleOfferTypeAndConvertToDTO(offers, OfferType.BEER), getOffersWithSingleOfferTypeAndConvertToDTO(offers, OfferType.FOOD));
     }
 
-    @Override
-    public void makeOrder(final Integer visitorId, final List<Integer> offerIds) {
-
-    }
-
     private boolean areNotEnoughIngredientsForTheOffer(final OfferDBO offer) {
         for (final RecipeRowDBO recipeRowDBO : offer.getRecipeRows()) {
             if (recipeRowDBO.getCount().compareTo(recipeRowDBO.getIngredient().getBalance()) < 0) {

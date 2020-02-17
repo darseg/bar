@@ -8,6 +8,4 @@ import java.util.List;
 
 public interface OfferService {
     Menu getMenu();
-
-    void makeOrder(Integer visitorId, List<Integer> offerIds);
 }

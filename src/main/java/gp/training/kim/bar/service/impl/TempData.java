@@ -1,6 +1,5 @@
 package gp.training.kim.bar.service.impl;
 
-import gp.training.kim.bar.dbo.GuestDBO;
 import gp.training.kim.bar.dbo.IngredientDBO;
 import gp.training.kim.bar.dbo.OfferDBO;
 import gp.training.kim.bar.dbo.TableDBO;
@@ -16,8 +15,6 @@ class TempData {
     final private static Map<Long, OfferDBO> food = new HashMap<>();
 
     final private static Map<Long, TableDBO> tables = new HashMap<>();
-
-    final private static Map<Long, GuestDBO> visitors = new HashMap<>();
 
     final private static Map<Long, TableDBO> visitorToTableMap = new HashMap<>();
 
@@ -84,8 +81,8 @@ class TempData {
         return food;
     }
 
-    static Map<Long, GuestDBO> getVisitors() {
-        /*if (visitors.isEmpty()) {
+    /*static Map<Long, GuestDBO> getVisitors() {
+        if (visitors.isEmpty()) {
             final List<GuestDBO> visitorsList = new ArrayList<>();
 
             final List<OfferDBO> list1 = new ArrayList<>();
@@ -119,9 +116,9 @@ class TempData {
 
             visitors.putAll(visitorsList.stream().collect(Collectors.toMap(GuestDBO::getId, o -> o)));
         }
-*/
+
         return visitors;
-    }
+    }*/
 
     static Map<Long, TableDBO> getTables() {
         /*if (tables.isEmpty()) {

@@ -1,6 +1,7 @@
 package gp.training.kim.bar.dbo.embeddable;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 @Embeddable
 @AllArgsConstructor
+@NoArgsConstructor
 public class RecipeRowId implements Serializable {
 
     @Column(name = "offer_id")

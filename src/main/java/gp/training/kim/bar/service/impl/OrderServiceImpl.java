@@ -33,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
     public Check getCheck(final Long guestId) {
 
         return getCheckFromOffers(
-                orderRepository.findByUserAndPaidNot(guestId).getOffers().stream()
+                orderRepository.findByUserAndPaid(guestId, true).getOffers().stream()
                         .map(offerConverter::convertToDto).collect(Collectors.toList()));
     }
 
@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
         final List<OfferDTO> tableOffers = new ArrayList<>();
         final Map<Long, Check> visitorsChecks = new HashMap<>();
 
-        orderRepository.findByTableAndPaidNot(tableId).forEach(orderDBO -> {
+        orderRepository.findByTableAndPaid(tableId, true).forEach(orderDBO -> {
             final Optional<UserDBO> guest = Optional.ofNullable(orderDBO.getUser());
             final List<OfferDTO> offers = orderDBO.getOffers().stream().map(offerConverter::convertToDto).collect(Collectors.toList());
 
@@ -58,6 +58,11 @@ public class OrderServiceImpl implements OrderService {
         });
 
         return new TableCheck(getCheckFromOffers(tableOffers), visitorsChecks);
+    }
+
+    @Override
+    public void makeOrder(final Integer visitorId, final List<Integer> offerIds) {
+
     }
 
     private Check getCheckFromOffers(final List<OfferDTO> offerDTOS) {

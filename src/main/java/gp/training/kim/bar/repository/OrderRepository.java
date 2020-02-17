@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface OrderRepository extends JpaRepository<OrderDBO, Long> {
-    List<OrderDBO> findByTableAndPaidNot(Long tableId);
+    List<OrderDBO> findByTableAndPaid(Long tableId, Boolean paid);
 
-    OrderDBO findByUserAndPaidNot(Long userId);
+    OrderDBO findByUserAndPaid(Long userId, Boolean paid);
 }
