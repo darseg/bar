@@ -11,14 +11,14 @@ import java.util.List;
 @Data
 @Entity(name = "ingredient")
 public class IngredientDBO extends AbstractBarEntity {
-    private String name;
+	private String name;
 
-    private BigDecimal costPrice;
+	private BigDecimal costPrice;
 
-    private Integer balance;
+	private Integer balance;
 
-    private Integer startBalance;
+	private Integer startBalance;
 
-    @OneToMany(mappedBy = "ingredient")
-    private List<RecipeRowDBO> recipeRowDBOS = new ArrayList<>();
+	@OneToMany(mappedBy = "ingredient")
+	private List<RecipeRowDBO> recipeRowDBOS = new ArrayList<>();
 }

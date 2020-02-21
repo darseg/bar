@@ -10,16 +10,16 @@ import java.util.Map;
 @Service
 public class OfferConverter extends AbstractConverter<OfferDBO, OfferDTO> {
 
-    @Override
-    public OfferDTO convertToDto(final OfferDBO offerDBO) {
-        final Map<String, String> params = new HashMap<>();
-        offerDBO.getParams().forEach(offerParam ->  params.put(offerParam.getName(), offerParam.getValue()));
+	@Override
+	public OfferDTO convertToDto(final OfferDBO offerDBO) {
+		final Map<String, String> params = new HashMap<>();
+		offerDBO.getParams().forEach(offerParam -> params.put(offerParam.getName(), offerParam.getValue()));
 
-        return new OfferDTO(offerDBO.getId(), offerDBO.getName(), offerDBO.getDescription(), params, offerDBO.getPrice());
-    }
+		return new OfferDTO(offerDBO.getId(), offerDBO.getName(), offerDBO.getDescription(), params, offerDBO.getPrice());
+	}
 
-    @Override
-    public OfferDBO convertToDbo(OfferDTO offerDTO) {
-        return null;
-    }
+	@Override
+	public OfferDBO convertToDbo(OfferDTO offerDTO) {
+		return null;
+	}
 }

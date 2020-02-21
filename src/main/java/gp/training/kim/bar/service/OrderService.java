@@ -6,9 +6,9 @@ import gp.training.kim.bar.dto.entity.TableCheck;
 import java.util.List;
 
 public interface OrderService {
-    Check getCheck(Long guestId);
+	Check getCheck(Long guestId);
 
-    TableCheck getTableCheck(Long visitorId, String guests);
+	TableCheck getTableCheck(Long visitorId, String guests);
 
-    void makeOrder(Integer visitorId, List<Integer> offerIds);
+	void makeOrder(Integer visitorId, List<Integer> offerIds);
 }

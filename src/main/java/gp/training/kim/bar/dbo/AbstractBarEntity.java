@@ -11,8 +11,8 @@ import javax.persistence.MappedSuperclass;
 @Data
 @MappedSuperclass
 public class AbstractBarEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    protected Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	protected Long id;
 }

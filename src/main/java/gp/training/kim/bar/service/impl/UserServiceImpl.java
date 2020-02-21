@@ -11,11 +11,11 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Override
-    public TableDTO book(BookingDTO input) {
-        return TableDTO.builder()
-                .table("Table 2")
-                .visitors(new ArrayList<>(
-                        List.of(3,4,5,6))).build();
-    }
+	@Override
+	public TableDTO book(BookingDTO input) {
+		return TableDTO.builder()
+				.table("Table 2")
+				.visitors(new ArrayList<>(
+						List.of(3, 4, 5, 6))).build();
+	}
 }

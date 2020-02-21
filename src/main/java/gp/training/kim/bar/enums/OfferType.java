@@ -1,9 +1,9 @@
 package gp.training.kim.bar.enums;
 
 public enum OfferType {
-    BEER,
-    FOOD;
+	BEER,
+	FOOD;
 
-    OfferType() {
-    }
+	OfferType() {
+	}
 }

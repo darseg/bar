@@ -16,24 +16,24 @@ import javax.persistence.MapsId;
 @NoArgsConstructor
 public class RecipeRowDBO {
 
-    @EmbeddedId
-    private RecipeRowId id;
+	@EmbeddedId
+	private RecipeRowId id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("offer")
-    private OfferDBO offer;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("offer")
+	private OfferDBO offer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("ingredient")
-    private IngredientDBO ingredient;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@MapsId("ingredient")
+	private IngredientDBO ingredient;
 
-    @Column(name = "count")
-    private Integer count;
+	@Column(name = "count")
+	private Integer count;
 
-    public RecipeRowDBO(OfferDBO offer, IngredientDBO ingredient, Integer count) {
-        this.offer = offer;
-        this.ingredient = ingredient;
-        this.count = count;
-        this.id = new RecipeRowId(offer.getId(), ingredient.getId());
-    }
+	public RecipeRowDBO(OfferDBO offer, IngredientDBO ingredient, Integer count) {
+		this.offer = offer;
+		this.ingredient = ingredient;
+		this.count = count;
+		this.id = new RecipeRowId(offer.getId(), ingredient.getId());
+	}
 }

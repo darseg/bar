@@ -17,17 +17,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LoadUserDetailService implements UserDetailsService {
 
-    private final AuthInfoRepository authInfoRepository;
+	private final AuthInfoRepository authInfoRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
-        final Optional<AuthInfoDBO> authInfoDBO = authInfoRepository.findByLogin(login);
-        if (authInfoDBO.isEmpty()) {
-            throw new UsernameNotFoundException("User with login: " + login + " not found");
-        } else {
-            final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
-                    "ROLE_" + authInfoDBO.get().getUser().getRole().name());
-            return new User(login, authInfoDBO.get().getPassword(), List.of(authority));
-        }
-    }
+	@Override
+	public UserDetails loadUserByUsername(final String login) throws UsernameNotFoundException {
+		final Optional<AuthInfoDBO> authInfoDBO = authInfoRepository.findByLogin(login);
+		if (authInfoDBO.isEmpty()) {
+			throw new UsernameNotFoundException("User with login: " + login + " not found");
+		} else {
+			final SimpleGrantedAuthority authority = new SimpleGrantedAuthority(
+					"ROLE_" + authInfoDBO.get().getUser().getRole().name());
+			return new User(login, authInfoDBO.get().getPassword(), List.of(authority));
+		}
+	}
 }

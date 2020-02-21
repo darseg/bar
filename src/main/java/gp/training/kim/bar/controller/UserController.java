@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+	private final UserService userService;
 
-    private final OfferService offerService;
+	private final OfferService offerService;
 
-    @GetMapping(value = "/menu", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @ResponseStatus(HttpStatus.OK)
-    public Menu menu() {
-        return offerService.getMenu();
-    }
+	@GetMapping(value = "/menu", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public Menu menu() {
+		return offerService.getMenu();
+	}
 
-    @PostMapping(value = "/book", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @ResponseStatus(HttpStatus.CREATED)
-    public TableDTO bookTable(@RequestBody final BookingDTO bookingDTO) {
-        return userService.book(bookingDTO);
-    }
+	@PostMapping(value = "/book", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+	@ResponseStatus(HttpStatus.CREATED)
+	public TableDTO bookTable(@RequestBody final BookingDTO bookingDTO) {
+		return userService.book(bookingDTO);
+	}
 }

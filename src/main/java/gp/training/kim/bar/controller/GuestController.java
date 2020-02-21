@@ -22,24 +22,24 @@ import java.util.List;
 @RequestMapping("/guests")
 public class GuestController {
 
-    private final OrderService orderService;
+	private final OrderService orderService;
 
 
-    @PostMapping(value = "/order", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void makeOrder(@RequestBody final List<Integer> offerIds, @RequestHeader final Integer visitorId) {
-        orderService.makeOrder(visitorId, offerIds);
-    }
+	@PostMapping(value = "/order", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void makeOrder(@RequestBody final List<Integer> offerIds, @RequestHeader final Integer visitorId) {
+		orderService.makeOrder(visitorId, offerIds);
+	}
 
-    @GetMapping(value = "/check", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @ResponseStatus(HttpStatus.OK)
-    public Check getVisitorCheck(@RequestHeader final Long visitorId) {
-        return orderService.getCheck(visitorId);
-    }
+	@GetMapping(value = "/check", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public Check getVisitorCheck(@RequestHeader final Long visitorId) {
+		return orderService.getCheck(visitorId);
+	}
 
-    @GetMapping(value = "/table-check", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @ResponseStatus(HttpStatus.OK)
-    public TableCheck getTableCheck(@RequestHeader final Long visitorId, @RequestParam(required = false) String visitors) {
-        return orderService.getTableCheck(visitorId, visitors);
-    }
+	@GetMapping(value = "/table-check", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public TableCheck getTableCheck(@RequestHeader final Long visitorId, @RequestParam(required = false) String visitors) {
+		return orderService.getTableCheck(visitorId, visitors);
+	}
 }

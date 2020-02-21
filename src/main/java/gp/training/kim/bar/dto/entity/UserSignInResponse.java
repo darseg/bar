@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserSignInResponse {
 
-    private String token;
+	private String token;
 }

@@ -11,9 +11,9 @@ import javax.persistence.OneToOne;
 @Data
 @Entity(name = "auth_info")
 public class AuthInfoDBO extends AbstractBarEntity {
-    private String login;
-    private String password;
-    @OneToOne(optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private UserDBO user;
+	private String login;
+	private String password;
+	@OneToOne(optional = false)
+	@JoinColumn(name = "user_id", nullable = false)
+	private UserDBO user;
 }

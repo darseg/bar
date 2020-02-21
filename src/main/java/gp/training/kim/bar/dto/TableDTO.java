@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @Builder
 public class TableDTO {
-    final String table;
+	final String table;
 
-    final List<Integer> visitors;
+	final List<Integer> visitors;
 }

@@ -12,7 +12,7 @@ import javax.persistence.Entity;
 @Entity(name = "user")
 @AllArgsConstructor
 public class UserDBO extends AbstractBarEntity {
-    private String fio;
-    private String phone;
-    private UserRole role;
+	private String fio;
+	private String phone;
+	private UserRole role;
 }

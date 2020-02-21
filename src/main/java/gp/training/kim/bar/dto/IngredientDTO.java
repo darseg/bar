@@ -8,9 +8,9 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 public class IngredientDTO {
-    private final String name;
+	private final String name;
 
-    private final Integer balance;
+	private final Integer balance;
 
-    private final BigDecimal costPrice;
+	private final BigDecimal costPrice;
 }

@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admins")
 public class AdminController {
 
-    private final AdminService adminService;
+	private final AdminService adminService;
 
-    @GetMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-    @ResponseStatus(HttpStatus.OK)
-    public StoreHouseReport report(@RequestHeader final Integer admin) {
-        return adminService.getIngredientsReport();
-    }
+	@GetMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public StoreHouseReport report(@RequestHeader final Integer admin) {
+		return adminService.getIngredientsReport();
+	}
 
 }

@@ -17,34 +17,34 @@ import org.springframework.transaction.annotation.Transactional;
 @AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
-    private final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-    private final AuthInfoRepository authInfoRepository;
+	private final AuthInfoRepository authInfoRepository;
 
-    private final UserConverter userConverter;
+	private final UserConverter userConverter;
 
-    private final PasswordEncoder passwordEncoder;
+	private final PasswordEncoder passwordEncoder;
 
-    @Override
-    @Transactional
-    public void signUp(final UserDTO userDTO) throws SuchUserAlreadyExistException {
-        if (authInfoRepository.findByLogin(userDTO.getLogin()).isPresent()) {
-            throw new SuchUserAlreadyExistException("User with login=" + userDTO.getLogin() + " already exists");
-        }
-        saveUser(userDTO);
-    }
+	@Override
+	@Transactional
+	public void signUp(final UserDTO userDTO) throws SuchUserAlreadyExistException {
+		if (authInfoRepository.findByLogin(userDTO.getLogin()).isPresent()) {
+			throw new SuchUserAlreadyExistException("User with login=" + userDTO.getLogin() + " already exists");
+		}
+		saveUser(userDTO);
+	}
 
-    private void saveUser(final UserDTO userDTO) {
-        final UserDBO userDBO = userConverter.convertToDbo(userDTO);
-        final UserDBO savedUser = userRepository.save(userDBO);
-        saveAuthInfo(userDTO, savedUser);
-    }
+	private void saveUser(final UserDTO userDTO) {
+		final UserDBO userDBO = userConverter.convertToDbo(userDTO);
+		final UserDBO savedUser = userRepository.save(userDBO);
+		saveAuthInfo(userDTO, savedUser);
+	}
 
-    private void saveAuthInfo(final UserDTO userDTO, final UserDBO savedUser) {
-        final AuthInfoDBO authInfoEntity = new AuthInfoDBO();
-        authInfoEntity.setLogin(userDTO.getLogin());
-        authInfoEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        authInfoEntity.setUser(savedUser);
-        authInfoRepository.save(authInfoEntity);
-    }
+	private void saveAuthInfo(final UserDTO userDTO, final UserDBO savedUser) {
+		final AuthInfoDBO authInfoEntity = new AuthInfoDBO();
+		authInfoEntity.setLogin(userDTO.getLogin());
+		authInfoEntity.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		authInfoEntity.setUser(savedUser);
+		authInfoRepository.save(authInfoEntity);
+	}
 }

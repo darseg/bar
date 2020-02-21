@@ -7,7 +7,7 @@ import java.util.Map;
 
 @Data
 public class Check {
-    final private Map<String, CheckRow> details;
+	final private Map<String, CheckRow> details;
 
-    final private BigDecimal price;
+	final private BigDecimal price;
 }

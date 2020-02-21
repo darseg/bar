@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class Menu {
-    final private List<OfferDTO> beer;
+	final private List<OfferDTO> beer;
 
-    final private List<OfferDTO> food;
+	final private List<OfferDTO> food;
 }

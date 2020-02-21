@@ -8,9 +8,9 @@ import java.util.List;
 
 @Data
 public class StoreHouseReport {
-    final private List<IngredientDTO> storeHouse;
+	final private List<IngredientDTO> storeHouse;
 
-    final private BigDecimal costPrice;
+	final private BigDecimal costPrice;
 
-    final private BigDecimal profit;
+	final private BigDecimal profit;
 }

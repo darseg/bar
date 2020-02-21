@@ -34,7 +34,7 @@
             </column>
             <column name="user_id" type="bigint">
                 <constraints foreignKeyName="fk_auth_info_user" referencedTableName="user"
-                             referencedColumnNames="id" nullable="false" />
+                             referencedColumnNames="id" nullable="false"/>
             </column>
         </createTable>
     </changeSet>
@@ -86,13 +86,13 @@
             </column>
             <column name="offer_id" type="bigint">
                 <constraints foreignKeyName="fk_offer_param_offer" referencedTableName="offer"
-                             referencedColumnNames="id" nullable="false" />
+                             referencedColumnNames="id" nullable="false"/>
             </column>
             <column name="name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="value" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>

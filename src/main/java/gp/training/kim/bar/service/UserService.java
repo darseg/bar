@@ -4,5 +4,5 @@ import gp.training.kim.bar.dto.BookingDTO;
 import gp.training.kim.bar.dto.TableDTO;
 
 public interface UserService {
-    TableDTO book(BookingDTO input);
+	TableDTO book(BookingDTO input);
 }

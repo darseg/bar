@@ -12,11 +12,11 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 public class OfferParamDBO extends AbstractBarEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "offer_id")
-    private OfferDBO offer;
+	@ManyToOne
+	@JoinColumn(name = "offer_id")
+	private OfferDBO offer;
 
-    private String name;
+	private String name;
 
-    private String value;
+	private String value;
 }

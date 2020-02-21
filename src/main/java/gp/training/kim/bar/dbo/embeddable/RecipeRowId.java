@@ -13,21 +13,21 @@ import java.util.Objects;
 @NoArgsConstructor
 public class RecipeRowId implements Serializable {
 
-    @Column(name = "offer_id")
-    private Long offer;
+	@Column(name = "offer_id")
+	private Long offer;
 
-    @Column(name = "ingredient_id")
-    private Long ingredient;
+	@Column(name = "ingredient_id")
+	private Long ingredient;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
 
-        if (o == null || getClass() != o.getClass())
-            return false;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
-        RecipeRowId that = (RecipeRowId) o;
-        return Objects.equals(offer, that.offer) &&
-                Objects.equals(ingredient, that.ingredient);
-    }
+		RecipeRowId that = (RecipeRowId) o;
+		return Objects.equals(offer, that.offer) &&
+				Objects.equals(ingredient, that.ingredient);
+	}
 }
