@@ -1,16 +1,28 @@
 package gp.training.kim.bar.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.ToString;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 @Data
+@ToString(includeFieldNames = true)
 public class BookingDTO {
-	final private Integer count;
+	private Integer count;
 
-	final private String date;
+	private List<Long> registeredUsers;
 
-	final private String from;
+	@JsonFormat(pattern="yyyy-MM-dd")
+	private LocalDate date;
 
-	final private String to;
+	@JsonFormat(pattern="HH:mm")
+	private LocalTime from;
 
-	final private Boolean barRack;
+	@JsonFormat(pattern="HH:mm")
+	private LocalTime to;
+
+	private Boolean barRack;
 }

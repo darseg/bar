@@ -1,4 +1,4 @@
-package gp.training.kim.bar.dbo;
+package gp.training.kim.bar.dbo.superclass;
 
 import lombok.Data;
 

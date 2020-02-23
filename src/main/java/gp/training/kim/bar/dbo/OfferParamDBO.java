@@ -1,5 +1,6 @@
 package gp.training.kim.bar.dbo;
 
+import gp.training.kim.bar.dbo.superclass.AbstractBarEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

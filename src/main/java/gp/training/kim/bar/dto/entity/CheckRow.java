@@ -1,14 +1,18 @@
 package gp.training.kim.bar.dto.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 
 @Data
+@AllArgsConstructor
+@ToString(includeFieldNames = true)
 public class CheckRow {
-	private final BigDecimal price;
+	private BigDecimal price;
 
-	private final Integer count;
+	private Integer count;
 
-	private final BigDecimal sum;
+	private BigDecimal sum;
 }

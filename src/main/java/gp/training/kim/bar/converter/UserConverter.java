@@ -1,18 +1,37 @@
 package gp.training.kim.bar.converter;
 
+import gp.training.kim.bar.constant.UserRole;
+import gp.training.kim.bar.dbo.UserDBO;
 import gp.training.kim.bar.dto.UserDTO;
-import gp.training.kim.bar.enums.UserRole;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserConverter extends AbstractConverter<gp.training.kim.bar.dbo.UserDBO, UserDTO> {
+public class UserConverter extends AbstractConverter<UserDBO, UserDTO> {
+	public UserConverter() {
+		super(new String[]{"login", "password", "role"});
+	}
+
 	@Override
-	public UserDTO convertToDto(gp.training.kim.bar.dbo.UserDBO userDBO) {
+	public UserDTO convertToDto(final UserDBO userDBO) {
 		return null;
 	}
 
 	@Override
-	public gp.training.kim.bar.dbo.UserDBO convertToDbo(UserDTO userDTO) {
-		return new gp.training.kim.bar.dbo.UserDBO(userDTO.getFio(), userDTO.getPhone(), UserRole.GUEST);
+	public UserDBO convertToDbo(final UserDTO userDTO) {
+		final UserDBO userDBO = super.convertToDbo(userDTO);
+
+		userDBO.setRole(UserRole.GUEST);
+
+		return  userDBO;
+	}
+
+	@Override
+	protected UserDTO constructDto() {
+		return null;
+	}
+
+	@Override
+	protected UserDBO constructDbo() {
+		return new UserDBO();
 	}
 }

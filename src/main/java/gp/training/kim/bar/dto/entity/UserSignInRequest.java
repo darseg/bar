@@ -1,10 +1,14 @@
 package gp.training.kim.bar.dto.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
+@AllArgsConstructor
+@ToString(includeFieldNames = true)
 public class UserSignInRequest {
 
-	private final String login;
-	private final String password;
+	private String login;
+	private String password;
 }

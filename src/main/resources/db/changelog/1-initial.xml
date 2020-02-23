@@ -70,7 +70,7 @@
             <column name="name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="blob">
+            <column name="description" type="varchar(1024)">
                 <constraints nullable="false"/>
             </column>
             <column name="price" type="decimal(6, 2)">
@@ -97,6 +97,21 @@
         </createTable>
     </changeSet>
 
+    <changeSet id="add_offer_image_table" author="kim">
+        <createTable tableName="offer_image">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="offer_image_id"/>
+            </column>
+            <column name="offer_id" type="bigint">
+                <constraints foreignKeyName="fk_offer_image_offer" referencedTableName="offer"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="image_url" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
     <changeSet id="add_recipe_row_table" author="kim">
         <createTable tableName="recipe_row">
             <column name="id" type="bigint" autoIncrement="true">
@@ -110,38 +125,66 @@
                 <constraints foreignKeyName="fk_recipe_row_ingredient" referencedTableName="ingredient"
                              referencedColumnNames="id" nullable="false"/>
             </column>
-            <column name="count" type="int">
+            <column name="amount" type="int">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="add_table_table" author="kim">
-        <createTable tableName="table">
+    <changeSet id="add_tables_table" author="kim">
+        <createTable tableName="tables">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="table_id"/>
             </column>
             <column name="name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
+            <column name="description" type="varchar(1024)">
+                <constraints nullable="false"/>
+            </column>
             <column name="capacity" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_private" type="boolean">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
 
-    <changeSet id="add_order_table" author="kim">
-        <createTable tableName="order">
+    <changeSet id="add_table_image_table" author="kim">
+        <createTable tableName="table_image">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="table_image_id"/>
+            </column>
+            <column name="table_id" type="bigint">
+                <constraints foreignKeyName="fk_table_image_tables" referencedTableName="tables"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="image_url" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Sush table name used because of `order` is reserved word -->
+    <changeSet id="add_orders_table" author="kim">
+        <createTable tableName="orders">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="order_id"/>
             </column>
             <column name="table_id" type="bigint">
-                <constraints foreignKeyName="fk_order_table" referencedTableName="table"
+                <constraints foreignKeyName="fk_orders_tables" referencedTableName="tables"
                              referencedColumnNames="id" nullable="false"/>
             </column>
             <column name="user_id" type="bigint">
-                <constraints foreignKeyName="fk_order_user" referencedTableName="user"
+                <constraints foreignKeyName="fk_orders_user" referencedTableName="user"
                              referencedColumnNames="id" nullable="true"/>
+            </column>
+            <column name="from" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="to" type="datetime">
+                <constraints nullable="false"/>
             </column>
             <column name="paid" type="boolean">
                 <constraints nullable="false"/>
@@ -155,7 +198,7 @@
                 <constraints primaryKey="true" primaryKeyName="order_offer_id"/>
             </column>
             <column name="order_id" type="bigint">
-                <constraints foreignKeyName="fk_order_offer_order" referencedTableName="order"
+                <constraints foreignKeyName="fk_order_offer_orders" referencedTableName="orders"
                              referencedColumnNames="id" nullable="false"/>
             </column>
             <column name="user_id" type="bigint">

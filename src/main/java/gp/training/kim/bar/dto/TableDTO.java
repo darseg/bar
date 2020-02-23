@@ -1,14 +1,20 @@
 package gp.training.kim.bar.dto;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
 @Data
-@Builder
+@ToString(includeFieldNames = true)
 public class TableDTO {
-	final String table;
+	private String name;
 
-	final List<Integer> visitors;
+	private String description;
+
+	private List<String> images;
+
+	private Integer capacity;
+
+	private boolean isPrivate;
 }

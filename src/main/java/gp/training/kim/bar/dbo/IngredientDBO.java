@@ -1,6 +1,9 @@
 package gp.training.kim.bar.dbo;
 
+import gp.training.kim.bar.dbo.superclass.AbstractBarEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -20,5 +23,6 @@ public class IngredientDBO extends AbstractBarEntity {
 	private Integer startBalance;
 
 	@OneToMany(mappedBy = "ingredient")
+	@EqualsAndHashCode.Exclude @ToString.Exclude
 	private List<RecipeRowDBO> recipeRowDBOS = new ArrayList<>();
 }

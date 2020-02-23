@@ -1,12 +1,14 @@
 package gp.training.kim.bar.exception;
 
-public class SuchUserAlreadyExistException extends Exception {
+import gp.training.kim.bar.constant.ErrorType;
+
+public class SuchUserAlreadyExistException extends AbstractBarException {
 
 	public SuchUserAlreadyExistException() {
-		super();
+		super(ErrorType.USER_ALREADY_EXIST);
 	}
 
 	public SuchUserAlreadyExistException(final String message) {
-		super(message);
+		super(message, ErrorType.USER_ALREADY_EXIST);
 	}
 }

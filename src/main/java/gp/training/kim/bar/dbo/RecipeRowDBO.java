@@ -27,13 +27,13 @@ public class RecipeRowDBO {
 	@MapsId("ingredient")
 	private IngredientDBO ingredient;
 
-	@Column(name = "count")
-	private Integer count;
+	@Column(name = "amount")
+	private Integer amount;
 
-	public RecipeRowDBO(OfferDBO offer, IngredientDBO ingredient, Integer count) {
+	public RecipeRowDBO(OfferDBO offer, IngredientDBO ingredient, Integer amount) {
 		this.offer = offer;
 		this.ingredient = ingredient;
-		this.count = count;
+		this.amount = amount;
 		this.id = new RecipeRowId(offer.getId(), ingredient.getId());
 	}
 }

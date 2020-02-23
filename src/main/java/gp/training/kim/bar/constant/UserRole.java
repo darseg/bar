@@ -1,4 +1,4 @@
-package gp.training.kim.bar.enums;
+package gp.training.kim.bar.constant;
 
 public enum UserRole {
 	ADMIN,

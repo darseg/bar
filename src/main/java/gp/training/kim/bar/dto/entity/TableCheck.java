@@ -9,8 +9,8 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class TableCheck {
-	final private Check table;
+	private Check table;
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
-	final private Map<Long, Check> visitors;
+	private Map<Long, Check> visitors;
 }

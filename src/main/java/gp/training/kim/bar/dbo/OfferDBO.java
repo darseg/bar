@@ -1,10 +1,12 @@
 package gp.training.kim.bar.dbo;
 
-import gp.training.kim.bar.enums.OfferType;
+import gp.training.kim.bar.constant.OfferType;
+import gp.training.kim.bar.dbo.superclass.AbstractBarEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,13 +23,16 @@ public class OfferDBO extends AbstractBarEntity {
 	private String description;
 
 	@OneToMany(mappedBy = "offer")
+	@EqualsAndHashCode.Exclude @ToString.Exclude
 	private List<OfferParamDBO> params;
+
+	@OneToMany(mappedBy = "offer")
+	@EqualsAndHashCode.Exclude @ToString.Exclude
+	private List<OfferImageDBO> images;
 
 	private BigDecimal price;
 
 	@OneToMany(mappedBy = "offer")
+	@EqualsAndHashCode.Exclude @ToString.Exclude
 	private List<RecipeRowDBO> recipeRows = new ArrayList<>();
-
-	@ManyToMany(mappedBy = "offers")
-	List<OrderDBO> orders;
 }

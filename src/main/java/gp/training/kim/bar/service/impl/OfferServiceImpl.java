@@ -1,11 +1,11 @@
 package gp.training.kim.bar.service.impl;
 
+import gp.training.kim.bar.constant.OfferType;
 import gp.training.kim.bar.converter.OfferConverter;
 import gp.training.kim.bar.dbo.OfferDBO;
 import gp.training.kim.bar.dbo.RecipeRowDBO;
 import gp.training.kim.bar.dto.OfferDTO;
 import gp.training.kim.bar.dto.entity.Menu;
-import gp.training.kim.bar.enums.OfferType;
 import gp.training.kim.bar.repository.OfferRepository;
 import gp.training.kim.bar.service.OfferService;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class OfferServiceImpl implements OfferService {
 
 	private boolean areNotEnoughIngredientsForTheOffer(final OfferDBO offer) {
 		for (final RecipeRowDBO recipeRowDBO : offer.getRecipeRows()) {
-			if (recipeRowDBO.getCount().compareTo(recipeRowDBO.getIngredient().getBalance()) < 0) {
+			if (recipeRowDBO.getAmount().compareTo(recipeRowDBO.getIngredient().getBalance()) < 0) {
 				return true;
 			}
 		}

@@ -16,4 +16,14 @@ public class IngredientConverter extends AbstractConverter<IngredientDBO, Ingred
 
 		return null;
 	}
+
+	@Override
+	protected IngredientDTO constructDto() {
+		return null;
+	}
+
+	@Override
+	protected IngredientDBO constructDbo() {
+		return null;
+	}
 }

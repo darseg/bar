@@ -1,13 +1,17 @@
 package gp.training.kim.bar.dto.entity;
 
 import gp.training.kim.bar.dto.OfferDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@ToString(includeFieldNames = true)
 public class Menu {
-	final private List<OfferDTO> beer;
+	private List<OfferDTO> beer;
 
-	final private List<OfferDTO> food;
+	private List<OfferDTO> food;
 }
