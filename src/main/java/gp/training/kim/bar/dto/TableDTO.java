@@ -8,6 +8,8 @@ import java.util.List;
 @Data
 @ToString(includeFieldNames = true)
 public class TableDTO {
+	private Long id;
+
 	private String name;
 
 	private String description;

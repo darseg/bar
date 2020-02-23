@@ -34,6 +34,12 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 		return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, ErrorType.USER_NOT_FOUND.getCode(), e.getMessage()));
 	}
 
+	@ExceptionHandler(Exception.class)
+	private ResponseEntity<Object> handleUndefinedError(final Exception e) {
+		log.log(Level.SEVERE, e.getMessage(), e);
+		return buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorType.UNDEFINED.getCode(), e.getMessage()));
+	}
+
 	private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
 		return new ResponseEntity<Object>(apiError, apiError.getStatus());
 	}

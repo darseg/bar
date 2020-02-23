@@ -1,6 +1,6 @@
 package gp.training.kim.bar.controller;
 
-import gp.training.kim.bar.dto.UserDTO;
+import gp.training.kim.bar.dto.entity.UserSignUpRequest;
 import gp.training.kim.bar.dto.entity.UserSignInRequest;
 import gp.training.kim.bar.dto.entity.UserSignInResponse;
 import gp.training.kim.bar.exception.SuchUserAlreadyExistException;
@@ -33,9 +33,9 @@ public class AuthController {
 
 	@PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public UserSignInResponse singUp(@RequestBody final UserDTO userDTO) throws SuchUserAlreadyExistException {
-		authService.signUp(userDTO);
-		return singIn(new UserSignInRequest(userDTO.getLogin(), userDTO.getPassword()));
+	public UserSignInResponse singUp(@RequestBody final UserSignUpRequest userSignUpRequest) throws SuchUserAlreadyExistException {
+		authService.signUp(userSignUpRequest);
+		return singIn(new UserSignInRequest(userSignUpRequest.getLogin(), userSignUpRequest.getPassword()));
 	}
 
 	@PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -46,6 +46,6 @@ public class AuthController {
 		return new UserSignInResponse(
 				jwtUtil.generateToken(
 						new User(userSignInRequest.getLogin(), userSignInRequest.getPassword(),
-								List.of(new SimpleGrantedAuthority("STUDENT")))));
+								List.of(new SimpleGrantedAuthority("GUEST")))));
 	}
 }

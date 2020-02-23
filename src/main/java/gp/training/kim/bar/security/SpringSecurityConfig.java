@@ -1,6 +1,7 @@
 package gp.training.kim.bar.security;
 
 
+import gp.training.kim.bar.constant.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -25,6 +26,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				//.httpBasic()
 				.csrf().disable()
 				.authorizeRequests()
+				.antMatchers(HttpMethod.POST, "/tables/*").hasRole(UserRole.GUEST.name())
 				.antMatchers(HttpMethod.POST, "/sign-in", "/sign-up").permitAll()
 				.antMatchers(HttpMethod.GET, "/menu", "tables").permitAll()
 				.and()

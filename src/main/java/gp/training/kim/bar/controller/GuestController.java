@@ -24,13 +24,6 @@ public class GuestController {
 
 	private final OrderService orderService;
 
-
-	@PostMapping(value = "/order", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-	@ResponseStatus(HttpStatus.ACCEPTED)
-	public void makeOrder(@RequestBody final List<Integer> offerIds, @RequestHeader final Integer visitorId) {
-		orderService.makeOrder(visitorId, offerIds);
-	}
-
 	@GetMapping(value = "/check", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public Check getVisitorCheck(@RequestHeader final Long visitorId) {

@@ -1,8 +1,11 @@
 package gp.training.kim.bar.service.impl;
 
 import gp.training.kim.bar.converter.OfferConverter;
+import gp.training.kim.bar.dbo.OrderDBO;
+import gp.training.kim.bar.dbo.TableDBO;
 import gp.training.kim.bar.dbo.UserDBO;
 import gp.training.kim.bar.dto.OfferDTO;
+import gp.training.kim.bar.dto.entity.BookingRequest;
 import gp.training.kim.bar.dto.entity.Check;
 import gp.training.kim.bar.dto.entity.CheckRow;
 import gp.training.kim.bar.dto.entity.TableCheck;
@@ -13,6 +16,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,8 +66,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void makeOrder(final Integer visitorId, final List<Integer> offerIds) {
+	public OrderDBO createOrder(final TableDBO table, final UserDBO user, final LocalDateTime from, final LocalDateTime to) {
+		final OrderDBO order = new OrderDBO();
+		order.setFrom(from);
+		order.setTo(to);
+		order.setPaid(false);
+		order.setTable(table);
+		order.setUser(user);
 
+		return order;
 	}
 
 	private Check getCheckFromOffers(final List<OfferDTO> offerDTOS) {

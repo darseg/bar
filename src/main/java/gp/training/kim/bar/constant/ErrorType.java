@@ -5,7 +5,8 @@ import lombok.Getter;
 public enum ErrorType {
 	USER_ALREADY_EXIST(1),
 	USER_NOT_FOUND(2),
-	CANNOT_BOOK(3);
+	CANNOT_BOOK(3),
+	UNDEFINED(0);
 
 	@Getter
 	private final Integer code;

@@ -1,16 +1,14 @@
-package gp.training.kim.bar.dto;
+package gp.training.kim.bar.dto.entity;
 
-import gp.training.kim.bar.constant.UserRole;
 import lombok.Data;
 import lombok.ToString;
 
 @Data
 @ToString(includeFieldNames = true)
-public class UserDTO {
+public class UserSignUpRequest {
 
 	private String login;
-
+	private String password;
 	private String fio;
-
 	private String phone;
 }

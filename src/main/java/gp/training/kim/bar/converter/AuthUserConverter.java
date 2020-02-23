@@ -7,19 +7,19 @@ import gp.training.kim.bar.dto.entity.UserSignUpRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserConverter extends AbstractConverter<UserDBO, UserDTO> {
-	public UserConverter() {
-		super(new String[]{"role"});
+public class AuthUserConverter extends AbstractConverter<UserDBO, UserSignUpRequest> {
+	public AuthUserConverter() {
+		super(new String[]{"password", "role"});
 	}
 
 	@Override
-	public UserDTO convertToDto(final UserDBO userDBO) {
+	public UserSignUpRequest convertToDto(final UserDBO userDBO) {
 		return null;
 	}
 
 	@Override
-	public UserDBO convertToDbo(final UserDTO userDTO) {
-		final UserDBO userDBO = super.convertToDbo(userDTO);
+	public UserDBO convertToDbo(final UserSignUpRequest userSignUpRequest) {
+		final UserDBO userDBO = super.convertToDbo(userSignUpRequest);
 
 		userDBO.setRole(UserRole.GUEST);
 
@@ -27,7 +27,7 @@ public class UserConverter extends AbstractConverter<UserDBO, UserDTO> {
 	}
 
 	@Override
-	protected UserDTO constructDto() {
+	protected UserSignUpRequest constructDto() {
 		return null;
 	}
 
