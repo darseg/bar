@@ -1,27 +1,27 @@
 package gp.training.kim.bar.dbo.embeddable;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Data
 @Embeddable
 public class OrderOfferId implements Serializable {
 
 	@Column(name = "order_id")
-	private Long order;
+	private Long orderId;
 
 	@Column(name = "offer_id")
-	private Long offer;
+	private Long offerId;
 
-	private OrderOfferId() {}
+	public OrderOfferId() {}
 
-	public OrderOfferId(final Long order, final Long offer) {
-		this.order = order;
-		this.offer = offer;
+	public OrderOfferId(final Long orderId, final Long offerId) {
+		this.orderId = orderId;
+		this.offerId = offerId;
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public class OrderOfferId implements Serializable {
 			return false;
 
 		final OrderOfferId that = (OrderOfferId) o;
-		return Objects.equals(order, that.order) &&
-				Objects.equals(offer, that.offer);
+		return Objects.equals(orderId, that.orderId) &&
+				Objects.equals(offerId, that.offerId);
 	}
 }

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Data
@@ -18,14 +19,14 @@ import java.util.Objects;
 public class OrderOfferDBO {
 
 	@EmbeddedId
-	private OrderOfferId id;
+	private OrderOfferId id = new OrderOfferId();
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("order")
+	@MapsId("orderId")
 	private OrderDBO order;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("offer")
+	@MapsId("offerId")
 	private OfferDBO offer;
 
 	@Column(name = "amount")

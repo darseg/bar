@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -24,16 +25,22 @@ public class OfferDBO extends AbstractBarEntity {
 	private String description;
 
 	@OneToMany(mappedBy = "offer")
-	@EqualsAndHashCode.Exclude @ToString.Exclude
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	private List<OfferParamDBO> params;
 
 	@OneToMany(mappedBy = "offer")
-	@EqualsAndHashCode.Exclude @ToString.Exclude
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	private List<OfferImageDBO> images;
 
 	private BigDecimal price;
 
-	@OneToMany(mappedBy = "offer", fetch = FetchType.EAGER)
-	@EqualsAndHashCode.Exclude @ToString.Exclude
+	@OneToMany(mappedBy = "offer",
+			fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL,
+			orphanRemoval = true)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	private List<RecipeRowDBO> recipeRows = new ArrayList<>();
 }

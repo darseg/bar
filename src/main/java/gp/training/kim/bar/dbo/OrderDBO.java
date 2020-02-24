@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,8 +29,11 @@ public class OrderDBO extends AbstractBarEntity {
 	@JoinColumn(name = "user_id")
 	private UserDBO user;
 
-	@OneToMany(mappedBy = "offer")
-	@EqualsAndHashCode.Exclude @ToString.Exclude
+	@OneToMany(mappedBy = "order",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	@NotNull
 	private List<OrderOfferDBO> orderOffers = new ArrayList<>();
 
