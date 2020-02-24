@@ -6,24 +6,31 @@ import gp.training.kim.bar.dbo.OrderDBO;
 import gp.training.kim.bar.dbo.OrderOfferDBO;
 import gp.training.kim.bar.dbo.TableDBO;
 import gp.training.kim.bar.dbo.UserDBO;
+import gp.training.kim.bar.dto.entity.AddOffersRequest;
 import gp.training.kim.bar.dto.entity.Check;
 import gp.training.kim.bar.dto.entity.CheckRow;
 import gp.training.kim.bar.dto.entity.Orders;
 import gp.training.kim.bar.exception.CannotBookTableException;
+import gp.training.kim.bar.exception.OfferIsNotAvailableException;
 import gp.training.kim.bar.exception.OrderNotFoundException;
 import gp.training.kim.bar.exception.UserNotFoundException;
+import gp.training.kim.bar.repository.OfferRepository;
 import gp.training.kim.bar.repository.OrderRepository;
 import gp.training.kim.bar.service.AuthService;
+import gp.training.kim.bar.service.OfferService;
 import gp.training.kim.bar.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,32 +41,24 @@ public class OrderServiceImpl implements OrderService {
 
 	final OrderRepository orderRepository;
 
+	final OfferRepository offerRepository;
+
 	final OfferConverter offerConverter;
+
+	final OfferService offerService;
 
 	@Override
 	public Check getCheck(final Long orderId) throws OrderNotFoundException {
 		final OrderDBO order = getOrder(orderRepository.getOrderDBOById(orderId));
-		final Map<String, CheckRow> details = new HashMap<>();
 
-		BigDecimal price = BigDecimal.ZERO;
-		final Map<Long, List<OrderOfferDBO>> groups = order.getOrderOffers()
-				.stream().collect(Collectors.groupingBy(orderOfferDBO -> orderOfferDBO.getOffer().getId()));
-
-		for (List<OrderOfferDBO> orderOffers : groups.values()) {
-			final OfferDBO first = orderOffers.get(0).getOffer();
-			final Integer sumAmount = orderOffers.stream().map(OrderOfferDBO::getAmount).reduce(0, Integer::sum);
-			final BigDecimal offersPrice = first.getPrice().multiply(BigDecimal.valueOf(sumAmount));
-			final CheckRow checkRow = new CheckRow(first.getPrice(), sumAmount, offersPrice);
-			price = price.add(offersPrice);
-
-			details.put(first.getName(), checkRow);
-		}
-
-		return new Check(details, price);
+		return getCheckForOrderOffers(order.getOrderOffers());
 	}
 
 	@Override
-	public OrderDBO createOrder(final TableDBO table, final UserDBO user, final LocalDateTime start, final LocalDateTime end) throws CannotBookTableException {
+	public OrderDBO createOrder(final TableDBO table,
+								final UserDBO user,
+								final LocalDateTime start,
+								final LocalDateTime end) throws CannotBookTableException {
 		if (orderRepository.existsByUserAndPaidFalse(user)) {
 			throw new CannotBookTableException("Not paid user order already exist");
 		}
@@ -89,10 +88,70 @@ public class OrderServiceImpl implements OrderService {
 		return response;
 	}
 
+	@Transactional
+	@Override
+	public Check addOffersToCheck(final Long orderId, final AddOffersRequest addOffersRequest)
+			throws OrderNotFoundException, OfferIsNotAvailableException {
+		final OrderDBO order = getOrder(orderRepository.getOrderDBOById(orderId));
+
+		final List<OfferDBO> of = offerRepository.findByIdIn(addOffersRequest.getOffers().keySet());
+		final Map<Long, OfferDBO> requestedOffers = of
+				.stream().collect(Collectors.toMap(OfferDBO::getId, Function.identity()));
+
+		final Map<OfferDBO, Integer> offersForRelease = new HashMap<>();
+		final List<OrderOfferDBO> orderOffers = new ArrayList<>();
+
+		for (final Map.Entry<Long, Integer> offersEntry : addOffersRequest.getOffers().entrySet()) {
+			final OfferDBO offer = requestedOffers.get(offersEntry.getKey());
+			final OrderOfferDBO orderOffer = createOrderOffer(
+					order,
+					offer,
+					offersEntry.getValue());
+
+			orderOffers.add(orderOffer);
+			offersForRelease.put(offer, offersEntry.getValue());
+		}
+
+		offerService.releaseOffers(offersForRelease);
+		order.getOrderOffers().addAll(orderOffers);
+		orderRepository.save(order);
+
+		return getCheckForOrderOffers(orderOffers);
+	}
+
 	private OrderDBO getOrder(final Optional<OrderDBO> orderOptional) throws OrderNotFoundException {
 		if (orderOptional.isEmpty()) {
 			throw new OrderNotFoundException("Order does not exist");
 		}
 		return orderOptional.get();
+	}
+
+	private Check getCheckForOrderOffers(final List<OrderOfferDBO> orderOffers) {
+		final Map<String, CheckRow> details = new HashMap<>();
+
+		BigDecimal price = BigDecimal.ZERO;
+		final Map<Long, List<OrderOfferDBO>> groups = orderOffers
+				.stream().collect(Collectors.groupingBy(orderOfferDBO -> orderOfferDBO.getOffer().getId()));
+
+		for (final List<OrderOfferDBO> orderOffersGroup : groups.values()) {
+			final OfferDBO first = orderOffersGroup.get(0).getOffer();
+			final Integer sumAmount = orderOffersGroup.stream().map(OrderOfferDBO::getAmount).reduce(0, Integer::sum);
+			final BigDecimal offersPrice = first.getPrice().multiply(BigDecimal.valueOf(sumAmount));
+			final CheckRow checkRow = new CheckRow(first.getPrice(), sumAmount, offersPrice);
+			price = price.add(offersPrice);
+
+			details.put(first.getName(), checkRow);
+		}
+
+		return new Check(details, price);
+	}
+
+	private OrderOfferDBO createOrderOffer(final OrderDBO order, final OfferDBO offer, final Integer amount) {
+		final OrderOfferDBO orderOffer = new OrderOfferDBO();
+		orderOffer.setOrder(order);
+		orderOffer.setOffer(offer);
+		orderOffer.setAmount(amount);
+
+		return orderOffer;
 	}
 }

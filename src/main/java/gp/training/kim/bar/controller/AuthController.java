@@ -39,6 +39,7 @@ public class AuthController {
 	}
 
 	@PostMapping(value = "/sign-in", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public UserSignInResponse singIn(@RequestBody final UserSignInRequest userSignInRequest) {
 		authenticationManager
 				.authenticate(new UsernamePasswordAuthenticationToken(userSignInRequest.getLogin(), userSignInRequest.getPassword()));

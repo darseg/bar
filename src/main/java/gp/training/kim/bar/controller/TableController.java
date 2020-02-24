@@ -32,11 +32,13 @@ public class TableController {
 	private final TableService tableService;
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Tables freeTables(@RequestParam Integer capacity,
-							 @RequestParam("start") @DateTimeFormat(pattern = BarConstants.DATE_TIME_FORMAT) LocalDateTime start,
-							 @RequestParam("end") @DateTimeFormat(pattern = BarConstants.DATE_TIME_FORMAT) LocalDateTime end,
-							 @RequestParam(name = "private", required = false) boolean isPrivate) {
+	@ResponseStatus(HttpStatus.OK)
+	public Tables freeTables(@RequestParam final Integer capacity,
+							 @RequestParam("start")
+							 @DateTimeFormat(pattern = BarConstants.DATE_TIME_FORMAT) final LocalDateTime start,
+							 @RequestParam("end")
+							 @DateTimeFormat(pattern = BarConstants.DATE_TIME_FORMAT) final LocalDateTime end,
+							 @RequestParam(name = "private", required = false) final boolean isPrivate) {
 		return tableService.tables(capacity, start, end, isPrivate);
 	}
 
@@ -44,7 +46,7 @@ public class TableController {
 	@PostMapping(value = "/{tableId}/book", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Orders bookTable(@RequestBody final BookingRequest bookingRequest,
-							@PathVariable final  Long tableId,
+							@PathVariable final Long tableId,
 							final Authentication authentication) throws CannotBookTableException, UserNotFoundException {
 		return tableService.book(tableId, bookingRequest, authentication.getName());
 	}

@@ -20,13 +20,13 @@ public class RecipeRowId implements Serializable {
 	private Long ingredient;
 
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (this == o) return true;
 
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		RecipeRowId that = (RecipeRowId) o;
+		final RecipeRowId that = (RecipeRowId) o;
 		return Objects.equals(offer, that.offer) &&
 				Objects.equals(ingredient, that.ingredient);
 	}

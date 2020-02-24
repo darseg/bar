@@ -9,8 +9,6 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-@AllArgsConstructor
-@NoArgsConstructor
 public class OrderOfferId implements Serializable {
 
 	@Column(name = "order_id")
@@ -19,14 +17,21 @@ public class OrderOfferId implements Serializable {
 	@Column(name = "offer_id")
 	private Long offer;
 
+	private OrderOfferId() {}
+
+	public OrderOfferId(final Long order, final Long offer) {
+		this.order = order;
+		this.offer = offer;
+	}
+
 	@Override
-	public boolean equals(Object o) {
+	public boolean equals(final Object o) {
 		if (this == o) return true;
 
 		if (o == null || getClass() != o.getClass())
 			return false;
 
-		OrderOfferId that = (OrderOfferId) o;
+		final OrderOfferId that = (OrderOfferId) o;
 		return Objects.equals(order, that.order) &&
 				Objects.equals(offer, that.offer);
 	}

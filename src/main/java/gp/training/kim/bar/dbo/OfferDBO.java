@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class OfferDBO extends AbstractBarEntity {
 
 	private BigDecimal price;
 
-	@OneToMany(mappedBy = "offer")
+	@OneToMany(mappedBy = "offer", fetch = FetchType.EAGER)
 	@EqualsAndHashCode.Exclude @ToString.Exclude
 	private List<RecipeRowDBO> recipeRows = new ArrayList<>();
 }

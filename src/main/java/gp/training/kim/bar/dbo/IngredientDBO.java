@@ -6,7 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +20,12 @@ public class IngredientDBO extends AbstractBarEntity {
 
 	private BigDecimal costPrice;
 
-	private Integer balance;
-
-	private Integer startBalance;
-
 	@OneToMany(mappedBy = "ingredient")
 	@EqualsAndHashCode.Exclude @ToString.Exclude
-	private List<RecipeRowDBO> recipeRowDBOS = new ArrayList<>();
+	private List<RecipeRowDBO> recipeRows = new ArrayList<>();
+
+	@OneToOne(optional = false)
+	@JoinColumn(name = "id", referencedColumnName = "ingredient_id")
+	@EqualsAndHashCode.Exclude @ToString.Exclude
+	private IngredientStoreHouseDBO storehouse;
 }

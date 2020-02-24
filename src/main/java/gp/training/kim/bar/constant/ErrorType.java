@@ -7,12 +7,13 @@ public enum ErrorType {
 	USER_ALREADY_EXIST(1),
 	USER_NOT_FOUND(2),
 	CANNOT_BOOK(3),
-	ORDER_NOT_FOUND(4);
+	ORDER_NOT_FOUND(4),
+	OFFER_UNAVAILABLE(4);
 
 	@Getter
 	private final Integer code;
 
-	ErrorType(Integer code) {
+	ErrorType(final Integer code) {
 		this.code = code;
 	}
 }

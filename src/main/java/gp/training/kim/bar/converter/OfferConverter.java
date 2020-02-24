@@ -19,7 +19,7 @@ public class OfferConverter extends AbstractConverter<OfferDBO, OfferDTO> {
 	}
 
 	@Override
-	public OfferDBO convertToDbo(OfferDTO offerDTO) {
+	public OfferDBO convertToDbo(final OfferDTO offerDTO) {
 		return null;
 	}
 

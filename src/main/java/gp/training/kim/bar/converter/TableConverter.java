@@ -25,7 +25,7 @@ public class TableConverter extends AbstractConverter<TableDBO, TableDTO> {
 	}
 
 	@Override
-	public TableDTO convertToDto(TableDBO tableDBO) {
+	public TableDTO convertToDto(final TableDBO tableDBO) {
 		final TableDTO tableDTO = super.convertToDto(tableDBO);
 
 		tableDTO.setImages(tableDBO.getImages().stream().map(AbstractImage::getImageURL).collect(Collectors.toList()));
@@ -34,7 +34,7 @@ public class TableConverter extends AbstractConverter<TableDBO, TableDTO> {
 	}
 
 	@Override
-	public TableDBO convertToDbo(TableDTO tableDTO) {
+	public TableDBO convertToDbo(final TableDTO tableDTO) {
 		final TableDBO tableDBO = super.convertToDbo(tableDTO);
 
 		tableDBO.setImages(tableDTO.getImages().stream().map(imageURL -> {

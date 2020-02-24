@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import java.math.BigDecimal;
 
 @Data
 @Entity(name = "recipe_row")
@@ -28,12 +29,5 @@ public class RecipeRowDBO {
 	private IngredientDBO ingredient;
 
 	@Column(name = "amount")
-	private Integer amount;
-
-	public RecipeRowDBO(OfferDBO offer, IngredientDBO ingredient, Integer amount) {
-		this.offer = offer;
-		this.ingredient = ingredient;
-		this.amount = amount;
-		this.id = new RecipeRowId(offer.getId(), ingredient.getId());
-	}
+	private BigDecimal amount;
 }

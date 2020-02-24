@@ -53,10 +53,22 @@
             <column name="cost_price" type="decimal(6, 2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="balance" type="int">
+        </createTable>
+    </changeSet>
+
+    <changeSet id="add_storehouse_table" author="kim">
+        <createTable tableName="storehouse">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="recipe_row_id"/>
+            </column>
+            <column name="ingredient_id" type="bigint">
+                <constraints foreignKeyName="fk_storehouse_ingredient" referencedTableName="ingredient"
+                             referencedColumnNames="id" nullable="false"/>
+            </column>
+            <column name="balance" type="decimal(6, 2)">
                 <constraints nullable="false"/>
             </column>
-            <column name="start_balance" type="int">
+            <column name="start_balance" type="decimal(6, 2)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -197,9 +209,6 @@
 
     <changeSet id="add_order_offer_table" author="kim">
         <createTable tableName="order_offer">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="order_offer_id"/>
-            </column>
             <column name="order_id" type="bigint">
                 <constraints foreignKeyName="fk_order_offer_orders" referencedTableName="orders"
                              referencedColumnNames="id" nullable="false"/>

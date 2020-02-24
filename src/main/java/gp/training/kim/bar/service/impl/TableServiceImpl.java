@@ -17,7 +17,6 @@ import gp.training.kim.bar.service.OrderService;
 import gp.training.kim.bar.service.TableService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,7 +41,6 @@ public class TableServiceImpl implements TableService {
 	final OrderService orderService;
 
 	@Override
-	@Transactional
 	public Orders book(final Long tableId, final BookingRequest bookingRequest, final String login) throws CannotBookTableException, UserNotFoundException {
 		final Optional<TableDBO> table = tableRepository.findById(tableId);
 
@@ -72,7 +70,7 @@ public class TableServiceImpl implements TableService {
 		final OrderDBO userOrder = orderService.createOrder(table.get(), user, start, end);
 		orders.add(userOrder);
 
-		for (UserDBO userDBO : userRepository.findByLoginIn(bookingRequest.getRegisteredGuests())) {
+		for (final UserDBO userDBO : userRepository.findByLoginIn(bookingRequest.getRegisteredGuests())) {
 			final OrderDBO order = orderService.createOrder(table.get(), userDBO, start, end);
 			orders.add(order);
 		}

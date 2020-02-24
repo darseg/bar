@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -19,11 +20,11 @@ import java.util.List;
 @Data
 @Entity(name = "orders")
 public class OrderDBO extends AbstractBarEntity {
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "table_id", nullable = false)
 	private TableDBO table;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id")
 	private UserDBO user;
 
