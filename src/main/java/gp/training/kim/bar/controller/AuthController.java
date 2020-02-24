@@ -1,8 +1,8 @@
 package gp.training.kim.bar.controller;
 
-import gp.training.kim.bar.dto.entity.UserSignUpRequest;
 import gp.training.kim.bar.dto.entity.UserSignInRequest;
 import gp.training.kim.bar.dto.entity.UserSignInResponse;
+import gp.training.kim.bar.dto.entity.UserSignUpRequest;
 import gp.training.kim.bar.exception.SuchUserAlreadyExistException;
 import gp.training.kim.bar.security.JwtUtil;
 import gp.training.kim.bar.service.AuthService;

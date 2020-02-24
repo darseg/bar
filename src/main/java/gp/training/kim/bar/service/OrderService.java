@@ -3,17 +3,18 @@ package gp.training.kim.bar.service;
 import gp.training.kim.bar.dbo.OrderDBO;
 import gp.training.kim.bar.dbo.TableDBO;
 import gp.training.kim.bar.dbo.UserDBO;
-import gp.training.kim.bar.dto.entity.BookingRequest;
 import gp.training.kim.bar.dto.entity.Check;
-import gp.training.kim.bar.dto.entity.TableCheck;
+import gp.training.kim.bar.dto.entity.Orders;
+import gp.training.kim.bar.exception.CannotBookTableException;
+import gp.training.kim.bar.exception.OrderNotFoundException;
+import gp.training.kim.bar.exception.UserNotFoundException;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public interface OrderService {
-	Check getCheck(Long guestId);
+	Check getCheck(Long orderId) throws OrderNotFoundException;
 
-	TableCheck getTableCheck(Long visitorId, String guests);
+	OrderDBO createOrder(TableDBO table, UserDBO user, LocalDateTime start, LocalDateTime end) throws CannotBookTableException;
 
-	OrderDBO createOrder(TableDBO table, UserDBO user, LocalDateTime from, LocalDateTime to);
+	Orders myOrders(String login) throws UserNotFoundException, OrderNotFoundException;
 }

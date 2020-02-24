@@ -183,10 +183,10 @@
                 <constraints foreignKeyName="fk_orders_user" referencedTableName="user"
                              referencedColumnNames="id" nullable="true"/>
             </column>
-            <column name="from" type="datetime">
+            <column name="start" type="datetime">
                 <constraints nullable="false"/>
             </column>
-            <column name="to" type="datetime">
+            <column name="end" type="datetime">
                 <constraints nullable="false"/>
             </column>
             <column name="paid" type="boolean">
@@ -204,9 +204,12 @@
                 <constraints foreignKeyName="fk_order_offer_orders" referencedTableName="orders"
                              referencedColumnNames="id" nullable="false"/>
             </column>
-            <column name="user_id" type="bigint">
+            <column name="offer_id" type="bigint">
                 <constraints foreignKeyName="fk_order_offer_offer" referencedTableName="offer"
                              referencedColumnNames="id" nullable="true"/>
+            </column>
+            <column name="amount" type="int">
+                <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>

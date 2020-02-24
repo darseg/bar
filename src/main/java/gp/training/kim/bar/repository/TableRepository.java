@@ -13,20 +13,20 @@ import java.util.Optional;
 @Repository
 public interface TableRepository extends JpaRepository<TableDBO, Long> {
 	String GET_NOT_RESERVED_PRIVATE_TABLES = "select t.* from tables t " +
-			"left outer join orders o on o.table_id = t.id and o.from < :to and o.to > :from " +
+			"left outer join orders o on o.table_id = t.id and o.start < :end and o.end > :start " +
 			"where t.is_private and t.capacity >= :capacity and o.id is null";
 
 	String GET_NOT_RESERVED_PUBLIC_TABLES = "select t.* from tables t " +
 			"where not t.is_private and " +
-			"(t.capacity - (select count(0) from orders o where o.from < :to and o.to > :from and o.table_id = t.id)) >= :capacity";
+			"(t.capacity - (select count(0) from orders o where o.start < :end and o.end > :start and o.table_id = t.id)) >= :capacity";
 
 	@Query(value = GET_NOT_RESERVED_PRIVATE_TABLES, nativeQuery = true)
 	List<TableDBO> getNotReservedPrivateTablesForTime(@Param("capacity") Integer capacity,
-													  @Param("from") LocalDateTime from,
-													  @Param("to") LocalDateTime to);
+													  @Param("start") LocalDateTime start,
+													  @Param("end") LocalDateTime end);
 
 	@Query(value = GET_NOT_RESERVED_PUBLIC_TABLES, nativeQuery = true)
 	List<TableDBO> getPublicTablesWithEnoughPlacesForTime(@Param("capacity") Integer capacity,
-														  @Param("from") LocalDateTime from,
-														  @Param("to") LocalDateTime to);
+														  @Param("start") LocalDateTime start,
+														  @Param("end") LocalDateTime end);
 }

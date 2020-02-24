@@ -16,8 +16,8 @@ public class BookingRequest {
 	private List<String> registeredGuests;
 
 	@JsonFormat(pattern=BarConstants.DATE_TIME_FORMAT)
-	private LocalDateTime from;
+	private LocalDateTime start;
 
 	@JsonFormat(pattern=BarConstants.DATE_TIME_FORMAT)
-	private LocalDateTime to;
+	private LocalDateTime end;
 }

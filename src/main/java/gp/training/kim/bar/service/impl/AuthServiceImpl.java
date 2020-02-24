@@ -1,11 +1,11 @@
 package gp.training.kim.bar.service.impl;
 
 import gp.training.kim.bar.converter.AuthUserConverter;
-import gp.training.kim.bar.converter.UserConverter;
 import gp.training.kim.bar.dbo.AuthInfoDBO;
 import gp.training.kim.bar.dbo.UserDBO;
 import gp.training.kim.bar.dto.entity.UserSignUpRequest;
 import gp.training.kim.bar.exception.SuchUserAlreadyExistException;
+import gp.training.kim.bar.exception.UserNotFoundException;
 import gp.training.kim.bar.repository.AuthInfoRepository;
 import gp.training.kim.bar.repository.UserRepository;
 import gp.training.kim.bar.service.AuthService;
@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -33,6 +35,15 @@ public class AuthServiceImpl implements AuthService {
 			throw new SuchUserAlreadyExistException("User with login=" + userSignUpRequest.getLogin() + " already exists");
 		}
 		saveUser(userSignUpRequest);
+	}
+
+	@Override
+	public UserDBO getUserByLogin(final String login) throws UserNotFoundException {
+		final Optional<UserDBO> user = userRepository.findByLogin(login);
+		if (user.isEmpty()) {
+			throw new UserNotFoundException();
+		}
+		return user.get();
 	}
 
 	private void saveUser(final UserSignUpRequest userSignUpRequest) {

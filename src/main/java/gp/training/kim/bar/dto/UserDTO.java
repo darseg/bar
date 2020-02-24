@@ -1,6 +1,5 @@
 package gp.training.kim.bar.dto;
 
-import gp.training.kim.bar.constant.UserRole;
 import lombok.Data;
 import lombok.ToString;
 

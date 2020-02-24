@@ -1,10 +1,11 @@
 package gp.training.kim.bar.controller;
 
 import gp.training.kim.bar.constant.BarConstants;
-import gp.training.kim.bar.dto.TableDTO;
 import gp.training.kim.bar.dto.entity.BookingRequest;
+import gp.training.kim.bar.dto.entity.Orders;
 import gp.training.kim.bar.dto.entity.Tables;
 import gp.training.kim.bar.exception.CannotBookTableException;
+import gp.training.kim.bar.exception.UserNotFoundException;
 import gp.training.kim.bar.service.TableService;
 import lombok.AllArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,18 +34,18 @@ public class TableController {
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Tables freeTables(@RequestParam Integer capacity,
-							 @RequestParam("from") @DateTimeFormat(pattern = BarConstants.DATE_TIME_FORMAT) LocalDateTime from,
-							 @RequestParam("to") @DateTimeFormat(pattern = BarConstants.DATE_TIME_FORMAT) LocalDateTime to,
+							 @RequestParam("start") @DateTimeFormat(pattern = BarConstants.DATE_TIME_FORMAT) LocalDateTime start,
+							 @RequestParam("end") @DateTimeFormat(pattern = BarConstants.DATE_TIME_FORMAT) LocalDateTime end,
 							 @RequestParam(name = "private", required = false) boolean isPrivate) {
-		return tableService.tables(capacity, from, to, isPrivate);
+		return tableService.tables(capacity, start, end, isPrivate);
 	}
 
 	// I guess this method must be synchronized, but I'n not sure how to do it correctly.
 	@PostMapping(value = "/{tableId}/book", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.CREATED)
-	public TableDTO bookTable(@RequestBody final BookingRequest bookingRequest,
-							  @PathVariable final  Long tableId,
-							  final Authentication authentication) throws CannotBookTableException {
-		return tableService.book(tableId, bookingRequest);
+	public Orders bookTable(@RequestBody final BookingRequest bookingRequest,
+							@PathVariable final  Long tableId,
+							final Authentication authentication) throws CannotBookTableException, UserNotFoundException {
+		return tableService.book(tableId, bookingRequest, authentication.getName());
 	}
 }

@@ -2,7 +2,6 @@ package gp.training.kim.bar.converter;
 
 import gp.training.kim.bar.constant.UserRole;
 import gp.training.kim.bar.dbo.UserDBO;
-import gp.training.kim.bar.dto.UserDTO;
 import gp.training.kim.bar.dto.entity.UserSignUpRequest;
 import org.springframework.stereotype.Service;
 

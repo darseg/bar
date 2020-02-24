@@ -1,17 +1,18 @@
 package gp.training.kim.bar.service.impl;
 
 import gp.training.kim.bar.converter.TableConverter;
-import gp.training.kim.bar.converter.UserConverter;
 import gp.training.kim.bar.dbo.OrderDBO;
 import gp.training.kim.bar.dbo.TableDBO;
 import gp.training.kim.bar.dbo.UserDBO;
-import gp.training.kim.bar.dto.TableDTO;
 import gp.training.kim.bar.dto.entity.BookingRequest;
+import gp.training.kim.bar.dto.entity.Orders;
 import gp.training.kim.bar.dto.entity.Tables;
 import gp.training.kim.bar.exception.CannotBookTableException;
+import gp.training.kim.bar.exception.UserNotFoundException;
 import gp.training.kim.bar.repository.OrderRepository;
 import gp.training.kim.bar.repository.TableRepository;
 import gp.training.kim.bar.repository.UserRepository;
+import gp.training.kim.bar.service.AuthService;
 import gp.training.kim.bar.service.OrderService;
 import gp.training.kim.bar.service.TableService;
 import lombok.AllArgsConstructor;
@@ -28,9 +29,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TableServiceImpl implements TableService {
 
-	final UserRepository userRepository;
+	final AuthService authService;
 
-	final UserConverter userConverter;
+	final UserRepository userRepository;
 
 	final TableRepository tableRepository;
 
@@ -42,37 +43,52 @@ public class TableServiceImpl implements TableService {
 
 	@Override
 	@Transactional
-	public TableDTO book(final Long tableId, final BookingRequest bookingRequest) throws CannotBookTableException {
+	public Orders book(final Long tableId, final BookingRequest bookingRequest, final String login) throws CannotBookTableException, UserNotFoundException {
 		final Optional<TableDBO> table = tableRepository.findById(tableId);
+
 		// Not sure if this check is necessary
 		if (table.isEmpty()) {
 			throw new CannotBookTableException("Table does not exist");
 		}
-		final LocalDateTime from = bookingRequest.getFrom();
-		final LocalDateTime to = bookingRequest.getTo();
 
-		if (orderRepository.existsByTableAndToAfterAndFromBefore(tableId, from, to)) {
+		final LocalDateTime start = bookingRequest.getStart();
+		final LocalDateTime end = bookingRequest.getEnd();
+
+		if (orderRepository.existsByTableAndEndAfterAndStartBefore(table.get(), start, end)) {
 			throw new CannotBookTableException("Table is already reserved");
 		}
 
+		final Orders response = new Orders();
 		final List<OrderDBO> orders = new ArrayList<>();
-
+		OrderDBO tableOrder = null;
 		if (table.get().isPrivate()) {
-			orders.add(orderService.createOrder(table.get(), null, from, to));
-		} else if (bookingRequest.getGuestsCount() != bookingRequest.getRegisteredGuests().size()) {
+			tableOrder = orderService.createOrder(table.get(), null, start, end);
+			orders.add(tableOrder);
+			response.setTableOrder(tableOrder.getId());
+		} else if (bookingRequest.getGuestsCount() != bookingRequest.getRegisteredGuests().size() + 1) {
 			throw new CannotBookTableException("All guests at the public table must be registered");
 		}
-		orders.addAll(userRepository.findByLoginIn(bookingRequest.getRegisteredGuests())
-				.stream().map(user -> orderService.createOrder(table.get(), user, from, to)).collect(Collectors.toList()));
+		final UserDBO user = authService.getUserByLogin(login);
+		final OrderDBO userOrder = orderService.createOrder(table.get(), user, start, end);
+		orders.add(userOrder);
+
+		for (UserDBO userDBO : userRepository.findByLoginIn(bookingRequest.getRegisteredGuests())) {
+			final OrderDBO order = orderService.createOrder(table.get(), userDBO, start, end);
+			orders.add(order);
+		}
 		orderRepository.saveAll(orders);
 
-		return tableConverter.convertToDto(table.get());
+		response.setUserOrder(userOrder.getId());
+		if (tableOrder != null) {
+			response.setTableOrder(tableOrder.getId());
+		}
+		return response;
 	}
 
-	public Tables tables(final Integer capacity, final LocalDateTime from, final LocalDateTime to, final boolean isPrivate) {
-		final List<TableDBO> tableDBOs = tableRepository.getNotReservedPrivateTablesForTime(capacity, from, to);
+	public Tables tables(final Integer capacity, final LocalDateTime start, final LocalDateTime end, final boolean isPrivate) {
+		final List<TableDBO> tableDBOs = tableRepository.getNotReservedPrivateTablesForTime(capacity, start, end);
 		if (!isPrivate) {
-			tableDBOs.addAll(tableRepository.getPublicTablesWithEnoughPlacesForTime(capacity, from, to));
+			tableDBOs.addAll(tableRepository.getPublicTablesWithEnoughPlacesForTime(capacity, start, end));
 		}
 
 		return new Tables(tableDBOs.stream().map(tableConverter::convertToDto).collect(Collectors.toList()));

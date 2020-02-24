@@ -4,7 +4,7 @@ import gp.training.kim.bar.constant.ErrorType;
 
 public class UserNotFoundException extends AbstractBarException {
 	public UserNotFoundException() {
-		super(ErrorType.USER_NOT_FOUND);
+		super("User does not exist", ErrorType.USER_NOT_FOUND);
 	}
 
 	public UserNotFoundException(final String message) {

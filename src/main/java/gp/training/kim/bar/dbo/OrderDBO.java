@@ -1,16 +1,19 @@
 package gp.training.kim.bar.dbo;
 
 import gp.training.kim.bar.dbo.superclass.AbstractBarEntity;
+import gp.training.kim.bar.repository.util.LocalDateTimeAttributeConverter;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,18 +27,16 @@ public class OrderDBO extends AbstractBarEntity {
 	@JoinColumn(name = "user_id")
 	private UserDBO user;
 
-	@ManyToMany
-	@JoinTable(
-			name = "order_offer",
-			joinColumns = @JoinColumn(name = "order_id"),
-			inverseJoinColumns = @JoinColumn(name = "offer_id"))
-	@EqualsAndHashCode.Exclude
-	@ToString.Exclude
-	private List<OfferDBO> offers;
+	@OneToMany(mappedBy = "offer")
+	@EqualsAndHashCode.Exclude @ToString.Exclude
+	@NotNull
+	private List<OrderOfferDBO> orderOffers = new ArrayList<>();
 
-	private LocalDateTime from;
+	@Convert(converter = LocalDateTimeAttributeConverter.class)
+	private LocalDateTime start;
 
-	private LocalDateTime to;
+	@Convert(converter = LocalDateTimeAttributeConverter.class)
+	private LocalDateTime end;
 
 	private boolean paid;
 }
