@@ -417,3 +417,109 @@ Request:
 
 Response:
 `200 OK`
+
+### Bar-10 Как администратор добавляю новоый ингредиент.
+В хидере передается token администратора. 
+
+Request:
+`POST /bar/ingredients`
+
+`Headers: token = {administrator autorize}`
+```json
+{
+    "name": "Пиво Козёл",
+    "balance": 100,
+    "costPrice": 5
+}
+```
+Response:
+`201 Created`
+```json
+{
+    "id": 1,
+    "name": "Пиво Козёл",
+    "balance": 100,
+    "costPrice": 5
+}
+```
+
+### Bar-11 Как администратор добавляю новоый столик.
+В хидере передается token администратора. 
+
+Request:
+`POST /bar/tables`
+
+`Headers: token = {administrator autorize}`
+```json
+{
+    "id": 1,
+    "name": "Столик №2",
+    "description": "На втором этаже у окна",
+    "images": [
+        "images/maps/table2",
+        "images/table2_01"
+        ],
+    "capacity": 5,
+    "isPrivate": true
+}
+```
+
+Response:
+`201 Created`
+```json
+{
+    "name": "Столик №2",
+    "description": "На втором этаже у окна",
+    "images": [
+        "images/maps/table2",
+        "images/table2_01"
+        ],
+    "capacity": 5,
+    "isPrivate": true
+}
+
+```
+### Bar-12 Как администратор добавляю новоый ингредиент.
+В хидере передается token администратора. 
+
+Request:
+`POST /bar/offers`
+
+`Headers: token = {administrator autorize}`
+```json
+{
+    "type": "beer",
+    "name": "Пиво Козёл (0.5л)",
+    "description": "Пить можно, если с сухариками",
+    "price": 15,
+    "params": {
+        "Производитель.": "SABMiller",
+        "Крепость": "4%"      
+        },
+    "images": ["imageKozel1"],
+    "ingredients": {
+        "1": 0.5
+        }
+}
+```
+
+Response:
+`201 Created`
+```json
+{
+    "id": 1,
+    "type": "beer",
+    "name": "Пиво Козёл (0.5л)",
+    "description": "Пить можно, если с сухариками",
+    "price": 15,
+    "params": {
+        "Производитель.": "SABMiller",
+        "Крепость": "4%"      
+        },
+    "images": ["imageKozel1"],
+    "ingredients": {
+        "1": 0.5
+        }
+}
+```
+

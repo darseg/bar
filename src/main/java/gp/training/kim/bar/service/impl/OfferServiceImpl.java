@@ -1,6 +1,5 @@
 package gp.training.kim.bar.service.impl;
 
-import gp.training.kim.bar.constant.OfferType;
 import gp.training.kim.bar.converter.OfferConverter;
 import gp.training.kim.bar.dbo.IngredientStoreHouseDBO;
 import gp.training.kim.bar.dbo.OfferDBO;

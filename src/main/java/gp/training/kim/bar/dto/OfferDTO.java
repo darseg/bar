@@ -2,7 +2,6 @@ package gp.training.kim.bar.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import gp.training.kim.bar.constant.BarConstants;
-import gp.training.kim.bar.constant.OfferType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
