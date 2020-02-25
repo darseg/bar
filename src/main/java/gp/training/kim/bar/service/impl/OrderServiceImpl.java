@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Check getCheck(final Long orderId) throws OrderNotFoundException {
-		final OrderDBO order = getOrder(orderRepository.getOrderDBOById(orderId));
+		final OrderDBO order =  getOrder(orderRepository.getOrderDBOById(orderId));
 
 		return getCheckForOrderOffers(order.getOrderOffers());
 	}
@@ -94,8 +94,7 @@ public class OrderServiceImpl implements OrderService {
 			throws OrderNotFoundException, OfferIsNotAvailableException {
 		final OrderDBO order = getOrder(orderRepository.getOrderDBOById(orderId));
 
-		final List<OfferDBO> of = offerRepository.findByIdIn(addOffersRequest.getOffers().keySet());
-		final Map<Long, OfferDBO> requestedOffers = of
+		final Map<Long, OfferDBO> requestedOffers = offerRepository.findByIdIn(addOffersRequest.getOffers().keySet())
 				.stream().collect(Collectors.toMap(OfferDBO::getId, Function.identity()));
 
 		final Map<OfferDBO, Integer> offersForRelease = new HashMap<>();
@@ -120,10 +119,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	private OrderDBO getOrder(final Optional<OrderDBO> orderOptional) throws OrderNotFoundException {
-		if (orderOptional.isEmpty()) {
-			throw new OrderNotFoundException("Order does not exist");
-		}
-		return orderOptional.get();
+		return orderOptional.orElseThrow(() -> new OrderNotFoundException("Order does not exist"));
 	}
 
 	private Check getCheckForOrderOffers(final List<OrderOfferDBO> orderOffers) {

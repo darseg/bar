@@ -9,7 +9,6 @@ import lombok.ToString;
 import javax.persistence.CascadeType;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -21,13 +20,21 @@ import java.util.List;
 @Data
 @Entity(name = "orders")
 public class OrderDBO extends AbstractBarEntity {
-	@OneToOne(optional = false, fetch = FetchType.LAZY)
+	@OneToOne(optional = false)
 	@JoinColumn(name = "table_id", nullable = false)
 	private TableDBO table;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "user_id")
 	private UserDBO user;
+
+	private boolean paid;
+
+	@Convert(converter = LocalDateTimeAttributeConverter.class)
+	private LocalDateTime start;
+
+	@Convert(converter = LocalDateTimeAttributeConverter.class)
+	private LocalDateTime end;
 
 	@OneToMany(mappedBy = "order",
 			cascade = CascadeType.ALL,
@@ -36,12 +43,4 @@ public class OrderDBO extends AbstractBarEntity {
 	@ToString.Exclude
 	@NotNull
 	private List<OrderOfferDBO> orderOffers = new ArrayList<>();
-
-	@Convert(converter = LocalDateTimeAttributeConverter.class)
-	private LocalDateTime start;
-
-	@Convert(converter = LocalDateTimeAttributeConverter.class)
-	private LocalDateTime end;
-
-	private boolean paid;
 }

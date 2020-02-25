@@ -13,4 +13,9 @@ public class TableImageDBO extends AbstractImage {
 	@ManyToOne
 	@JoinColumn(name = "table_id")
 	private TableDBO table;
+
+	public TableImageDBO(final TableDBO tableDBO, final String imageURL) {
+		setImageURL(imageURL);
+		this.table = tableDBO;
+	}
 }

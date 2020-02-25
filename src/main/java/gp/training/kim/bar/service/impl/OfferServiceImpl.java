@@ -29,12 +29,12 @@ public class OfferServiceImpl implements OfferService {
 
 	@Override
 	public Menu getMenu() {
-		final List<OfferDBO> offers = offerRepository.findAll()
-				.stream().filter(this::areNotEnoughIngredientsForTheOffer).collect(Collectors.toList());
+		final Map<String, List<OfferDTO>> offers = offerRepository.findAll().stream()
+				.filter(this::areNotEnoughIngredientsForTheOffer)
+				.map(offerConverter::convertToDto)
+				.collect(Collectors.groupingBy(OfferDTO::getType));
 
-		return new Menu(
-				getOffersWithSingleOfferTypeAndConvertToDTO(offers, OfferType.BEER),
-				getOffersWithSingleOfferTypeAndConvertToDTO(offers, OfferType.FOOD));
+		return new Menu(offers);
 	}
 
 	@Transactional
@@ -65,11 +65,5 @@ public class OfferServiceImpl implements OfferService {
 			}
 		}
 		return false;
-	}
-
-	private List<OfferDTO> getOffersWithSingleOfferTypeAndConvertToDTO(final List<OfferDBO> offers, final OfferType offerType) {
-		return offers.stream()
-				.filter(offerDBO -> offerDBO.getType().equals(offerType))
-				.map(offerConverter::convertToDto).collect(Collectors.toList());
 	}
 }

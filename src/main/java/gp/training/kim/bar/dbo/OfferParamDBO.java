@@ -1,6 +1,7 @@
 package gp.training.kim.bar.dbo;
 
 import gp.training.kim.bar.dbo.superclass.AbstractBarEntity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 @Data
 @Entity(name = "offer_param")
 @NoArgsConstructor
+@AllArgsConstructor
 public class OfferParamDBO extends AbstractBarEntity {
 
 	@ManyToOne

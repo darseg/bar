@@ -7,7 +7,7 @@ import gp.training.kim.bar.dto.entity.Tables;
 import gp.training.kim.bar.exception.CannotBookTableException;
 import gp.training.kim.bar.exception.UserNotFoundException;
 import gp.training.kim.bar.service.TableService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/tables")
 public class TableController {
 

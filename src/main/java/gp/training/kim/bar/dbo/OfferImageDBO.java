@@ -13,4 +13,9 @@ public class OfferImageDBO extends AbstractImage {
 	@ManyToOne
 	@JoinColumn(name = "offer_id")
 	private OfferDBO offer;
+
+	public OfferImageDBO(final OfferDBO offerDBO, final String imageURL) {
+		setImageURL(imageURL);
+		this.offer = offerDBO;
+	}
 }

@@ -2,13 +2,13 @@ package gp.training.kim.bar.service.impl;
 
 import gp.training.kim.bar.converter.IngredientConverter;
 import gp.training.kim.bar.dto.entity.StoreHouseReport;
-import gp.training.kim.bar.service.AdminService;
+import gp.training.kim.bar.service.IngredientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class AdminServiceImpl implements AdminService {
+public class IngredientServiceImpl implements IngredientService {
 
 	private final IngredientConverter ingredientConverter;
 

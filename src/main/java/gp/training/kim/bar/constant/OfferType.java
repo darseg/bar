@@ -1,9 +1,16 @@
 package gp.training.kim.bar.constant;
 
 public enum OfferType {
-	BEER,
-	FOOD;
+	BEER("beer"),
+	FOOD("food");
 
-	OfferType() {
+	private final String name;
+
+	OfferType(final String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 }

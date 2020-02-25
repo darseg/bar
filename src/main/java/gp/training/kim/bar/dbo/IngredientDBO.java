@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -20,12 +21,14 @@ public class IngredientDBO extends AbstractBarEntity {
 
 	private BigDecimal costPrice;
 
-	@OneToMany(mappedBy = "ingredient")
-	@EqualsAndHashCode.Exclude @ToString.Exclude
-	private List<RecipeRowDBO> recipeRows = new ArrayList<>();
-
 	@OneToOne(optional = false)
 	@JoinColumn(name = "id", referencedColumnName = "ingredient_id")
-	@EqualsAndHashCode.Exclude @ToString.Exclude
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
 	private IngredientStoreHouseDBO storehouse;
+
+	@OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	private List<RecipeRowDBO> recipeRows = new ArrayList<>();
 }

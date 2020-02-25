@@ -7,7 +7,7 @@ import gp.training.kim.bar.exception.OfferIsNotAvailableException;
 import gp.training.kim.bar.exception.OrderNotFoundException;
 import gp.training.kim.bar.exception.UserNotFoundException;
 import gp.training.kim.bar.service.OrderService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/orders")
 public class OrderController {
 

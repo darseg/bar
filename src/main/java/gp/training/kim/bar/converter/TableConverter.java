@@ -2,8 +2,8 @@ package gp.training.kim.bar.converter;
 
 import gp.training.kim.bar.dbo.TableDBO;
 import gp.training.kim.bar.dbo.TableImageDBO;
-import gp.training.kim.bar.dbo.superclass.AbstractImage;
 import gp.training.kim.bar.dto.TableDTO;
+import gp.training.kim.bar.utils.BarUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -28,7 +28,7 @@ public class TableConverter extends AbstractConverter<TableDBO, TableDTO> {
 	public TableDTO convertToDto(final TableDBO tableDBO) {
 		final TableDTO tableDTO = super.convertToDto(tableDBO);
 
-		tableDTO.setImages(tableDBO.getImages().stream().map(AbstractImage::getImageURL).collect(Collectors.toList()));
+		tableDTO.setImages(BarUtils.imagesFromDboToDto(tableDBO.getImages()));
 
 		return tableDTO;
 	}
@@ -37,12 +37,8 @@ public class TableConverter extends AbstractConverter<TableDBO, TableDTO> {
 	public TableDBO convertToDbo(final TableDTO tableDTO) {
 		final TableDBO tableDBO = super.convertToDbo(tableDTO);
 
-		tableDBO.setImages(tableDTO.getImages().stream().map(imageURL -> {
-			final TableImageDBO tableImageDBO = new TableImageDBO();
-			tableImageDBO.setImageURL(imageURL);
-
-			return  tableImageDBO;
-		}).collect(Collectors.toList()));
+		tableDBO.setImages(tableDTO.getImages()
+				.stream().map(imageURL -> new TableImageDBO(tableDBO, imageURL)).collect(Collectors.toList()));
 
 		return tableDBO;
 	}

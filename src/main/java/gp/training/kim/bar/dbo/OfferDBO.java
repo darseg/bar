@@ -8,7 +8,6 @@ import lombok.ToString;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,20 +23,23 @@ public class OfferDBO extends AbstractBarEntity {
 
 	private String description;
 
-	@OneToMany(mappedBy = "offer")
+	private BigDecimal price;
+
+	@OneToMany(mappedBy = "offer",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
 	private List<OfferParamDBO> params;
 
-	@OneToMany(mappedBy = "offer")
+	@OneToMany(mappedBy = "offer",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true)
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
-	private List<OfferImageDBO> images;
-
-	private BigDecimal price;
+	private List<OfferImageDBO> images = new ArrayList<>();
 
 	@OneToMany(mappedBy = "offer",
-			fetch = FetchType.EAGER,
 			cascade = CascadeType.ALL,
 			orphanRemoval = true)
 	@EqualsAndHashCode.Exclude

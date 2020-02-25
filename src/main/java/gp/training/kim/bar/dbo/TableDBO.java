@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
@@ -16,11 +17,14 @@ public class TableDBO extends AbstractBarEntity {
 
 	private String description;
 
-	@OneToMany(mappedBy = "table")
-	@EqualsAndHashCode.Exclude @ToString.Exclude
-	private List<TableImageDBO> images;
-
 	private Integer capacity;
 
 	private boolean isPrivate;
+
+	@OneToMany(mappedBy = "table",
+			cascade = CascadeType.ALL,
+			orphanRemoval = true)
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude
+	private List<TableImageDBO> images;
 }

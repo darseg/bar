@@ -6,7 +6,7 @@ import gp.training.kim.bar.dto.entity.UserSignUpRequest;
 import gp.training.kim.bar.exception.SuchUserAlreadyExistException;
 import gp.training.kim.bar.security.JwtUtil;
 import gp.training.kim.bar.service.AuthService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +22,7 @@ import java.util.List;
 
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthController {
 
 	private final AuthenticationManager authenticationManager;

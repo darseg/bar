@@ -1,12 +1,13 @@
 package gp.training.kim.bar.dto.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import gp.training.kim.bar.constant.BarConstants;
 import lombok.Data;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static gp.training.kim.bar.constant.BarConstants.DATE_TIME_FORMAT;
 
 @Data
 @ToString(includeFieldNames = true)
@@ -15,9 +16,9 @@ public class BookingRequest {
 
 	private List<String> registeredGuests;
 
-	@JsonFormat(pattern=BarConstants.DATE_TIME_FORMAT)
+	@JsonFormat(pattern = DATE_TIME_FORMAT)
 	private LocalDateTime start;
 
-	@JsonFormat(pattern=BarConstants.DATE_TIME_FORMAT)
+	@JsonFormat(pattern = DATE_TIME_FORMAT)
 	private LocalDateTime end;
 }

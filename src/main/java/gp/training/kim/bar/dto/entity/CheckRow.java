@@ -1,5 +1,6 @@
 package gp.training.kim.bar.dto.entity;
 
+import gp.training.kim.bar.constant.BarConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
@@ -15,6 +16,6 @@ public class CheckRow {
 
 	private Integer count;
 
-	@NumberFormat(pattern="#0,00")
+	@NumberFormat(pattern = BarConstants.PRICE_FORMAT)
 	private BigDecimal sum;
 }

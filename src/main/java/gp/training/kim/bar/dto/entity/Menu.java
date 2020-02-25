@@ -6,12 +6,11 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
 @ToString(includeFieldNames = true)
 public class Menu {
-	private List<OfferDTO> beer;
-
-	private List<OfferDTO> food;
+	private Map<String, List<OfferDTO>> menu;
 }
