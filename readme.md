@@ -452,7 +452,6 @@ Request:
 `Headers: token = {administrator autorize}`
 ```json
 {
-    "id": 1,
     "name": "Столик №2",
     "description": "На втором этаже у окна",
     "images": [
@@ -468,6 +467,7 @@ Response:
 `201 Created`
 ```json
 {
+    "id": 1,
     "name": "Столик №2",
     "description": "На втором этаже у окна",
     "images": [
