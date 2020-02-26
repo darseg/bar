@@ -129,9 +129,6 @@
 
     <changeSet id="add_recipe_row_table" author="kim">
         <createTable tableName="recipe_row">
-            <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="recipe_row_id"/>
-            </column>
             <column name="offer_id" type="bigint">
                 <constraints foreignKeyName="fk_recipe_row_offer" referencedTableName="offer"
                              referencedColumnNames="id" nullable="false"/>

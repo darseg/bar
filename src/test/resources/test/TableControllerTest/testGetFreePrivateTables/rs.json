@@ -1,0 +1,51 @@
+{
+  "tables": [
+    {
+      "id": 1,
+      "name": "table 1",
+      "description": "at window",
+      "images": [
+        "img1",
+        "img2",
+        "img3"
+      ],
+      "capacity": 4,
+      "private": true
+    },
+    {
+      "id": 2,
+      "name": "table 2",
+      "description": "true table",
+      "images": [
+        "img4",
+        "img5",
+        "img6",
+        "img7"
+      ],
+      "capacity": 5,
+      "private": true
+    },
+    {
+      "id": 3,
+      "name": "table 3",
+      "description": "near kitchen",
+      "images": [
+        "img8",
+        "img9",
+        "img10"
+      ],
+      "capacity": 3,
+      "private": true
+    },
+    {
+      "id": 4,
+      "name": "table 4",
+      "description": "at window",
+      "images": [
+        "img11"
+      ],
+      "capacity": 3,
+      "private": true
+    }
+  ]
+}
