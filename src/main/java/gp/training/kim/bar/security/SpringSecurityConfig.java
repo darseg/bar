@@ -1,7 +1,6 @@
 package gp.training.kim.bar.security;
 
 
-import gp.training.kim.bar.constant.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

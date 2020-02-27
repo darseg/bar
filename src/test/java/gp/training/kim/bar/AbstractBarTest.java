@@ -3,7 +3,6 @@ package gp.training.kim.bar;
 import gp.training.kim.bar.constant.UserRole;
 import gp.training.kim.bar.security.JwtUtil;
 import gp.training.kim.bar.security.LoadUserDetailService;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -11,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpHeaders;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
@@ -42,7 +42,7 @@ public class AbstractBarTest {
 
 	protected String response;
 
-	private final Map<String, String> authorization = new HashMap<>();
+	private final Map<String, HttpHeaders> authorization = new HashMap<>();
 
 	protected void loadTestResources() throws IOException {
 		final StackTraceElement stackTraceElement = new Throwable().getStackTrace()[1];
@@ -56,16 +56,21 @@ public class AbstractBarTest {
 		this.response = loadResourceAsString(resourceLoader.getResource(testResourcesPath + "rs.json"));
 	}
 
-	protected String getAuthorizationHeader(final UserRole role) {
+	protected HttpHeaders getAuthorizationHeader(final UserRole role) {
 		if (role == UserRole.ADMIN) {
-			return getUserAuthorizationHeader("Dars");
+			return getAuthorizationHeader("Dars");
 		}
-		return getUserAuthorizationHeader("LadySpite");
+		return getAuthorizationHeader("LadySpite");
 	}
 
-	private String getUserAuthorizationHeader(final String login) {
+	protected HttpHeaders getAuthorizationHeader(final String login) {
 		if (!authorization.containsKey(login)) {
-			this.authorization.put(login, "Bearer " + jwtUtil.generateToken(userDetailsService.loadUserByUsername(login)));
+			final HttpHeaders authHeader = new HttpHeaders();
+			authHeader.set(HttpHeaders.AUTHORIZATION, "Bearer " + jwtUtil.generateToken(
+					userDetailsService.loadUserByUsername(login)));
+			this.authorization.put(login, authHeader);
+
+			return authHeader;
 		}
 
 		return authorization.get(login);

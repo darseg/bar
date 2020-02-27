@@ -1,0 +1,5 @@
+{
+  "status": "BAD_REQUEST",
+  "code": 3,
+  "message": "All guests at the public table must be registered"
+}

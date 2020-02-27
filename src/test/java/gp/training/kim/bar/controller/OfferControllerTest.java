@@ -1,7 +1,6 @@
 package gp.training.kim.bar.controller;
 
 import gp.training.kim.bar.AbstractBarTest;
-import gp.training.kim.bar.constant.UserRole;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 

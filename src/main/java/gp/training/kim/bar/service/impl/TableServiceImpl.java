@@ -52,7 +52,7 @@ public class TableServiceImpl implements TableService {
 		final LocalDateTime start = bookingRequest.getStart();
 		final LocalDateTime end = bookingRequest.getEnd();
 
-		if (orderRepository.existsByTableAndEndBeforeAndStartAfter(table.get(), start, end)) {
+		if (orderRepository.existsByTableAndEndAfterAndStartBefore(table.get(), start, end)) {
 			throw new CannotBookTableException("Table is already reserved");
 		}
 

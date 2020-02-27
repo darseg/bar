@@ -19,5 +19,5 @@ public interface OrderRepository extends JpaRepository<OrderDBO, Long> {
 
 	boolean existsByUserEqualsAndPaidFalse(UserDBO user);
 
-	boolean existsByTableAndEndBeforeAndStartAfter(TableDBO table, LocalDateTime start, LocalDateTime end);
+	boolean existsByTableAndEndAfterAndStartBefore(TableDBO table, LocalDateTime start, LocalDateTime end);
 }

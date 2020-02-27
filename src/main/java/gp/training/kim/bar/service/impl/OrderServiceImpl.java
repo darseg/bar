@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
 								final LocalDateTime start,
 								final LocalDateTime end) throws CannotBookTableException {
 		if (orderRepository.existsByUserEqualsAndPaidFalse(user)) {
-			throw new CannotBookTableException("Not paid user order already exist");
+			throw new CannotBookTableException("Not paid order for user " + user.getLogin() + " already exist");
 		}
 
 		final OrderDBO order = new OrderDBO();
