@@ -35,7 +35,7 @@ public class OrderController {
 
 	@GetMapping(value = "/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Check bookTable(@PathVariable final Long orderId,
+	public Check getCheck(@PathVariable final Long orderId,
 						   final Authentication authentication) throws OrderNotFoundException {
 		return orderService.getCheck(orderId);
 	}
