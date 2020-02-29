@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,7 +18,7 @@ public interface OrderRepository extends JpaRepository<OrderDBO, Long> {
 
 	Optional<OrderDBO> getOrderDBOById(Long orderId);
 
-	boolean existsByUserEqualsAndPaidFalse(UserDBO user);
+	List<OrderDBO> findAllByUserInAndPaidFalse(Iterable<UserDBO> users);
 
 	boolean existsByTableAndEndAfterAndStartBefore(TableDBO table, LocalDateTime start, LocalDateTime end);
 }

@@ -12,6 +12,7 @@ import gp.training.kim.bar.exception.OrderNotFoundException;
 import gp.training.kim.bar.exception.UserNotFoundException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface OrderService {
 	Check getCheck(Long orderId) throws OrderNotFoundException;
@@ -21,4 +22,9 @@ public interface OrderService {
 	Orders myOrders(String login) throws UserNotFoundException, OrderNotFoundException;
 
 	Check addOffersToCheck(Long orderId, AddOffersRequest addOffersRequest) throws OrderNotFoundException, OfferIsNotAvailableException;
+
+	void createOrders(TableDBO table,
+					  List<String> userLogins,
+					  LocalDateTime start,
+					  LocalDateTime end) throws CannotBookTableException, UserNotFoundException;
 }

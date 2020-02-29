@@ -1,58 +1,61 @@
 {
   "tables": [
     {
-      "id": 1,
-      "name": "table 1",
-      "description": "at window",
-      "images": [
-        "img1",
-        "img2",
-        "img3"
-      ],
-      "capacity": 4,
-      "private": true
-    },
-    {
       "id": 2,
-      "name": "table 2",
-      "description": "true table",
+      "name": "Table 2",
+      "description": "Table 2 description",
       "images": [
-        "img4",
-        "img5",
-        "img6",
-        "img7"
+        "images/table/2/0.jpg",
+        "images/table/2/1.jpg"
       ],
       "capacity": 5,
       "private": true
     },
     {
       "id": 3,
-      "name": "table 3",
-      "description": "near kitchen",
-      "images": [
-        "img8",
-        "img9",
-        "img10"
-      ],
-      "capacity": 3,
+      "name": "Table 3",
+      "description": "Table 3 description",
+      "images": [],
+      "capacity": 6,
       "private": true
     },
     {
       "id": 4,
-      "name": "table 4",
-      "description": "at window",
+      "name": "Table 4",
+      "description": "Table 4 description",
       "images": [
-        "img11"
+        "images/table/4/0.jpg"
       ],
       "capacity": 3,
       "private": true
     },
     {
       "id": 5,
-      "name": "bar rack",
-      "description": "atata",
+      "name": "Table 5",
+      "description": "Table 5 description",
+      "images": [
+        "images/table/5/0.jpg",
+        "images/table/5/1.jpg"
+      ],
+      "capacity": 4,
+      "private": true
+    },
+    {
+      "id": 6,
+      "name": "Table 6",
+      "description": "Table 6 description",
       "images": [],
       "capacity": 5,
+      "private": true
+    },
+    {
+      "id": 1,
+      "name": "Table 1",
+      "description": "Table 1 description",
+      "images": [
+        "images/table/1/0.jpg"
+      ],
+      "capacity": 4,
       "private": false
     }
   ]

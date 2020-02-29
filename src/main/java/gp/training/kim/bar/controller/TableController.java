@@ -5,6 +5,7 @@ import gp.training.kim.bar.dto.entity.BookingRequest;
 import gp.training.kim.bar.dto.entity.Orders;
 import gp.training.kim.bar.dto.entity.Tables;
 import gp.training.kim.bar.exception.CannotBookTableException;
+import gp.training.kim.bar.exception.OrderNotFoundException;
 import gp.training.kim.bar.exception.UserNotFoundException;
 import gp.training.kim.bar.service.TableService;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class TableController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Orders bookTable(@RequestBody final BookingRequest bookingRequest,
 							@PathVariable final Long tableId,
-							final Authentication authentication) throws CannotBookTableException, UserNotFoundException {
+							final Authentication authentication) throws CannotBookTableException, UserNotFoundException, OrderNotFoundException {
 		return tableService.book(tableId, bookingRequest, authentication.getName());
 	}
 }

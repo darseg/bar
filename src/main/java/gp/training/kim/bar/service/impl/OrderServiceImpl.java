@@ -49,28 +49,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Check getCheck(final Long orderId) throws OrderNotFoundException {
-		final OrderDBO order =  getOrder(orderRepository.getOrderDBOById(orderId));
+		final OrderDBO order = getOrder(orderRepository.getOrderDBOById(orderId));
 
 		return getCheckForOrderOffers(order.getOrderOffers());
-	}
-
-	@Override
-	public OrderDBO createOrder(final TableDBO table,
-								final UserDBO user,
-								final LocalDateTime start,
-								final LocalDateTime end) throws CannotBookTableException {
-		if (orderRepository.existsByUserEqualsAndPaidFalse(user)) {
-			throw new CannotBookTableException("Not paid order for user " + user.getLogin() + " already exist");
-		}
-
-		final OrderDBO order = new OrderDBO();
-		order.setStart(start);
-		order.setEnd(end);
-		order.setPaid(false);
-		order.setTable(table);
-		order.setUser(user);
-
-		return order;
 	}
 
 	@Override
@@ -81,9 +62,11 @@ public class OrderServiceImpl implements OrderService {
 
 		response.setUserOrder(userOrder.getId());
 
-		final Optional<OrderDBO> tableOrder = orderRepository.findByTableAndUserIsNullAndPaidFalse(userOrder.getTable());
+		if (userOrder.getTable().isPrivate()) {
+			final Optional<OrderDBO> tableOrder = orderRepository.findByTableAndUserIsNullAndPaidFalse(userOrder.getTable());
 
-		tableOrder.ifPresent(orderDBO -> response.setTableOrder(orderDBO.getId()));
+			tableOrder.ifPresent(orderDBO -> response.setTableOrder(orderDBO.getId()));
+		}
 
 		return response;
 	}
@@ -116,6 +99,52 @@ public class OrderServiceImpl implements OrderService {
 		orderRepository.save(order);
 
 		return getCheckForOrderOffers(orderOffers);
+	}
+
+	@Override
+	@Transactional
+	public void createOrders(final TableDBO table,
+							 final List<String> userLogins,
+							 final LocalDateTime start,
+							 final LocalDateTime end) throws CannotBookTableException, UserNotFoundException {
+
+		if (orderRepository.existsByTableAndEndAfterAndStartBefore(table, start, end)) {
+			throw new CannotBookTableException("Table is already reserved");
+		}
+
+		final List<UserDBO> users = authService.getUsersByLogins(userLogins);
+		final List<OrderDBO> notPayedOrders = orderRepository.findAllByUserInAndPaidFalse(users);
+
+		if (!notPayedOrders.isEmpty()) {
+			final String logins = notPayedOrders.stream()
+					.map(orderDBO -> orderDBO.getUser().getLogin()).collect(Collectors.joining(", "));
+			throw new CannotBookTableException("Not paid order for users " + logins + " already exist");
+		}
+
+		final List<OrderDBO> orders = new ArrayList<>();
+
+		if (table.isPrivate()) {
+			orders.add(createOrder(table, null, start, end));
+		}
+
+		users.forEach(user -> orders.add(createOrder(table, user, start, end)));
+
+		orderRepository.saveAll(orders);
+	}
+
+	public OrderDBO createOrder(final TableDBO table,
+								final UserDBO user,
+								final LocalDateTime start,
+								final LocalDateTime end) {
+
+		final OrderDBO order = new OrderDBO();
+		order.setStart(start);
+		order.setEnd(end);
+		order.setPaid(false);
+		order.setTable(table);
+		order.setUser(user);
+
+		return order;
 	}
 
 	private OrderDBO getOrder(final Optional<OrderDBO> orderOptional) throws OrderNotFoundException {

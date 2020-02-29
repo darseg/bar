@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -44,6 +45,15 @@ public class AuthServiceImpl implements AuthService {
 			throw new UserNotFoundException();
 		}
 		return user.get();
+	}
+
+	@Override
+	public List<UserDBO> getUsersByLogins(final List<String> logins) throws UserNotFoundException {
+		final List<UserDBO> users = userRepository.findByLoginIn(logins);
+		if (users.size() != logins.size()) {
+			throw new UserNotFoundException();
+		}
+		return users;
 	}
 
 	private void saveUser(final UserSignUpRequest userSignUpRequest) {
