@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class OfferServiceImpl implements OfferService {
 
-	final private OfferConverter offerConverter;
+	private final OfferConverter offerConverter;
 
-	final private OfferRepository offerRepository;
+	private final OfferRepository offerRepository;
 
 	@Override
 	public Menu getMenu() {

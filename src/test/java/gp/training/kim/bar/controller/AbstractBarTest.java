@@ -1,9 +1,9 @@
 package gp.training.kim.bar.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gp.training.kim.bar.MockDBOsStorage;
 import gp.training.kim.bar.constant.BarConstants;
 import gp.training.kim.bar.constant.UserRole;
+import gp.training.kim.bar.mockData.AuthInfo;
 import gp.training.kim.bar.repository.AuthInfoRepository;
 import gp.training.kim.bar.repository.UserRepository;
 import gp.training.kim.bar.security.JwtUtil;
@@ -84,7 +84,7 @@ public class AbstractBarTest {
 	}
 
 	protected HttpHeaders getAuthorizationHeader(final String login) {
-		given(authInfoRepository.findByLogin(login)).willReturn(Optional.of(MockDBOsStorage.authInfos.get(login)));
+		given(authInfoRepository.findByLogin(login)).willReturn(Optional.of(AuthInfo.authInfos.get(login)));
 		if (!authorization.containsKey(login)) {
 			final HttpHeaders authHeader = new HttpHeaders();
 			authHeader.set(HttpHeaders.AUTHORIZATION, "Bearer " + jwtUtil.generateToken(
@@ -100,7 +100,7 @@ public class AbstractBarTest {
 	}
 
 	protected String formatLocalDateTime(final LocalDateTime localDateTime) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(BarConstants.DATE_TIME_FORMAT);
+		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(BarConstants.DATE_TIME_FORMAT);
 
 		return localDateTime.format(formatter);
 	}
