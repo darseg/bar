@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @ToString(includeFieldNames = true)
 public class CheckRow {
+	@NumberFormat(pattern = BarConstants.PRICE_FORMAT)
 	private BigDecimal price;
 
 	private Integer count;
