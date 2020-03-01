@@ -6,6 +6,7 @@ import gp.training.kim.bar.dbo.UserDBO;
 import gp.training.kim.bar.dto.entity.AddOffersRequest;
 import gp.training.kim.bar.dto.entity.Check;
 import gp.training.kim.bar.dto.entity.Orders;
+import gp.training.kim.bar.dto.entity.OrdersReport;
 import gp.training.kim.bar.exception.CannotBookTableException;
 import gp.training.kim.bar.exception.OfferIsNotAvailableException;
 import gp.training.kim.bar.exception.OrderNotFoundException;
@@ -27,4 +28,6 @@ public interface OrderService {
 					  List<String> userLogins,
 					  LocalDateTime start,
 					  LocalDateTime end) throws CannotBookTableException, UserNotFoundException;
+
+	OrdersReport getNotPayedOrders();
 }

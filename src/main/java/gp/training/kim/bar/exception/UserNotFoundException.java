@@ -6,8 +6,4 @@ public class UserNotFoundException extends AbstractBarException {
 	public UserNotFoundException() {
 		super("User does not exist", ErrorType.USER_NOT_FOUND);
 	}
-
-	public UserNotFoundException(final String message) {
-		super(message, ErrorType.USER_NOT_FOUND);
-	}
 }

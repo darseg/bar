@@ -1,0 +1,184 @@
+{
+  "storeHouse": [
+    {
+      "name": "Beer 1",
+      "balance": 10,
+      "costPrice": 100,
+      "usedIn": {
+        "1": 0.5
+      }
+    },
+    {
+      "name": "Beer 2",
+      "balance": 8,
+      "costPrice": 110,
+      "usedIn": {
+        "2": 0.5
+      }
+    },
+    {
+      "name": "Beer 3",
+      "balance": 7,
+      "costPrice": 90,
+      "usedIn": {
+        "3": 0.5
+      }
+    },
+    {
+      "name": "Beer 4",
+      "balance": 15,
+      "costPrice": 100,
+      "usedIn": {
+        "4": 0.5
+      }
+    },
+    {
+      "name": "Beer 5",
+      "balance": 10,
+      "costPrice": 110,
+      "usedIn": {
+        "5": 0.5
+      }
+    },
+    {
+      "name": "Beer 6",
+      "balance": 8,
+      "costPrice": 90,
+      "usedIn": {
+        "6": 0.5,
+        "7": 10,
+        "15": 10
+      }
+    },
+    {
+      "name": "Ingredient 7",
+      "balance": 13,
+      "costPrice": 84,
+      "usedIn": {
+        "16": 5,
+        "11": 10
+      }
+    },
+    {
+      "name": "Ingredient 8",
+      "balance": 11,
+      "costPrice": 63,
+      "usedIn": {
+        "17": 10
+      }
+    },
+    {
+      "name": "Ingredient 9",
+      "balance": 18,
+      "costPrice": 70,
+      "usedIn": {
+        "18": 5,
+        "8": 5,
+        "10": 5
+      }
+    },
+    {
+      "name": "Ingredient 10",
+      "balance": 13,
+      "costPrice": 77,
+      "usedIn": {
+        "14": 5
+      }
+    },
+    {
+      "name": "Ingredient 11",
+      "balance": 11,
+      "costPrice": 84
+    },
+    {
+      "name": "Ingredient 12",
+      "balance": 18,
+      "costPrice": 63,
+      "usedIn": {
+        "11": 10,
+        "13": 10
+      }
+    },
+    {
+      "name": "Ingredient 13",
+      "balance": 13,
+      "costPrice": 70,
+      "usedIn": {
+        "17": 10
+      }
+    },
+    {
+      "name": "Ingredient 14",
+      "balance": 11,
+      "costPrice": 77,
+      "usedIn": {
+        "7": 10
+      }
+    },
+    {
+      "name": "Ingredient 15",
+      "balance": 18,
+      "costPrice": 84,
+      "usedIn": {
+        "16": 5,
+        "8": 5,
+        "14": 5
+      }
+    },
+    {
+      "name": "Ingredient 16",
+      "balance": 13,
+      "costPrice": 63,
+      "usedIn": {
+        "9": 10
+      }
+    },
+    {
+      "name": "Ingredient 17",
+      "balance": 11,
+      "costPrice": 70,
+      "usedIn": {
+        "10": 5
+      }
+    },
+    {
+      "name": "Ingredient 18",
+      "balance": 18,
+      "costPrice": 77,
+      "usedIn": {
+        "17": 10,
+        "11": 10
+      }
+    },
+    {
+      "name": "Ingredient 19",
+      "balance": 13,
+      "costPrice": 84,
+      "usedIn": {
+        "12": 5
+      }
+    },
+    {
+      "name": "Ingredient 20",
+      "balance": 11,
+      "costPrice": 63,
+      "usedIn": {
+        "8": 5,
+        "13": 10
+      }
+    },
+    {
+      "name": "Ingredient 21",
+      "balance": 18,
+      "costPrice": 70,
+      "usedIn": {
+        "14": 5
+      }
+    },
+    {
+      "name": "Ingredient 22",
+      "balance": 13,
+      "costPrice": 77
+    }
+  ]
+}

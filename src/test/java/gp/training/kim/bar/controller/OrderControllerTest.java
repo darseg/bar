@@ -1,5 +1,6 @@
 package gp.training.kim.bar.controller;
 
+import gp.training.kim.bar.constant.UserRole;
 import gp.training.kim.bar.dbo.OfferDBO;
 import gp.training.kim.bar.dbo.OrderDBO;
 import gp.training.kim.bar.dbo.OrderOfferDBO;
@@ -290,6 +291,51 @@ public class OrderControllerTest extends AbstractBarTest {
 		verify(offerRepository, times(1)).findByIdIn(any());
 		verify(offerRepository, times(0)).saveAll(any());
 		verify(orderRepository, times(0)).save(any());
+	}
+
+	@Test
+	public void testGetOrdersReportOk() throws Exception {
+		loadTestResources();
+
+		//given
+		final HttpHeaders auth = getAuthorizationHeader(UserRole.ADMIN);
+		final List<OrderDBO> orders = getOrders().values().stream().limit(6).collect(Collectors.toList());
+
+		for (final OrderDBO order : orders) {
+			final int index = orders.indexOf(order);
+			for (int i = 0; i < index + 2; i++) {
+				order.getOrderOffers().add(createOrderOffer(order, getOffers().get((long) (getOffers().size() - i - index)), 1));
+			}
+		}
+		given(orderRepository.findAllByPaidFalse()).willReturn(orders);
+
+		//when
+		mockMvc.perform(get("/orders/report")
+				.headers(auth)
+				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
+				// then
+				.andExpect(status().isOk())
+				.andExpect(content().json(response));
+
+		verify(orderRepository, times(1)).findAllByPaidFalse();
+	}
+
+	@Test
+	public void testGetOrdersReportDenied() throws Exception {
+		loadTestResources();
+
+		//given
+		final HttpHeaders auth = getAuthorizationHeader(UserRole.GUEST);
+
+		//when
+		mockMvc.perform(get("/orders/report")
+				.headers(auth)
+				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
+				// then
+				.andExpect(status().isForbidden())
+				.andExpect(content().json(response));
+
+		verify(orderRepository, times(0)).findAllByPaidFalse();
 	}
 
 	private OrderOfferDBO createOrderOffer(final OrderDBO order, final OfferDBO offer, final Integer amount) {

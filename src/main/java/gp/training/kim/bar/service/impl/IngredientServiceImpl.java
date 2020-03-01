@@ -1,29 +1,47 @@
 package gp.training.kim.bar.service.impl;
 
 import gp.training.kim.bar.converter.IngredientConverter;
+import gp.training.kim.bar.dbo.IngredientDBO;
+import gp.training.kim.bar.dbo.RecipeRowDBO;
+import gp.training.kim.bar.dto.IngredientDTO;
 import gp.training.kim.bar.dto.entity.StoreHouseReport;
+import gp.training.kim.bar.repository.IngredientRepository;
 import gp.training.kim.bar.service.IngredientService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class IngredientServiceImpl implements IngredientService {
 
 	private final IngredientConverter ingredientConverter;
 
+	private final IngredientRepository ingredientRepository;
+
 	@Override
 	public StoreHouseReport getIngredientsReport() {
-        /*final List<IngredientDTO> storeHouse = TempData.getIngredients().values().stream()
-                .map(ingredientConverter::convertToDto).collect(Collectors.toList());
+		final List<IngredientDBO> ingredients = ingredientRepository.findAll();
 
-        final List<OfferDBO> allOffers = TempData.getTables().values().stream()
-                .flatMap(tableDBO -> tableDBO.getGuests().stream())
-                .flatMap(guestDBO -> guestDBO.getOrder().stream()).collect(Collectors.toList());
+		final StoreHouseReport storeHouseReport = new StoreHouseReport();
+		storeHouseReport.setStoreHouse(ingredients.stream()
+				.map(ingredientDBO -> {
+					final IngredientDTO ingredientDTO = ingredientConverter.convertToDto(ingredientDBO);
+					final Map<Long, BigDecimal> usedIn = new HashMap<>();
+					for (RecipeRowDBO recipeRow : ingredientDBO.getRecipeRows()) {
+						usedIn.put(recipeRow.getOffer().getId(), recipeRow.getAmount());
+					}
+					ingredientDTO.setUsedIn(usedIn);
 
-        final BigDecimal costPrice = allOffers.stream().flatMap(offerDBO -> offerDBO.getIngredients().stream())
-                .map(IngredientDBO::getCostPrice).reduce(BigDecimal.ZERO, BigDecimal::add);*/
+					return ingredientDTO;
+				})
+				.collect(Collectors.toList()));
 
-		return null;
+		return storeHouseReport;
 	}
 }

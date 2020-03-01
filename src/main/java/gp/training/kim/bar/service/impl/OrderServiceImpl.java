@@ -10,6 +10,8 @@ import gp.training.kim.bar.dto.entity.AddOffersRequest;
 import gp.training.kim.bar.dto.entity.Check;
 import gp.training.kim.bar.dto.entity.CheckRow;
 import gp.training.kim.bar.dto.entity.Orders;
+import gp.training.kim.bar.dto.entity.OrdersReport;
+import gp.training.kim.bar.dto.entity.OrdersReportRow;
 import gp.training.kim.bar.exception.CannotBookTableException;
 import gp.training.kim.bar.exception.OfferIsNotAvailableException;
 import gp.training.kim.bar.exception.OrderNotFoundException;
@@ -127,6 +129,34 @@ public class OrderServiceImpl implements OrderService {
 		users.forEach(user -> orders.add(createOrder(table, user, start, end)));
 
 		orderRepository.saveAll(orders);
+	}
+
+	@Override
+	public OrdersReport getNotPayedOrders() {
+		final OrdersReport ordersReport = new OrdersReport();
+		final List<OrderDBO> orders = orderRepository.findAllByPaidFalse();
+
+		ordersReport.setOrders(orders.stream().map(this::createOrderReportRow).collect(Collectors.toList()));
+
+		return ordersReport;
+	}
+
+	private OrdersReportRow createOrderReportRow(final OrderDBO order) {
+		final OrdersReportRow ordersReportRow = new OrdersReportRow();
+		ordersReportRow.setId(order.getId());
+		ordersReportRow.setTable(order.getTable().getName());
+		ordersReportRow.setStart(order.getStart());
+		ordersReportRow.setEnd(order.getEnd());
+		ordersReportRow.setPrice(order.getOrderOffers().stream()
+				.map(orderOffer -> orderOffer.getOffer().getPrice()
+						.multiply(BigDecimal.valueOf(orderOffer.getAmount())))
+				.reduce(BigDecimal.ZERO, BigDecimal::add));
+
+		if (order.getUser() != null) {
+			ordersReportRow.setUser(order.getUser().getLogin());
+		}
+
+		return ordersReportRow;
 	}
 
 	public OrderDBO createOrder(final TableDBO table,

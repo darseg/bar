@@ -339,7 +339,7 @@ Response:
 ### Bar-7 Как администратор запрашиваю список неоплаченных заказов
 
 Request:
-`GET /bar/orders`
+`GET /bar/orders/report`
 
 `Headers: Authorization: {adminAuth}`
 

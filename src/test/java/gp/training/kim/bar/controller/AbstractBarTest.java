@@ -265,6 +265,7 @@ public class AbstractBarTest {
 		if (ingredients.isEmpty()) {
 			for (long i = 1; i <= beerCount; i++) {
 				final IngredientDBO ing = new IngredientDBO();
+				ing.setId(i);
 				ing.setName("Beer " + i);
 				ing.setCostPrice(BigDecimal.valueOf(10).multiply(BigDecimal.valueOf((i % 3)).add(BigDecimal.valueOf(9))));
 
@@ -281,6 +282,7 @@ public class AbstractBarTest {
 
 			for (long i = beerCount + 1; i <= beerCount + 16; i++) {
 				final IngredientDBO ing = new IngredientDBO();
+				ing.setId(i);
 				ing.setName("Ingredient " + i);
 				ing.setCostPrice(BigDecimal.valueOf(7).multiply(BigDecimal.valueOf((i % 4)).add(BigDecimal.valueOf(9))));
 
@@ -291,6 +293,7 @@ public class AbstractBarTest {
 				stored.setIngredient(ing);
 
 				ing.setStorehouse(stored);
+				ing.setRecipeRows(new ArrayList<>());
 
 				ingredients.put(i, ing);
 			}
@@ -340,7 +343,9 @@ public class AbstractBarTest {
 					final RecipeRowDBO recipeRow = new RecipeRowDBO();
 					recipeRow.setAmount(BigDecimal.valueOf(0.5));
 					recipeRow.setId(new RecipeRowId(i, i));
-					recipeRow.setIngredient(getIngredients().get(i));
+					final IngredientDBO ingredient = getIngredients().get(i);
+					ingredient.getRecipeRows().add(recipeRow);
+					recipeRow.setIngredient(ingredient);
 					recipeRow.setOffer(offer);
 
 					offer.setRecipeRows(Collections.singletonList(recipeRow));
@@ -357,7 +362,9 @@ public class AbstractBarTest {
 						recipeRow.setOffer(offer);
 						final Long ingId = getIngredientId(i, count, j);
 						recipeRow.setId(new RecipeRowId(i, ingId));
-						recipeRow.setIngredient(getIngredients().get(ingId));
+						final IngredientDBO ingredient = getIngredients().get(ingId);
+						ingredient.getRecipeRows().add(recipeRow);
+						recipeRow.setIngredient(ingredient);
 
 						recipeRows.add(recipeRow);
 					}

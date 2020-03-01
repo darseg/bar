@@ -3,6 +3,7 @@ package gp.training.kim.bar.controller;
 import gp.training.kim.bar.dto.entity.AddOffersRequest;
 import gp.training.kim.bar.dto.entity.Check;
 import gp.training.kim.bar.dto.entity.Orders;
+import gp.training.kim.bar.dto.entity.OrdersReport;
 import gp.training.kim.bar.exception.OfferIsNotAvailableException;
 import gp.training.kim.bar.exception.OrderNotFoundException;
 import gp.training.kim.bar.exception.UserNotFoundException;
@@ -46,5 +47,11 @@ public class OrderController {
 						  @PathVariable final Long orderId,
 						  final Authentication authentication) throws OrderNotFoundException, OfferIsNotAvailableException {
 		return orderService.addOffersToCheck(orderId, addOffersRequest);
+	}
+
+	@GetMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+	@ResponseStatus(HttpStatus.OK)
+	public OrdersReport getCheck() throws OrderNotFoundException {
+		return orderService.getNotPayedOrders();
 	}
 }

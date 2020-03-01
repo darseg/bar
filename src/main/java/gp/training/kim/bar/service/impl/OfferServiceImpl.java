@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -55,6 +56,24 @@ public class OfferServiceImpl implements OfferService {
 		}
 
 		offerRepository.saveAll(offersForRelease.keySet());
+	}
+
+	@Override
+	public List<OfferDTO> getOffersReport() {
+		final List<OfferDBO> offers = offerRepository.findAll();
+
+		return offers.stream()
+				.map(offerDBO -> {
+					final OfferDTO offerDTO = offerConverter.convertToDto(offerDBO);
+					final Map<Long, BigDecimal> ingredients = new HashMap<>();
+					for (RecipeRowDBO recipeRowDBO : offerDBO.getRecipeRows()) {
+						ingredients.put(recipeRowDBO.getIngredient().getId(), recipeRowDBO.getAmount());
+					}
+					offerDTO.setIngredients(ingredients);
+
+					return offerDTO;
+				})
+				.collect(Collectors.toList());
 	}
 
 	private boolean areNotEnoughIngredientsForTheOffer(final OfferDBO offer) {

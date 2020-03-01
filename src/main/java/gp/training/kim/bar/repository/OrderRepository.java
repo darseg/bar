@@ -21,4 +21,6 @@ public interface OrderRepository extends JpaRepository<OrderDBO, Long> {
 	List<OrderDBO> findAllByUserInAndPaidFalse(Iterable<UserDBO> users);
 
 	boolean existsByTableAndEndAfterAndStartBefore(TableDBO table, LocalDateTime start, LocalDateTime end);
+
+	List<OrderDBO> findAllByPaidFalse();
 }

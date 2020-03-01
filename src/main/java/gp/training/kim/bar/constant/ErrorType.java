@@ -8,7 +8,8 @@ public enum ErrorType {
 	USER_NOT_FOUND(2),
 	CANNOT_BOOK(3),
 	ORDER_NOT_FOUND(4),
-	OFFER_UNAVAILABLE(5);
+	OFFER_UNAVAILABLE(5),
+	ACCESS_DENIED(6);
 
 	@Getter
 	private final Integer code;
