@@ -4,9 +4,9 @@ import gp.training.kim.bar.dto.entity.AddOffersRequest;
 import gp.training.kim.bar.dto.entity.Check;
 import gp.training.kim.bar.dto.entity.Orders;
 import gp.training.kim.bar.dto.entity.OrdersReport;
-import gp.training.kim.bar.exception.OfferIsNotAvailableException;
-import gp.training.kim.bar.exception.OrderNotFoundException;
-import gp.training.kim.bar.exception.UserNotFoundException;
+import gp.training.kim.bar.exception.BarOfferIsNotAvailableException;
+import gp.training.kim.bar.exception.BarOrderNotFoundException;
+import gp.training.kim.bar.exception.BarUserNotFoundException;
 import gp.training.kim.bar.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,14 +30,14 @@ public class OrderController {
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Orders myOrders(final Authentication authentication) throws UserNotFoundException, OrderNotFoundException {
+	public Orders myOrders(final Authentication authentication) throws BarUserNotFoundException, BarOrderNotFoundException {
 		return orderService.myOrders(authentication.getName());
 	}
 
 	@GetMapping(value = "/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
 	public Check getCheck(@PathVariable final Long orderId,
-						   final Authentication authentication) throws OrderNotFoundException {
+						   final Authentication authentication) throws BarOrderNotFoundException {
 		return orderService.getCheck(orderId);
 	}
 
@@ -45,13 +45,13 @@ public class OrderController {
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public Check addOffersToCheck(@RequestBody final AddOffersRequest addOffersRequest,
 						  @PathVariable final Long orderId,
-						  final Authentication authentication) throws OrderNotFoundException, OfferIsNotAvailableException {
+						  final Authentication authentication) throws BarOrderNotFoundException, BarOfferIsNotAvailableException {
 		return orderService.addOffersToCheck(orderId, addOffersRequest);
 	}
 
 	@GetMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public OrdersReport getCheck() throws OrderNotFoundException {
+	public OrdersReport getCheck() throws BarOrderNotFoundException {
 		return orderService.getNotPayedOrders();
 	}
 }

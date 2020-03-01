@@ -35,7 +35,7 @@ public class OfferConverter extends AbstractConverter<OfferDBO, OfferDTO> {
 	public OfferDBO convertToDbo(final OfferDTO offerDTO) {
 		final OfferDBO offerDBO = super.convertToDbo(offerDTO);
 
-		offerDBO.setType(OfferType.valueOf(offerDTO.getType()));
+		offerDBO.setType(OfferType.valueOf(offerDTO.getType().toUpperCase()));
 		offerDBO.setParams(offerDTO.getParams().entrySet()
 				.stream().map(paramsEntry -> new OfferParamDBO(offerDBO, paramsEntry.getKey(), paramsEntry.getValue()))
 				.collect(Collectors.toList()));

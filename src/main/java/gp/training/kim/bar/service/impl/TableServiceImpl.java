@@ -5,9 +5,9 @@ import gp.training.kim.bar.dbo.TableDBO;
 import gp.training.kim.bar.dto.entity.BookingRequest;
 import gp.training.kim.bar.dto.entity.Orders;
 import gp.training.kim.bar.dto.entity.Tables;
-import gp.training.kim.bar.exception.CannotBookTableException;
-import gp.training.kim.bar.exception.OrderNotFoundException;
-import gp.training.kim.bar.exception.UserNotFoundException;
+import gp.training.kim.bar.exception.BarCannotBookTableException;
+import gp.training.kim.bar.exception.BarOrderNotFoundException;
+import gp.training.kim.bar.exception.BarUserNotFoundException;
 import gp.training.kim.bar.repository.TableRepository;
 import gp.training.kim.bar.service.AuthService;
 import gp.training.kim.bar.service.OrderService;
@@ -33,20 +33,20 @@ public class TableServiceImpl implements TableService {
 	final OrderService orderService;
 
 	@Override
-	public Orders book(final Long tableId, final BookingRequest bookingRequest, final String login) throws CannotBookTableException, UserNotFoundException, OrderNotFoundException {
+	public Orders book(final Long tableId, final BookingRequest bookingRequest, final String login) throws BarCannotBookTableException, BarUserNotFoundException, BarOrderNotFoundException {
 		final TableDBO table = tableRepository.findById(tableId)
-				.orElseThrow(() -> new CannotBookTableException("Table does not exist"));
+				.orElseThrow(() -> new BarCannotBookTableException("Table does not exist"));
 
 		final LocalDateTime start = bookingRequest.getStart();
 		final LocalDateTime end = bookingRequest.getEnd();
 
 		if (!table.isPrivate()) {
 			if (bookingRequest.getGuestsCount() != bookingRequest.getRegisteredGuests().size() + 1) {
-				throw new CannotBookTableException("All guests at the public table must be registered");
+				throw new BarCannotBookTableException("All guests at the public table must be registered");
 			}
 
 			if (!tableRepository.getPublicTablesWithEnoughPlacesForTime(bookingRequest.getGuestsCount(), start, end).contains(table)) {
-				throw new CannotBookTableException("Not enough places at table " + table.getName());
+				throw new BarCannotBookTableException("Not enough places at table " + table.getName());
 			}
 		}
 

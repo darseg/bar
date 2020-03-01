@@ -1,0 +1,5 @@
+{
+  "status": "BAD_REQUEST",
+  "code": 7,
+  "message": "One of requested ingredients does not exist"
+}

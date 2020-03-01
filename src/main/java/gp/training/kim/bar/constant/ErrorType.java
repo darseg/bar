@@ -9,7 +9,8 @@ public enum ErrorType {
 	CANNOT_BOOK(3),
 	ORDER_NOT_FOUND(4),
 	OFFER_UNAVAILABLE(5),
-	ACCESS_DENIED(6);
+	ACCESS_DENIED(6),
+	CANNOT_CREATE_ENTITY(7);
 
 	@Getter
 	private final Integer code;

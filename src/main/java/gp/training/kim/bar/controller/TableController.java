@@ -4,9 +4,9 @@ import gp.training.kim.bar.constant.BarConstants;
 import gp.training.kim.bar.dto.entity.BookingRequest;
 import gp.training.kim.bar.dto.entity.Orders;
 import gp.training.kim.bar.dto.entity.Tables;
-import gp.training.kim.bar.exception.CannotBookTableException;
-import gp.training.kim.bar.exception.OrderNotFoundException;
-import gp.training.kim.bar.exception.UserNotFoundException;
+import gp.training.kim.bar.exception.BarCannotBookTableException;
+import gp.training.kim.bar.exception.BarOrderNotFoundException;
+import gp.training.kim.bar.exception.BarUserNotFoundException;
 import gp.training.kim.bar.service.TableService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -48,7 +48,7 @@ public class TableController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Orders bookTable(@RequestBody final BookingRequest bookingRequest,
 							@PathVariable final Long tableId,
-							final Authentication authentication) throws CannotBookTableException, UserNotFoundException, OrderNotFoundException {
+							final Authentication authentication) throws BarCannotBookTableException, BarUserNotFoundException, BarOrderNotFoundException {
 		return tableService.book(tableId, bookingRequest, authentication.getName());
 	}
 }

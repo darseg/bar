@@ -3,7 +3,7 @@ package gp.training.kim.bar.controller;
 import gp.training.kim.bar.dto.entity.UserSignInRequest;
 import gp.training.kim.bar.dto.entity.UserSignInResponse;
 import gp.training.kim.bar.dto.entity.UserSignUpRequest;
-import gp.training.kim.bar.exception.SuchUserAlreadyExistException;
+import gp.training.kim.bar.exception.BarSuchUserAlreadyExistException;
 import gp.training.kim.bar.security.JwtUtil;
 import gp.training.kim.bar.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class AuthController {
 
 	@PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public UserSignInResponse singUp(@RequestBody final UserSignUpRequest userSignUpRequest) throws SuchUserAlreadyExistException {
+	public UserSignInResponse singUp(@RequestBody final UserSignUpRequest userSignUpRequest) throws BarSuchUserAlreadyExistException {
 		authService.signUp(userSignUpRequest);
 		return singIn(new UserSignInRequest(userSignUpRequest.getLogin(), userSignUpRequest.getPassword()));
 	}

@@ -1,0 +1,17 @@
+{
+  "type": "FOOD",
+  "name": "test",
+  "description": "test",
+  "price": 24.5,
+  "params": {
+    "aaa": "bb",
+    "bb": "cc"
+  },
+  "images": [
+    "imf111",
+    "immg"],
+  "ingredients": {
+    "3": 1,
+    "4": 0.6
+  }
+}

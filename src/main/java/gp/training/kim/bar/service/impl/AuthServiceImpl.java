@@ -4,8 +4,8 @@ import gp.training.kim.bar.converter.AuthUserConverter;
 import gp.training.kim.bar.dbo.AuthInfoDBO;
 import gp.training.kim.bar.dbo.UserDBO;
 import gp.training.kim.bar.dto.entity.UserSignUpRequest;
-import gp.training.kim.bar.exception.SuchUserAlreadyExistException;
-import gp.training.kim.bar.exception.UserNotFoundException;
+import gp.training.kim.bar.exception.BarSuchUserAlreadyExistException;
+import gp.training.kim.bar.exception.BarUserNotFoundException;
 import gp.training.kim.bar.repository.AuthInfoRepository;
 import gp.training.kim.bar.repository.UserRepository;
 import gp.training.kim.bar.service.AuthService;
@@ -31,27 +31,27 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	@Transactional
-	public void signUp(final UserSignUpRequest userSignUpRequest) throws SuchUserAlreadyExistException {
+	public void signUp(final UserSignUpRequest userSignUpRequest) throws BarSuchUserAlreadyExistException {
 		if (authInfoRepository.findByLogin(userSignUpRequest.getLogin()).isPresent()) {
-			throw new SuchUserAlreadyExistException("User with login=" + userSignUpRequest.getLogin() + " already exists");
+			throw new BarSuchUserAlreadyExistException("User with login=" + userSignUpRequest.getLogin() + " already exists");
 		}
 		saveUser(userSignUpRequest);
 	}
 
 	@Override
-	public UserDBO getUserByLogin(final String login) throws UserNotFoundException {
+	public UserDBO getUserByLogin(final String login) throws BarUserNotFoundException {
 		final Optional<UserDBO> user = userRepository.findByLogin(login);
 		if (user.isEmpty()) {
-			throw new UserNotFoundException();
+			throw new BarUserNotFoundException();
 		}
 		return user.get();
 	}
 
 	@Override
-	public List<UserDBO> getUsersByLogins(final List<String> logins) throws UserNotFoundException {
+	public List<UserDBO> getUsersByLogins(final List<String> logins) throws BarUserNotFoundException {
 		final List<UserDBO> users = userRepository.findByLoginIn(logins);
 		if (users.size() != logins.size()) {
-			throw new UserNotFoundException();
+			throw new BarUserNotFoundException();
 		}
 		return users;
 	}

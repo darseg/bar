@@ -12,10 +12,10 @@ import gp.training.kim.bar.dto.entity.CheckRow;
 import gp.training.kim.bar.dto.entity.Orders;
 import gp.training.kim.bar.dto.entity.OrdersReport;
 import gp.training.kim.bar.dto.entity.OrdersReportRow;
-import gp.training.kim.bar.exception.CannotBookTableException;
-import gp.training.kim.bar.exception.OfferIsNotAvailableException;
-import gp.training.kim.bar.exception.OrderNotFoundException;
-import gp.training.kim.bar.exception.UserNotFoundException;
+import gp.training.kim.bar.exception.BarCannotBookTableException;
+import gp.training.kim.bar.exception.BarOfferIsNotAvailableException;
+import gp.training.kim.bar.exception.BarOrderNotFoundException;
+import gp.training.kim.bar.exception.BarUserNotFoundException;
 import gp.training.kim.bar.repository.OfferRepository;
 import gp.training.kim.bar.repository.OrderRepository;
 import gp.training.kim.bar.service.AuthService;
@@ -50,14 +50,14 @@ public class OrderServiceImpl implements OrderService {
 	final OfferService offerService;
 
 	@Override
-	public Check getCheck(final Long orderId) throws OrderNotFoundException {
+	public Check getCheck(final Long orderId) throws BarOrderNotFoundException {
 		final OrderDBO order = getOrder(orderRepository.getOrderDBOById(orderId));
 
 		return getCheckForOrderOffers(order.getOrderOffers());
 	}
 
 	@Override
-	public Orders myOrders(final String login) throws UserNotFoundException, OrderNotFoundException {
+	public Orders myOrders(final String login) throws BarUserNotFoundException, BarOrderNotFoundException {
 		final UserDBO user = authService.getUserByLogin(login);
 		final Orders response = new Orders();
 		final OrderDBO userOrder = getOrder(orderRepository.findByUserAndPaidFalse(user));
@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional
 	@Override
 	public Check addOffersToCheck(final Long orderId, final AddOffersRequest addOffersRequest)
-			throws OrderNotFoundException, OfferIsNotAvailableException {
+			throws BarOrderNotFoundException, BarOfferIsNotAvailableException {
 		final OrderDBO order = getOrder(orderRepository.getOrderDBOById(orderId));
 
 		final Map<Long, OfferDBO> requestedOffers = offerRepository.findByIdIn(addOffersRequest.getOffers().keySet())
@@ -105,10 +105,10 @@ public class OrderServiceImpl implements OrderService {
 	public void createOrders(final TableDBO table,
 							 final List<String> userLogins,
 							 final LocalDateTime start,
-							 final LocalDateTime end) throws CannotBookTableException, UserNotFoundException {
+							 final LocalDateTime end) throws BarCannotBookTableException, BarUserNotFoundException {
 
 		if (orderRepository.existsByTableAndEndAfterAndStartBefore(table, start, end)) {
-			throw new CannotBookTableException("Table is already reserved");
+			throw new BarCannotBookTableException("Table is already reserved");
 		}
 
 		final List<UserDBO> users = authService.getUsersByLogins(userLogins);
@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
 		if (!notPayedOrders.isEmpty()) {
 			final String logins = notPayedOrders.stream()
 					.map(orderDBO -> orderDBO.getUser().getLogin()).collect(Collectors.joining(", "));
-			throw new CannotBookTableException("Not paid order for users " + logins + " already exist");
+			throw new BarCannotBookTableException("Not paid order for users " + logins + " already exist");
 		}
 
 		final List<OrderDBO> orders = new ArrayList<>();
@@ -174,8 +174,8 @@ public class OrderServiceImpl implements OrderService {
 		return order;
 	}
 
-	private OrderDBO getOrder(final Optional<OrderDBO> orderOptional) throws OrderNotFoundException {
-		return orderOptional.orElseThrow(() -> new OrderNotFoundException("Order does not exist"));
+	private OrderDBO getOrder(final Optional<OrderDBO> orderOptional) throws BarOrderNotFoundException {
+		return orderOptional.orElseThrow(() -> new BarOrderNotFoundException("Order does not exist"));
 	}
 
 	private Check getCheckForOrderOffers(final List<OrderOfferDBO> orderOffers) {
