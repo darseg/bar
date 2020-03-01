@@ -12,6 +12,7 @@ import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY;
 @Data
 @ToString(includeFieldNames = true)
 public class IngredientDTO {
+	private long id;
 	private String name;
 
 	private BigDecimal balance;

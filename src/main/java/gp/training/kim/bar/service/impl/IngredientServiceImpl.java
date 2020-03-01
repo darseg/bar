@@ -1,7 +1,10 @@
 package gp.training.kim.bar.service.impl;
 
 import gp.training.kim.bar.converter.IngredientConverter;
+import gp.training.kim.bar.dbo.IngredientDBO;
+import gp.training.kim.bar.dto.IngredientDTO;
 import gp.training.kim.bar.dto.entity.StoreHouseReport;
+import gp.training.kim.bar.repository.IngredientRepository;
 import gp.training.kim.bar.service.IngredientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class IngredientServiceImpl implements IngredientService {
 
 	private final IngredientConverter ingredientConverter;
+	private final IngredientRepository ingredientRepository;
 
 	@Override
 	public StoreHouseReport getIngredientsReport() {
@@ -25,5 +29,13 @@ public class IngredientServiceImpl implements IngredientService {
                 .map(IngredientDBO::getCostPrice).reduce(BigDecimal.ZERO, BigDecimal::add);*/
 
 		return null;
+	}
+
+	@Override
+	public IngredientDTO createIngredient(IngredientDTO ingredient) {
+		final IngredientDBO request = ingredientConverter.convertToDbo(ingredient);
+		final IngredientDBO save = ingredientRepository.save(request);
+		ingredient.setId(save.getId());
+		return ingredient;
 	}
 }

@@ -1,15 +1,12 @@
 package gp.training.kim.bar.controller;
 
+import gp.training.kim.bar.dto.IngredientDTO;
 import gp.training.kim.bar.dto.entity.StoreHouseReport;
 import gp.training.kim.bar.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,4 +21,9 @@ public class IngredientController {
 		return ingredientService.getIngredientsReport();
 	}
 
+	@ResponseStatus(HttpStatus.CREATED)
+	@PostMapping(value = "/")
+	public IngredientDTO createIngredient(@RequestBody final IngredientDTO ingredient) {
+		return ingredientService.createIngredient(ingredient);
+	}
 }
