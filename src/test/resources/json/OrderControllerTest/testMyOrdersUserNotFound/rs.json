@@ -1,0 +1,5 @@
+{
+  "status": "UNAUTHORIZED",
+  "code": 2,
+  "message": "User does not exist"
+}

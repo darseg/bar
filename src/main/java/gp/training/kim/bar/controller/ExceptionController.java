@@ -7,11 +7,13 @@ import gp.training.kim.bar.exception.CannotBookTableException;
 import gp.training.kim.bar.exception.OfferIsNotAvailableException;
 import gp.training.kim.bar.exception.OrderNotFoundException;
 import gp.training.kim.bar.exception.SuchUserAlreadyExistException;
+import gp.training.kim.bar.exception.UserNotFoundException;
 import lombok.extern.java.Log;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -36,7 +38,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 		return buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST, e.getErrorType().getCode(), e.getMessage()));
 	}
 
-	@ExceptionHandler(UsernameNotFoundException.class)
+	@ExceptionHandler({UsernameNotFoundException.class, UserNotFoundException.class, AuthenticationException.class})
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
 	private ResponseEntity<Object> handleBadRequest(final Exception e) {
 		log.log(Level.SEVERE, e.getMessage(), e);
@@ -51,6 +53,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 	}
 
 	private ResponseEntity<Object> buildResponseEntity(final ApiError apiError) {
-		return new ResponseEntity<Object>(apiError, apiError.getStatus());
+		return new ResponseEntity<>(apiError, apiError.getStatus());
 	}
 }

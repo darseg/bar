@@ -29,7 +29,7 @@ public class OfferServiceImpl implements OfferService {
 	@Override
 	public Menu getMenu() {
 		final Map<String, List<OfferDTO>> offers = offerRepository.findAll().stream()
-				.filter(this::areNotEnoughIngredientsForTheOffer)
+				.filter(offer -> !areNotEnoughIngredientsForTheOffer(offer))
 				.map(offerConverter::convertToDto)
 				.collect(Collectors.groupingBy(OfferDTO::getType));
 
@@ -59,7 +59,7 @@ public class OfferServiceImpl implements OfferService {
 
 	private boolean areNotEnoughIngredientsForTheOffer(final OfferDBO offer) {
 		for (final RecipeRowDBO recipeRowDBO : offer.getRecipeRows()) {
-			if (recipeRowDBO.getAmount().compareTo(recipeRowDBO.getIngredient().getStorehouse().getBalance()) < 0) {
+			if (recipeRowDBO.getAmount().compareTo(recipeRowDBO.getIngredient().getStorehouse().getBalance()) >= 0) {
 				return true;
 			}
 		}

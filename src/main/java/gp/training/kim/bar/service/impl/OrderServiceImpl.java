@@ -85,10 +85,7 @@ public class OrderServiceImpl implements OrderService {
 
 		for (final Map.Entry<Long, Integer> offersEntry : addOffersRequest.getOffers().entrySet()) {
 			final OfferDBO offer = requestedOffers.get(offersEntry.getKey());
-			final OrderOfferDBO orderOffer = createOrderOffer(
-					order,
-					offer,
-					offersEntry.getValue());
+			final OrderOfferDBO orderOffer = createOrderOffer(order, offer, offersEntry.getValue());
 
 			orderOffers.add(orderOffer);
 			offersForRelease.put(offer, offersEntry.getValue());

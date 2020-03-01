@@ -1,17 +1,11 @@
 package gp.training.kim.bar.controller;
 
-import gp.training.kim.bar.dbo.OfferDBO;
-import gp.training.kim.bar.mockData.Offer;
-import gp.training.kim.bar.mockData.Order;
 import gp.training.kim.bar.repository.OfferRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -26,13 +20,11 @@ public class OfferControllerTest extends AbstractBarTest {
 	@MockBean
 	private OfferRepository offerRepository;
 
-	private final static Map<Long, OfferDBO> offers = Offer.offers;
-
 	@Test
 	public void testGetMenu() throws Exception {
 		loadTestResources();
 		//given
-		given(offerRepository.findAll()).willReturn(new ArrayList<>(offers.values()));
+		given(offerRepository.findAll()).willReturn(new ArrayList<>(getOffers().values()));
 		//when
 		mockMvc.perform(get("/offers")
 				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))

@@ -1,0 +1,5 @@
+{
+  "status": "BAD_REQUEST",
+  "code": 1,
+  "message": "User with login=LadyEnvy already exists"
+}

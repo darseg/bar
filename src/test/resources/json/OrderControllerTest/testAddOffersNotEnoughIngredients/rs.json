@@ -1,0 +1,5 @@
+{
+  "status": "BAD_REQUEST",
+  "code": 5,
+  "message": "Food 1 is over. Please order another one."
+}

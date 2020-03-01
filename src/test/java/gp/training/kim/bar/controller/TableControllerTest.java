@@ -6,9 +6,6 @@ import gp.training.kim.bar.dbo.OrderDBO;
 import gp.training.kim.bar.dbo.TableDBO;
 import gp.training.kim.bar.dbo.UserDBO;
 import gp.training.kim.bar.dto.entity.BookingRequest;
-import gp.training.kim.bar.mockData.AuthInfo;
-import gp.training.kim.bar.mockData.Order;
-import gp.training.kim.bar.mockData.Table;
 import gp.training.kim.bar.repository.OrderRepository;
 import gp.training.kim.bar.repository.TableRepository;
 import org.junit.jupiter.api.Test;
@@ -21,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -43,10 +39,6 @@ public class TableControllerTest extends AbstractBarTest {
 	@MockBean
 	private OrderRepository orderRepository;
 
-	private final static Map<Long, TableDBO> tables = Table.tables;
-	private final static Map<String, AuthInfoDBO> authInfos = AuthInfo.authInfos;
-	private final static Map<Long, OrderDBO> orders = Order.orders;
-
 	@Test
 	public void testGetFreeTables() throws Exception {
 		loadTestResources();
@@ -55,12 +47,12 @@ public class TableControllerTest extends AbstractBarTest {
 		final LocalDateTime start = LocalDateTime.of(2020, 2, 25, 19, 0);
 		final LocalDateTime end = LocalDateTime.of(2020, 2, 25, 23, 0);
 		given(tableRepository.getNotReservedPrivateTablesForTime(capacity, start, end))
-				.willReturn(tables.values().stream()
+				.willReturn(getTables().values().stream()
 						.filter(TableDBO::isPrivate)
 						.collect(Collectors.toList()));
 
 		given(tableRepository.getPublicTablesWithEnoughPlacesForTime(capacity, start, end))
-				.willReturn(tables.values().stream()
+				.willReturn(getTables().values().stream()
 						.filter(tableDBO -> !tableDBO.isPrivate())
 						.collect(Collectors.toList()));
 		//when
@@ -85,12 +77,12 @@ public class TableControllerTest extends AbstractBarTest {
 		final LocalDateTime start = LocalDateTime.of(2020, 2, 25, 19, 0);
 		final LocalDateTime end = LocalDateTime.of(2020, 2, 25, 23, 0);
 		given(tableRepository.getNotReservedPrivateTablesForTime(capacity, start, end))
-				.willReturn(tables.values().stream()
+				.willReturn(getTables().values().stream()
 						.filter(TableDBO::isPrivate)
 						.collect(Collectors.toList()));
 
 		given(tableRepository.getPublicTablesWithEnoughPlacesForTime(capacity, start, end))
-				.willReturn(tables.values().stream()
+				.willReturn(getTables().values().stream()
 						.filter(tableDBO -> !tableDBO.isPrivate())
 						.collect(Collectors.toList()));
 		//when
@@ -115,8 +107,8 @@ public class TableControllerTest extends AbstractBarTest {
 		final String clientLogin = "BenDelat";
 		final HttpHeaders auth = getAuthorizationHeader(clientLogin);
 		final Long tableId = 3L;
-		final TableDBO table = tables.get(tableId);
-		final UserDBO clientUserDBO = authInfos.get(clientLogin).getUser();
+		final TableDBO table = getTables().get(tableId);
+		final UserDBO clientUserDBO = getAuthInfos().get(clientLogin).getUser();
 
 		final BookingRequest bookingRequest = objectMapper
 				.setDateFormat(new SimpleDateFormat(BarConstants.DATE_TIME_FORMAT))
@@ -125,7 +117,7 @@ public class TableControllerTest extends AbstractBarTest {
 		final List<String> users = new ArrayList<>(bookingRequest.getRegisteredGuests());
 		users.add(clientLogin);
 
-		final List<OrderDBO> createdOrders = orders.values().stream()
+		final List<OrderDBO> createdOrders = getOrders().values().stream()
 				.filter(orderDBO -> orderDBO.getTable().equals(table))
 				.filter(orderDBO -> orderDBO.getUser() == null || users.contains(orderDBO.getUser().getLogin()))
 				.peek(orderDBO -> {
@@ -138,7 +130,7 @@ public class TableControllerTest extends AbstractBarTest {
 		given(orderRepository.existsByTableAndEndAfterAndStartBefore(table, bookingRequest.getStart(), bookingRequest.getEnd()))
 				.willReturn(false);
 
-		given(userRepository.findByLoginIn(users)).willReturn(authInfos.values().stream()
+		given(userRepository.findByLoginIn(users)).willReturn(getAuthInfos().values().stream()
 				.filter(authInfoDBO -> users.contains(authInfoDBO.getLogin()))
 				.map(AuthInfoDBO::getUser)
 				.collect(Collectors.toList()));
@@ -176,16 +168,16 @@ public class TableControllerTest extends AbstractBarTest {
 		//given
 		final String clientLogin = "BenDelat";
 		final HttpHeaders auth = getAuthorizationHeader(clientLogin);
-		final TableDBO table = tables.values().stream()
+		final TableDBO table = getTables().values().stream()
 				.filter(tableDBO -> !tableDBO.isPrivate()).findAny().orElse(null);
-		final UserDBO clientUserDBO = authInfos.get(clientLogin).getUser();
+		final UserDBO clientUserDBO = getAuthInfos().get(clientLogin).getUser();
 		final BookingRequest bookingRequest = objectMapper
 				.setDateFormat(new SimpleDateFormat(BarConstants.DATE_TIME_FORMAT))
 				.readValue(request, BookingRequest.class);
 		final List<String> users = new ArrayList<>(bookingRequest.getRegisteredGuests());
 		users.add(clientLogin);
 
-		final List<OrderDBO> createdOrders = orders.values().stream()
+		final List<OrderDBO> createdOrders = getOrders().values().stream()
 				.filter(orderDBO -> orderDBO.getTable().equals(table))
 				.filter(orderDBO -> orderDBO.getUser() != null && users.contains(orderDBO.getUser().getLogin()))
 				.peek(orderDBO -> {
@@ -205,7 +197,7 @@ public class TableControllerTest extends AbstractBarTest {
 				bookingRequest.getStart(),
 				bookingRequest.getEnd())).willReturn(Collections.singletonList(table));
 
-		given(userRepository.findByLoginIn(users)).willReturn(authInfos.values().stream()
+		given(userRepository.findByLoginIn(users)).willReturn(getAuthInfos().values().stream()
 				.filter(authInfoDBO -> users.contains(authInfoDBO.getLogin()))
 				.map(AuthInfoDBO::getUser)
 				.collect(Collectors.toList()));
@@ -267,7 +259,7 @@ public class TableControllerTest extends AbstractBarTest {
 		final String clientLogin = "BenDelat";
 		final HttpHeaders auth = getAuthorizationHeader(clientLogin);
 		final Long tableId = 3L;
-		final TableDBO table = tables.get(tableId);
+		final TableDBO table = getTables().get(tableId);
 		final BookingRequest bookingRequest = objectMapper.setDateFormat(new SimpleDateFormat(BarConstants.DATE_TIME_FORMAT))
 				.readValue(request, BookingRequest.class);
 
@@ -296,7 +288,7 @@ public class TableControllerTest extends AbstractBarTest {
 		//given
 		final String clientLogin = "BenDelat";
 		final HttpHeaders auth = getAuthorizationHeader(clientLogin);
-		final TableDBO table = tables.values().stream()
+		final TableDBO table = getTables().values().stream()
 				.filter(tableDBO -> !tableDBO.isPrivate()).findAny().orElse(null);
 		assert table != null;
 		given(tableRepository.findById(table.getId())).willReturn(Optional.of(table));
@@ -322,7 +314,7 @@ public class TableControllerTest extends AbstractBarTest {
 		//given
 		final String clientLogin = "BenDelat";
 		final HttpHeaders auth = getAuthorizationHeader(clientLogin);
-		final TableDBO table = tables.values().stream()
+		final TableDBO table = getTables().values().stream()
 				.filter(tableDBO -> !tableDBO.isPrivate()).findAny().orElse(null);
 		final BookingRequest bookingRequest = objectMapper.setDateFormat(new SimpleDateFormat(BarConstants.DATE_TIME_FORMAT))
 				.readValue(request, BookingRequest.class);

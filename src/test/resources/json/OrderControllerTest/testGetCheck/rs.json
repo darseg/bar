@@ -1,0 +1,25 @@
+{
+  "details": {
+    "Food 6": {
+      "price": 168.0,
+      "count": 4,
+      "sum": 672.0
+    },
+    "Beer 2": {
+      "price": 22.00,
+      "count": 3,
+      "sum": 66.00
+    },
+    "Food 1": {
+      "price": 483.20,
+      "count": 2,
+      "sum": 966.40
+    },
+    "Beer 3": {
+      "price": 18.00,
+      "count": 6,
+      "sum": 108.00
+    }
+  },
+  "price": 1812.40
+}
