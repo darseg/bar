@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public Check getCheck(final Long orderId) throws BarOrderNotFoundException {
-		final OrderDBO order = getOrder(orderRepository.getOrderDBOById(orderId));
+		final OrderDBO order = getOrder(orderRepository.getOrderDBOByIdAndPaidFalse(orderId));
 
 		return getCheckForOrderOffers(order.getOrderOffers());
 	}
@@ -77,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Check addOffersToCheck(final Long orderId, final AddOffersRequest addOffersRequest)
 			throws BarOrderNotFoundException, BarOfferIsNotAvailableException {
-		final OrderDBO order = getOrder(orderRepository.getOrderDBOById(orderId));
+		final OrderDBO order = getOrder(orderRepository.getOrderDBOByIdAndPaidFalse(orderId));
 
 		final Map<Long, OfferDBO> requestedOffers = offerRepository.findByIdIn(addOffersRequest.getOffers().keySet())
 				.stream().collect(Collectors.toMap(OfferDBO::getId, Function.identity()));
@@ -139,6 +139,15 @@ public class OrderServiceImpl implements OrderService {
 		ordersReport.setOrders(orders.stream().map(this::createOrderReportRow).collect(Collectors.toList()));
 
 		return ordersReport;
+	}
+
+	@Override
+	public void closeOrder(final Long orderId) throws BarOrderNotFoundException {
+		final OrderDBO order = getOrder(orderRepository.getOrderDBOByIdAndPaidFalse(orderId));
+
+		order.setPaid(true);
+
+		orderRepository.save(order);
 	}
 
 	private OrdersReportRow createOrderReportRow(final OrderDBO order) {

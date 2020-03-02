@@ -212,7 +212,7 @@ Response:
 }
 ```
 
-### Bar-3 Бронирование столика
+### Bar-3 Как посетитель бронирую столик
 Запрашивается кол-во мест, время бронирования (от, до) и желание сидеть за барной стойкой.
 В запросе можно указать список логинов зарегестрированных пользователей.
 Бронирование успешно если:
@@ -248,7 +248,7 @@ Response:
 }
 ```
 
-### Bar-4 получить номера доступных заказов
+### Bar-4 Как посетитель с забронированным столиком получаю номера доступных заказов
 Возвращаются номера заказов, доступных пользователю - личного и общего.
 
 Request:
@@ -308,7 +308,6 @@ Response:
 ```
 
 ### Bar-6 Как посетитель запрашиваю счет
-В хидере передается ID посетителя. Из счета столика отнимается верувшееся
 
 Request:
 `GET /bar/orders/{orderId}`
@@ -348,150 +347,20 @@ Response:
 
 ```json
 {
-    "orders": [
+  "orders": [
     {
-        "table": 1,
-        "user": "Dars",
-        "price": 200.00
-        },
-    {
-        "table": 1,
-        "price": 400.00
-        },
-    {
-        "table": 1,
-        "user": "LadyEnvy",
-        "price": 150.00
-        }
-    ],
-    "price": 750.00
+      "id": 2,
+      "table": "table 2",
+      "user": "BenDelat",
+      "price": 0,
+      "start": "2020-02-26T19:00",
+      "end": "2020-02-26T23:00"
+    }
+  ]
 }
 ```
 
-### Bar-8 Как администратор запрашиваю рекомендованый заказ поставщикам
-В хидере передается ID администратора. Возвращается отчет по ингредиентам -
-- кол-во сейчас на складе,
-- сколько было в начале дня,
-- сколько было запрошено после того, как закончилось
-- предложенный заказ на завтра
-
-Request:
-`GET /bar/ingredients/order`
-
-`Headers: Authorization: {adminAuth}`
-
-Response:
-`200 OK`
-
-```json
-[
-    {
-        "id": 1,
-        "name": "Жигули",
-        "itWas": 800,
-        "left": 0,
-        "unavailable": 300,
-        "offering": 1050
-    },
-    {
-        "id": 2,
-        "name": "Old Bobby",
-        "itWas": 800,
-        "left": 200,
-        "unavailable": 0,
-        "offering": 550
-    },
-    {
-        "id": 3,
-        "name": "Ноги",
-        "itWas": 30,
-        "left": 26,
-        "unavailable": 0,
-        "offering": 0
-    },
-    {
-        "id": 4,
-        "name": "Панировка для ног",
-        "itWas": 1100,
-        "left": 1000,
-        "unavailable": 0,
-        "offering": 0
-    },
-    {
-        "id": 5,
-        "name": "Сыр Чеддер",
-        "itWas": 1100,
-        "left": 0,
-        "unavailable": 10,
-        "offering": 1105
-    }
-]
-```
-
-### Bar-9 Как администратор заполняю заказ поставщикам
-Если предложение системы удовлетворяет, оно по умолчанию принимается, если передается измененным - меняется.
-
-Request:
-`PATCH /bar/ingredients/order`
-
-`Headers: Authorization: {adminAuth}`
-
-```json
-{
-  "1": 1100
-}
-```
-
-Response:
-
-`200 OK`
-
-```json
-[
-    {
-        "id": 1,
-        "name": "Жигули",
-        "itWas": 800,
-        "left": 0,
-        "unavailable": 300,
-        "offering": 1100
-    },
-    {
-        "id": 2,
-        "name": "Old Bobby",
-        "itWas": 800,
-        "left": 200,
-        "unavailable": 0,
-        "offering": 550
-    },
-    {
-        "id": 3,
-        "name": "Ноги",
-        "itWas": 30,
-        "left": 26,
-        "unavailable": 0,
-        "offering": 0
-    },
-    {
-        "id": 4,
-        "name": "Панировка для ног",
-        "itWas": 1100,
-        "left": 1000,
-        "unavailable": 0,
-        "offering": 0
-    },
-    {
-        "id": 5,
-        "name": "Сыр Чеддер",
-        "itWas": 1100,
-        "left": 0,
-        "unavailable": 10,
-        "offering": 1105
-    }
-]
-```
-
-### Bar-10 Как администратор закрываю счет
+### Bar-8 Как администратор закрываю заказ
 
 Request:
 `DELETE /bar/orders/{orderId}`
@@ -499,10 +368,9 @@ Request:
 `Headers: Authorization: {adminAuth}`
 
 Response:
-`200 OK`
+`202 Accepted`
 
-### Bar-11 Как администратор добавляю новый ингредиент.
-В хидере передается token администратора. 
+### Bar-9 Как администратор добавляю новый ингредиент.
 
 Request:
 `POST /bar/ingredients`
@@ -526,8 +394,7 @@ Response:
 }
 ```
 
-### Bar-12 Как администратор добавляю новый столик.
-В хидере передается token администратора. 
+### Bar-10 Как администратор добавляю новый столик.
 
 Request:
 `POST /bar/tables`
@@ -560,10 +427,9 @@ Response:
     "capacity": 5,
     "isPrivate": true
 }
-
 ```
-### Bar-13 Как администратор добавляю новое предложение.
-В хидере передается token администратора. 
+
+### Bar-11 Как администратор добавляю новое предложение.
 
 Request:
 `POST /bar/offers`
@@ -606,3 +472,159 @@ Response:
 }
 ```
 
+### Bar-12 Как администратор запрашиваю отчет по доступным предложениям.
+
+Request:
+`POST /bar/offers/report`
+
+`Headers: token = {administrator autorize}`
+
+Response:
+`200 OK`
+```json
+[
+  {
+    "id": 1,
+    "type": "beer",
+    "name": "Жигули",
+    "description": "Четкое пиво",
+    "price": 20.00,
+    "params": {
+      "param1": "1",
+      "param2": "2"
+    },
+    "images": [],
+    "ingredients": {
+      "1": 1
+    }
+  },
+  {
+    "id": 2,
+    "type": "beer",
+    "name": "Old bobby",
+    "description": "не такое четкое пиво",
+    "price": 12.00,
+    "params": {
+      "param1": "3"
+    },
+    "images": [],
+    "ingredients": {
+      "4": 1
+    }
+  },
+  {
+    "id": 3,
+    "type": "food",
+    "name": "Ноги Буша",
+    "description": "Так себе закусь",
+    "price": 10.00,
+    "params": {
+      "calories": "много"
+    },
+    "images": [],
+    "ingredients": {
+      "2": 4,
+      "3": 1
+    }
+  },
+  {
+    "id": 4,
+    "type": "food",
+    "name": "Сырная нарезка",
+    "description": "Хороша",
+    "price": 12.00,
+    "params": {
+      "calories": "очень много"
+    },
+    "images": [],
+    "ingredients": {
+      "5": 1
+    }
+  },
+  {
+    "id": 5,
+    "type": "food",
+    "name": "Месиво",
+    "description": "Все, что было на складе",
+    "price": 90.00,
+    "params": {
+      "Питательность": "Неограниченная",
+      "Производитель": "Народная мудрость"
+    },
+    "images": [
+      "image/offer/3/1.jpg",
+      "image/offer/3/2.jpg",
+      "image/offer/3/3.jpg"
+    ],
+    "ingredients": {
+      "3": 1,
+      "4": 5,
+      "5": 4
+    }
+  }
+]
+```
+
+### Bar-13 Как администратор запрашиваю отчет по ингредиентам.
+
+Request:
+`POST /bar/ingredients/report`
+
+`Headers: token = {administrator autorize}`
+
+Response:
+`200 OK`
+```json
+{
+  "storeHouse": [
+    {
+      "id": 1,
+      "name": "Жигули",
+      "balance": 560.00,
+      "costPrice": 5.60,
+      "usedIn": {
+        "1": 1
+      }
+    },
+    {
+      "id": 2,
+      "name": "Ноги",
+      "balance": 26.00,
+      "costPrice": 1.00,
+      "usedIn": {
+        "3": 4
+      }
+    },
+    {
+      "id": 3,
+      "name": "Панировка для ног",
+      "balance": 1000.00,
+      "costPrice": 0.50,
+      "usedIn": {
+        "3": 1,
+        "5": 1
+      }
+    },
+    {
+      "id": 4,
+      "name": "Old Bobby",
+      "balance": 15.00,
+      "costPrice": 4.00,
+      "usedIn": {
+        "2": 1,
+        "5": 5
+      }
+    },
+    {
+      "id": 5,
+      "name": "Сыр Чеддер",
+      "balance": 20.00,
+      "costPrice": 20.00,
+      "usedIn": {
+        "4": 1,
+        "5": 4
+      }
+    }
+  ]
+}
+```

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,22 +37,26 @@ public class OrderController {
 
 	@GetMapping(value = "/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public Check getCheck(@PathVariable final Long orderId,
-						   final Authentication authentication) throws BarOrderNotFoundException {
+	public Check getCheck(@PathVariable final Long orderId) throws BarOrderNotFoundException {
 		return orderService.getCheck(orderId);
 	}
 
 	@PatchMapping(value = "/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	public Check addOffersToCheck(@RequestBody final AddOffersRequest addOffersRequest,
-						  @PathVariable final Long orderId,
-						  final Authentication authentication) throws BarOrderNotFoundException, BarOfferIsNotAvailableException {
+								  @PathVariable final Long orderId) throws BarOrderNotFoundException, BarOfferIsNotAvailableException {
 		return orderService.addOffersToCheck(orderId, addOffersRequest);
 	}
 
 	@GetMapping(value = "/report", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 	@ResponseStatus(HttpStatus.OK)
-	public OrdersReport getCheck() throws BarOrderNotFoundException {
+	public OrdersReport getCheck() {
 		return orderService.getNotPayedOrders();
+	}
+
+	@DeleteMapping(value = "/{orderId}", produces = MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public void closeOrder(@PathVariable final Long orderId) throws BarOrderNotFoundException {
+		orderService.closeOrder(orderId);
 	}
 }

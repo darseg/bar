@@ -23,6 +23,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -153,7 +154,6 @@ public class OrderControllerTest extends AbstractBarTest {
 	@Test
 	public void testGetCheck() throws Exception {
 		loadTestResources();
-		//regenerateIngredients();
 
 		//given
 		final String clientLogin = "BenDelat";
@@ -170,7 +170,7 @@ public class OrderControllerTest extends AbstractBarTest {
 		orderOffers.add(createOrderOffer(order.get(), getOffers().get(3L), 6));
 
 
-		given(orderRepository.getOrderDBOById(order.get().getId())).willReturn(order);
+		given(orderRepository.getOrderDBOByIdAndPaidFalse(order.get().getId())).willReturn(order);
 
 		//when
 		mockMvc.perform(get("/orders/" + order.get().getId())
@@ -180,20 +180,19 @@ public class OrderControllerTest extends AbstractBarTest {
 				.andExpect(status().isOk())
 				.andExpect(content().json(response));
 
-		verify(orderRepository, times(1)).getOrderDBOById(any());
+		verify(orderRepository, times(1)).getOrderDBOByIdAndPaidFalse(any());
 	}
 
 	@Test
 	public void testGetCheckOrderDoesNotExist() throws Exception {
 		loadTestResources();
-		//regenerateIngredients();
 
 		//given
 		final String clientLogin = "BenDelat";
 		final HttpHeaders auth = getAuthorizationHeader(clientLogin);
 		final Long orderId = 70L;
 
-		given(orderRepository.getOrderDBOById(orderId)).willReturn(Optional.empty());
+		given(orderRepository.getOrderDBOByIdAndPaidFalse(orderId)).willReturn(Optional.empty());
 
 		//when
 		mockMvc.perform(get("/orders/" + orderId)
@@ -203,16 +202,15 @@ public class OrderControllerTest extends AbstractBarTest {
 				.andExpect(status().isBadRequest())
 				.andExpect(content().json(response));
 
-		verify(orderRepository, times(1)).getOrderDBOById(any());
+		verify(orderRepository, times(1)).getOrderDBOByIdAndPaidFalse(any());
 	}
 
 	@Test
 	public void testAddOffers() throws Exception {
 		loadTestResources();
-		//regenerateIngredients();
 
 		//given
-		final String clientLogin = "BenDelat";
+		final String clientLogin = "LadyEnvy";
 		final HttpHeaders auth = getAuthorizationHeader(clientLogin);
 		final UserDBO clientUserDBO = getAuthInfos().get(clientLogin).getUser();
 		final Optional<OrderDBO> order = getOrders().values().stream()
@@ -225,7 +223,7 @@ public class OrderControllerTest extends AbstractBarTest {
 		//noinspection OptionalGetWithoutIsPresent
 		final List<OrderOfferDBO> orderOffers = order.get().getOrderOffers();
 
-		given(orderRepository.getOrderDBOById(order.get().getId())).willReturn(order);
+		given(orderRepository.getOrderDBOByIdAndPaidFalse(order.get().getId())).willReturn(order);
 		given(offerRepository.findByIdIn(addOffersRequest.getOffers().keySet()))
 				.willReturn(requestedOffers);
 
@@ -245,7 +243,7 @@ public class OrderControllerTest extends AbstractBarTest {
 				.andExpect(status().isAccepted())
 				.andExpect(content().json(response));
 
-		verify(orderRepository, times(1)).getOrderDBOById(any());
+		verify(orderRepository, times(1)).getOrderDBOByIdAndPaidFalse(any());
 		verify(offerRepository, times(1)).findByIdIn(any());
 		verify(offerRepository, times(1)).saveAll(any());
 		// I'm not sure that this check is necessary - you need to do a lot of manipulations with nested objects
@@ -259,10 +257,9 @@ public class OrderControllerTest extends AbstractBarTest {
 	@Test
 	public void testAddOffersNotEnoughIngredients() throws Exception {
 		loadTestResources();
-		//regenerateIngredients();
 
 		//given
-		final String clientLogin = "BenDelat";
+		final String clientLogin = "LadyEnvy";
 		final HttpHeaders auth = getAuthorizationHeader(clientLogin);
 		final UserDBO clientUserDBO = getAuthInfos().get(clientLogin).getUser();
 		final Optional<OrderDBO> order = getOrders().values().stream()
@@ -272,7 +269,7 @@ public class OrderControllerTest extends AbstractBarTest {
 		final AddOffersRequest addOffersRequest = objectMapper.readValue(request, AddOffersRequest.class);
 
 		//noinspection OptionalGetWithoutIsPresent
-		given(orderRepository.getOrderDBOById(order.get().getId())).willReturn(order);
+		given(orderRepository.getOrderDBOByIdAndPaidFalse(order.get().getId())).willReturn(order);
 		given(offerRepository.findByIdIn(addOffersRequest.getOffers().keySet()))
 				.willReturn(getOffers().entrySet().stream()
 						.filter(entry -> addOffersRequest.getOffers().containsKey(entry.getKey()))
@@ -287,7 +284,7 @@ public class OrderControllerTest extends AbstractBarTest {
 				.andExpect(status().isBadRequest())
 				.andExpect(content().json(response));
 
-		verify(orderRepository, times(1)).getOrderDBOById(any());
+		verify(orderRepository, times(1)).getOrderDBOByIdAndPaidFalse(any());
 		verify(offerRepository, times(1)).findByIdIn(any());
 		verify(offerRepository, times(0)).saveAll(any());
 		verify(orderRepository, times(0)).save(any());
@@ -336,6 +333,37 @@ public class OrderControllerTest extends AbstractBarTest {
 				.andExpect(content().json(response));
 
 		verify(orderRepository, times(0)).findAllByPaidFalse();
+	}
+
+	@Test
+	public void testCloseOrder() throws Exception {
+		loadTestResources();
+
+		//given
+		final HttpHeaders auth = getAuthorizationHeader(UserRole.ADMIN);
+		final Long orderId = 2L;
+		final OrderDBO order = getOrders().get(orderId);
+		final OrderDBO updatedOrder = new OrderDBO();
+		updatedOrder.setId(order.getId());
+		updatedOrder.setOrderOffers(order.getOrderOffers());
+		updatedOrder.setStart(order.getStart());
+		updatedOrder.setEnd(order.getEnd());
+		updatedOrder.setUser(order.getUser());
+		updatedOrder.setTable(order.getTable());
+		updatedOrder.setPaid(true);
+
+		given(orderRepository.getOrderDBOByIdAndPaidFalse(orderId)).willReturn(Optional.of(order));
+		given(orderRepository.save(order)).willReturn(updatedOrder);
+
+		//when
+		mockMvc.perform(delete("/orders/" + orderId)
+				.headers(auth)
+				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
+				// then
+				.andExpect(status().isAccepted());
+
+		verify(orderRepository, times(1)).getOrderDBOByIdAndPaidFalse(any());
+		verify(orderRepository, times(1)).save(order);
 	}
 
 	private OrderOfferDBO createOrderOffer(final OrderDBO order, final OfferDBO offer, final Integer amount) {

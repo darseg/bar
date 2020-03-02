@@ -16,7 +16,7 @@ public interface OrderRepository extends JpaRepository<OrderDBO, Long> {
 
 	Optional<OrderDBO> findByUserAndPaidFalse(UserDBO user);
 
-	Optional<OrderDBO> getOrderDBOById(Long orderId);
+	Optional<OrderDBO> getOrderDBOByIdAndPaidFalse(Long orderId);
 
 	List<OrderDBO> findAllByUserInAndPaidFalse(Iterable<UserDBO> users);
 

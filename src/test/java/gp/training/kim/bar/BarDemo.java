@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -67,6 +68,10 @@ public class BarDemo {
 		getOffersReport(auth);
 		getOrdersReport(auth);
 		getIngredientsReport(auth);
+
+		closeOrder(auth, leadOrders.getUserOrder());
+		getLeadCheckAfterClosing(auth, leadOrders.getUserOrder());
+		getOrdersReportAfterClosing(auth);
 	}
 
 	@Test
@@ -178,13 +183,20 @@ public class BarDemo {
 		mockMvc.perform(get("/orders/" + orderId)
 				.headers(auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
-				// then
 				.andExpect(status().isOk())
 				.andExpect(content().json(response));
 	}
 
 	private void getLeadCheck(final HttpHeaders auth, final Long orderId) throws Exception {
 		getCheck(auth, orderId, getResponse());
+	}
+
+	private void getLeadCheckAfterClosing(final HttpHeaders auth, final Long orderId) throws Exception {
+		mockMvc.perform(get("/orders/" + orderId)
+				.headers(auth)
+				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
+				.andExpect(status().isBadRequest())
+				.andExpect(content().json(getResponse()));
 	}
 
 	private void getFriendCheck(final HttpHeaders auth, final Long orderId) throws Exception {
@@ -203,7 +215,6 @@ public class BarDemo {
 		final String response = mockMvc.perform(get("/orders")
 				.headers(auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
-				// then
 				.andExpect(status().isOk())
 				.andExpect(content().json(getResponse()))
 				.andReturn().getResponse().getContentAsString();
@@ -215,27 +226,39 @@ public class BarDemo {
 		mockMvc.perform(get("/offers/report")
 				.headers(auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
-				// then
 				.andExpect(status().isOk())
 				.andExpect(content().json(getResponse()));
 	}
 
-	private void getOrdersReport(final HttpHeaders auth) throws Exception {
+	private void ordersReport(final HttpHeaders auth, final String response) throws Exception {
 		mockMvc.perform(get("/orders/report")
 				.headers(auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
-				// then
 				.andExpect(status().isOk())
-				.andExpect(content().json(getResponse()));
+				.andExpect(content().json(response));
+	}
+
+	private void getOrdersReport(final HttpHeaders auth) throws Exception {
+		ordersReport(auth, getResponse());
+	}
+
+	private void getOrdersReportAfterClosing(final HttpHeaders auth) throws Exception {
+		ordersReport(auth, getResponse());
 	}
 
 	private void getIngredientsReport(final HttpHeaders auth) throws Exception {
 		mockMvc.perform(get("/ingredients/report")
 				.headers(auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
-				// then
 				.andExpect(status().isOk())
 				.andExpect(content().json(getResponse()));
+	}
+
+	private void closeOrder(final HttpHeaders auth, final Long orderId) throws Exception {
+		mockMvc.perform(delete("/orders/" + orderId)
+				.headers(auth)
+				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"))
+				.andExpect(status().isAccepted());
 	}
 
 	private void addOffer(final HttpHeaders auth) throws Exception {
@@ -243,7 +266,6 @@ public class BarDemo {
 				.headers(auth)
 				.contentType(MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8")
 				.content(getRequest()))
-				// then
 				.andExpect(status().isCreated())
 				.andExpect(content().json(getResponse()));
 	}

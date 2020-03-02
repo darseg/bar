@@ -30,4 +30,6 @@ public interface OrderService {
 					  LocalDateTime end) throws BarCannotBookTableException, BarUserNotFoundException;
 
 	OrdersReport getNotPayedOrders();
+
+	void closeOrder(Long orderId) throws BarOrderNotFoundException;
 }
