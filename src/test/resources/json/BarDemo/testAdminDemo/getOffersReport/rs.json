@@ -1,0 +1,81 @@
+[
+  {
+    "id": 1,
+    "type": "beer",
+    "name": "Жигули",
+    "description": "Четкое пиво",
+    "price": 20.00,
+    "params": {
+      "param1": "1",
+      "param2": "2"
+    },
+    "images": [],
+    "ingredients": {
+      "1": 1
+    }
+  },
+  {
+    "id": 2,
+    "type": "beer",
+    "name": "Old bobby",
+    "description": "не такое четкое пиво",
+    "price": 12.00,
+    "params": {
+      "param1": "3"
+    },
+    "images": [],
+    "ingredients": {
+      "4": 1
+    }
+  },
+  {
+    "id": 3,
+    "type": "food",
+    "name": "Ноги Буша",
+    "description": "Так себе закусь",
+    "price": 10.00,
+    "params": {
+      "calories": "много"
+    },
+    "images": [],
+    "ingredients": {
+      "2": 4,
+      "3": 1
+    }
+  },
+  {
+    "id": 4,
+    "type": "food",
+    "name": "Сырная нарезка",
+    "description": "Хороша",
+    "price": 12.00,
+    "params": {
+      "calories": "очень много"
+    },
+    "images": [],
+    "ingredients": {
+      "5": 1
+    }
+  },
+  {
+    "id": 5,
+    "type": "food",
+    "name": "Месиво",
+    "description": "Все, что было на складе",
+    "price": 90.00,
+    "params": {
+      "Питательность": "Неограниченная",
+      "Производитель": "Народная мудрость"
+    },
+    "images": [
+      "image/offer/3/1.jpg",
+      "image/offer/3/2.jpg",
+      "image/offer/3/3.jpg"
+    ],
+    "ingredients": {
+      "3": 1,
+      "4": 5,
+      "5": 4
+    }
+  }
+]

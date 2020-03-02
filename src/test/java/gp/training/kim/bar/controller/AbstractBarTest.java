@@ -53,9 +53,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-//@Sql({"/data.sql"})
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@TestPropertySource("classpath:application-test.properties")
 @AutoConfigureMockMvc
 public class AbstractBarTest {
 
